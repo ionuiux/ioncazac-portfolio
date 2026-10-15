@@ -34,11 +34,19 @@ export default function Home() {
           {profile.email}
         </a>
 
-        <ul className="mt-16 grid w-full grid-cols-3 gap-y-10 text-[17px] font-semibold tracking-tight text-neutral-800 sm:text-xl">
+        <ul className="mt-16 grid w-full grid-cols-3 items-center gap-x-6 gap-y-12">
           {clients.map((client) => (
-            <li key={client}>{client}</li>
+            <li key={client.name} className="flex justify-center">
+              <Image
+                src={client.logo}
+                alt={client.name}
+                width={client.width}
+                height={client.height}
+                style={{ "--logo-h": `${client.display}px` } as React.CSSProperties}
+                className="h-[calc(var(--logo-h)*0.8)] w-auto max-w-full object-contain sm:h-[var(--logo-h)]"
+              />
+            </li>
           ))}
-          <li className="self-center text-[13px] font-normal tracking-normal text-muted">and more</li>
         </ul>
       </section>
 

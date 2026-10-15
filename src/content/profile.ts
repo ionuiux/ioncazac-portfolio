@@ -19,16 +19,16 @@ export const profile = {
   ],
 };
 
-// Shown as a grid under the intro. Swap for real logo files later if you like.
+// Logos shown under the intro. Files live in /public/logos/.
+// `width` and `height` are the SVG's own size; `display` is how tall it
+// appears on desktop (in px), tuned so every logo looks about the same size.
 export const clients = [
-  "Flovi",
-  "Digma",
-  "Profit.com",
-  "pyck",
-  "Envato",
-  "Digital Silk",
-  "Michelin",
-  "Red Bull",
+  { name: "Flovi", logo: "/logos/flovi.svg", width: 63, height: 22, display: 28 },
+  { name: "Profit.com", logo: "/logos/profit.svg", width: 113, height: 26, display: 26 },
+  { name: "Envato", logo: "/logos/envato.svg", width: 112, height: 25, display: 24 },
+  { name: "Digital Silk", logo: "/logos/digital-silk.svg", width: 124, height: 24, display: 22 },
+  { name: "Michelin", logo: "/logos/michelin.svg", width: 126, height: 13, display: 15 },
+  { name: "Red Bull", logo: "/logos/redbull.svg", width: 83, height: 19, display: 24 },
 ];
 
 // Recommendations from LinkedIn. Photos live in /public/people/.
