@@ -6,7 +6,7 @@ export const profile = {
   title: "Senior Product Designer",
   intro:
     "I help product teams turn complex problems into simple, usable products. 10+ years across mobility, logistics, fintech and developer tools — most recently leading an AI-native driver app and a company-wide design system at Flovi across four markets. Based in Chișinău, working with teams across Europe and the US.",
-  email: "cazac.ion.21@gmail.com",
+  email: "hi@ioncazac.com",
   availability: "Open to senior product design roles — remote, hybrid or on-site.",
   links: [
     { label: "LinkedIn", href: "https://www.linkedin.com/in/ion-cazac/" },
