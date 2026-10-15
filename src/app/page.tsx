@@ -11,25 +11,40 @@ export default function Home() {
 
   return (
     <main>
+      {/* Top bar */}
+      <header className="mx-auto flex max-w-6xl items-center justify-between gap-4 px-4 py-6 text-[14px] sm:px-6">
+        <p className="text-muted">{profile.tagline}</p>
+        <a
+          href={profile.linkedin}
+          target="_blank"
+          rel="noreferrer"
+          className="font-medium underline decoration-1 underline-offset-4 transition-colors hover:text-muted"
+        >
+          LinkedIn ↗
+        </a>
+      </header>
+
       {/* Intro */}
-      <section className="mx-auto flex max-w-xl flex-col items-center px-4 pt-20 pb-20 text-center sm:pt-28 sm:pb-24">
+      <section className="mx-auto flex max-w-xl flex-col items-center px-4 pt-10 pb-20 text-center sm:pt-16 sm:pb-24">
         <Image
           src="/ion.jpg"
           alt={`Portrait of ${profile.name}`}
           width={192}
           height={192}
           priority
-          className="size-24 rounded-2xl object-cover"
+          className="size-24 rounded-full object-cover"
         />
-        <h1 className="sr-only">
-          {profile.name} — {profile.title}
+        <h1 className="mt-8 text-5xl font-medium tracking-tight sm:text-6xl">
+          {profile.greeting} <span aria-hidden>👋</span>
         </h1>
-        <p className="mt-10 text-[17px] leading-relaxed text-muted text-balance">
-          <span className="font-medium text-foreground">{profile.title}</span> — {profile.intro}
+        <p className="mt-3 text-[17px] font-medium">
+          {profile.name} — {profile.title}
         </p>
+        <p className="mt-6 text-[17px] leading-relaxed text-muted text-balance">{profile.intro}</p>
+        <p className="mt-10 text-[14px] text-muted">Send me a message</p>
         <a
           href={`mailto:${profile.email}`}
-          className="mt-8 text-3xl font-medium tracking-tight underline decoration-2 underline-offset-[6px] transition-colors hover:text-muted sm:text-5xl sm:underline-offset-8"
+          className="mt-2 text-3xl font-medium tracking-tight underline decoration-2 underline-offset-[6px] transition-colors hover:text-muted sm:text-5xl sm:underline-offset-8"
         >
           {profile.email}
         </a>
