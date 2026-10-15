@@ -94,8 +94,8 @@ export default function Home() {
 
       {/* Artworks */}
       <section id="artworks" className="border-t border-line px-4 pt-20 pb-24 sm:px-6 sm:pt-24">
-        <h2 className="text-center text-4xl font-medium tracking-tight sm:text-6xl">Artworks</h2>
-        <ul className="mx-auto mt-12 grid max-w-6xl grid-cols-2 gap-x-4 gap-y-8 sm:mt-16 sm:gap-x-6 lg:grid-cols-4">
+        <h2 className="sr-only">Artworks</h2>
+        <ul className="mx-auto grid max-w-6xl grid-cols-2 gap-x-4 gap-y-8 sm:gap-x-6 lg:grid-cols-4">
           {artworks.map((art, i) => (
             <li key={art.href} className={i < 2 ? "lg:col-span-2" : ""}>
               <a href={art.href} target="_blank" rel="noreferrer" className="group block">
