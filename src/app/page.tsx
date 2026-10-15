@@ -68,7 +68,7 @@ export default function Home() {
       {/* Testimonials */}
       <section className="border-t border-line px-4 py-20 sm:px-6 sm:py-28">
         <h2 className="sr-only">Recommendations</h2>
-        <ul className="mx-auto grid max-w-5xl gap-x-16 gap-y-16 sm:grid-cols-2">
+        <ul className="mx-auto grid max-w-6xl gap-x-12 gap-y-16 sm:grid-cols-2 lg:grid-cols-3">
           {testimonials.map((t) => (
             <li key={t.name} className="flex flex-col items-center text-center">
               <span className="flex size-10 items-center justify-center rounded-full bg-subtle text-[13px] font-medium text-neutral-600">
@@ -78,9 +78,13 @@ export default function Home() {
                 “{t.quote}”
               </blockquote>
               <p className="mt-4 text-[13px] text-muted">
-                <a href={t.href} target="_blank" rel="noreferrer" className="hover:text-foreground">
-                  {t.name}
-                </a>{" "}
+                {"href" in t ? (
+                  <a href={t.href} target="_blank" rel="noreferrer" className="hover:text-foreground">
+                    {t.name}
+                  </a>
+                ) : (
+                  t.name
+                )}{" "}
                 · {t.role}{" "}
                 <span className="font-medium text-foreground">{t.company}</span>
               </p>

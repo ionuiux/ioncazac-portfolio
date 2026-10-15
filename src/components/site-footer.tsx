@@ -12,7 +12,7 @@ export async function SiteFooter() {
     <footer id="contact" className="border-t border-line px-4 pt-24 pb-10 text-center sm:px-6">
       <h2 className="text-4xl font-medium tracking-tight sm:text-6xl">Get in touch</h2>
       <p className="mx-auto mt-4 max-w-md text-[17px] text-muted text-balance">
-        Open to senior product design roles and freelance projects.
+        {profile.availability}
       </p>
       <a
         href={`mailto:${profile.email}`}
