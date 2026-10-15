@@ -5,6 +5,7 @@ import { notFound } from "next/navigation";
 import { CaseStudyCard } from "@/components/case-study-card";
 import { BrowserFrame } from "@/components/browser-frame";
 import { Cover } from "@/components/cover";
+import { PhoneFrame } from "@/components/phone-frame";
 import { SiteFooter } from "@/components/site-footer";
 import { caseStudies, getCaseStudy, type CaseImage } from "@/content/case-studies";
 import { profile } from "@/content/profile";
@@ -35,7 +36,25 @@ function CaseFigure({ image, accent }: { image: CaseImage; accent: string }) {
   const sizes = half ? "(min-width: 640px) 50vw, 100vw" : "(min-width: 1152px) 1152px, 100vw";
 
   let content;
-  if (!image.src) {
+  if (image.frame === "phones" && image.screens?.length) {
+    // Phone width depends on how many sit side by side and how wide the panel is.
+    const count = Math.min(image.screens.length, 3);
+    const width = half
+      ? ["w-[46%]", "w-[40%]", "w-[30%]"][count - 1]
+      : ["w-[46%] sm:w-[26%]", "w-[40%] sm:w-[24%]", "w-[30%] sm:w-[22%]"][count - 1];
+    content = (
+      <div className="flex flex-1 items-start justify-center gap-[4%] overflow-hidden rounded-2xl px-[4%] pt-[8%] pb-[6%]" style={panel}>
+        {image.screens.slice(0, 3).map((screen, i) => (
+          <PhoneFrame
+            key={screen.src}
+            screen={screen}
+            sizes={half ? "(min-width: 640px) 20vw, 45vw" : "(min-width: 640px) 25vw, 45vw"}
+            className={`${width} shrink-0 ${count === 3 && i !== 1 ? "mt-[5%]" : ""}`}
+          />
+        ))}
+      </div>
+    );
+  } else if (!image.src) {
     content = (
       <div className="relative flex aspect-[16/10] items-center justify-center rounded-2xl bg-subtle text-[13px] text-muted">
         Image placeholder — {image.alt}
@@ -59,11 +78,17 @@ function CaseFigure({ image, accent }: { image: CaseImage; accent: string }) {
         style={half ? { ...panel, containerType: "size" } : panel}
       >
         <div
-          className="shrink-0 overflow-hidden rounded-xl bg-white shadow-[0_24px_48px_-20px_rgba(17,17,50,0.4)] ring-1 ring-black/5"
+          className="shrink-0 overflow-hidden rounded-xl shadow-[0_24px_48px_-20px_rgba(17,17,50,0.4)] ring-1 ring-black/5"
           style={{ width: cardWidth, marginLeft: zoom > 1 ? "8%" : "auto", marginRight: zoom > 1 ? 0 : "auto" }}
         >
           <Image src={image.src} alt={image.alt} width={image.width} height={image.height} sizes={sizes} className="block h-auto w-full" />
         </div>
+      </div>
+    );
+  } else if (image.frame === "float" && image.width && image.height) {
+    content = (
+      <div className="flex flex-1 items-center justify-center rounded-2xl p-[5%]" style={panel}>
+        <Image src={image.src} alt={image.alt} width={image.width} height={image.height} sizes={sizes} className="block h-auto w-full" />
       </div>
     );
   } else if (image.frame === "plain" && image.width && image.height) {

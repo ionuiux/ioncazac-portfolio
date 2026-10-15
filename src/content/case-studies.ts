@@ -13,8 +13,11 @@ export type CaseImage = {
   height?: number;
   // "browser" shows a full screen in a browser window,
   // "card" shows a cropped detail floating on a tinted panel,
-  // "plain" shows a finished mockup as it is, uncropped.
-  frame?: "browser" | "card" | "plain";
+  // "plain" shows a finished mockup as it is, uncropped,
+  // "float" shows a transparent mockup directly on a tinted panel,
+  // "phones" shows the `screens` side by side in iPhone frames.
+  frame?: "browser" | "card" | "plain" | "float" | "phones";
+  screens?: Screen[];
   // Card only: values above 1 enlarge the detail and let it run off the right edge.
   zoom?: number;
   // Take the full width instead of half when a section has several images.
@@ -50,7 +53,7 @@ export type CaseStudy = {
   accent: [string, string];
   // Either a single cover image, or up to three screens arranged as a mockup.
   cover?: string;
-  mockup?: { main: Screen; left?: Screen; right?: Screen };
+  mockup?: { main: Screen; left?: Screen; right?: Screen; device?: "browser" | "phone" };
   sections: CaseSection[];
 };
 
@@ -59,6 +62,17 @@ const flovi = {
   offices: { src: "/work/flovi/offices.webp", alt: "Flovi offices page with map and office list", width: 2000, height: 1796 },
   team: { src: "/work/flovi/team.webp", alt: "Flovi team members page with roles and status", width: 2000, height: 1230 },
   invoices: { src: "/work/flovi/invoices.webp", alt: "Flovi invoices page with current billing cycle", width: 2000, height: 1758 },
+} satisfies Record<string, Screen>;
+
+const profit = {
+  discover: { src: "/work/profit/discover.webp", alt: "Discover screen with global markets, comparison chart and news", width: 750, height: 1624 },
+  arena: { src: "/work/profit/arena.webp", alt: "Arena trading screen in the Cash Kings tournament", width: 750, height: 1624 },
+  watchlist: { src: "/work/profit/watchlist.webp", alt: "My Watchlist with stocks and crypto", width: 925, height: 2000 },
+  ticker: { src: "/work/profit/ticker.webp", alt: "Tesla ticker with chart and analyst recommendation", width: 921, height: 2000 },
+  economicEvent: { src: "/work/profit/economic-event.webp", alt: "Economic event with impact, forecast and actual values", width: 741, height: 2000 },
+  chatGroup: { src: "/work/profit/chat-group.webp", alt: "Group chat with live ticker cards", width: 924, height: 2000 },
+  newsFeed: { src: "/work/profit/news-feed.webp", alt: "News feed channel with bull and bear reactions", width: 924, height: 2000 },
+  inviteLink: { src: "/work/profit/invite-link.webp", alt: "Invite link for a private trading room", width: 750, height: 1624 },
 } satisfies Record<string, Screen>;
 
 // Temporary text so the layout can be reviewed before real content arrives.
@@ -274,6 +288,138 @@ export const caseStudies: CaseStudy[] = [
     ],
   },
   {
+    slug: "profit",
+    client: "Profit.com",
+    title: "Designing the first all-in-one trading simulation app",
+    category: "Fintech · iOS · Design system",
+    year: "2022",
+    summary:
+      "Profit.com brings global markets, news, community and trading games into one app — practise with virtual money, compete with traders worldwide and win real prizes. I led the product design from market research to a native iOS app and the custom design system behind it.",
+    role: "Senior Product Designer",
+    timeline: "Mar 2022 – Feb 2024",
+    team: "Product, iOS & web engineering, marketing",
+    platform: "iOS (native), Web",
+    accent: ["#05211b", "#25b48e"],
+    mockup: { device: "phone", main: profit.discover, left: profit.watchlist, right: profit.arena },
+    sections: [
+      {
+        heading: "The opportunity",
+        body: [
+          "Learning to trade usually means picking between two bad options: a real brokerage account, where every beginner mistake costs money, or a paper-trading tool so dry that nobody comes back after a week. Market data, news and the conversation around them live in yet more apps.",
+          "Profit.com set out to bring all of it together. Real market data, news and a community of traders — plus trading games where people practise with virtual money, compete with others and can win real prizes. The ambition was the first all-in-one trading simulation app built for everyone: simple enough for a complete beginner, deep enough for someone who trades every day.",
+        ],
+      },
+      {
+        heading: "My role",
+        body: [
+          "I was the Senior Product Designer on Profit.com for two years and owned the experience end to end: market research and positioning, information architecture, user flows and wireframes, high-fidelity UI and interactive prototypes, usability testing — and the design system the engineering teams built from.",
+          "I presented research and design direction to the senior executive team and worked every day with product owners, iOS and web engineers, and marketing.",
+        ],
+      },
+      {
+        heading: "Market research and market fit",
+        body: [
+          "Everything started with market research. I mapped the products people already use to trade, follow markets and talk about investing — brokers, market-data and news apps, social trading communities and existing simulators — and compared what each did well and where it left people on their own.",
+          "Surveys and card sorting helped me build personas and shape the navigation: the curious beginner who wants to learn without risking money, the competitive player motivated by rankings and prizes, and the active trader who expects professional charts and fast data. No single product served all three.",
+          "That gap — learning, real data, community and a reason to come back every day, in one app — became our market fit and the brief for everything that followed.",
+        ],
+      },
+      {
+        heading: "One app, five spaces",
+        body: [
+          "I turned the research into a simple structure with five tabs: Discover to follow global markets, Watchlist for the assets you care about, Arena to compete, Chat to trade ideas with others, and Wallet. Arena sits in the centre of the tab bar, because the simulation is what makes Profit.com different.",
+          "Wireframes and clickable prototypes let us test the main flows with users early, and align the executive team on the direction before a single screen went into development.",
+        ],
+        images: [
+          { src: "/work/profit/discover-watchlist.webp", alt: "Discover and Watchlist screens on two phones", width: 973, height: 1211, frame: "card", caption: "Discover and Watchlist." },
+          { alt: "Arena", frame: "phones", screens: [profit.arena], caption: "Arena — trading with virtual money." },
+        ],
+      },
+      {
+        heading: "Discover: global markets in one place",
+        body: [
+          "Discover is the daily starting point. Stocks, crypto, indices and forex sit in one view: popular companies one tap away, a comparison chart that shows how markets move against each other, live index cards and the latest news right below.",
+          "It is also the home of premium content. The Weekly Brief — an exclusive analysis of the markets — opens straight from Discover. Free users see what each plan includes (Rookie, Pro and Guru); after upgrading, they go straight into the brief, with a built-in audio player for listening on the go.",
+        ],
+        images: [
+          { src: "/work/profit/weekly-brief-flow.webp", alt: "Flow from Discover to the subscription plans and the Weekly Brief player", width: 1828, height: 1070, frame: "plain", wide: true, caption: "From Discover to the Weekly Brief: the upgrade flow and the audio player." },
+        ],
+      },
+      {
+        heading: "Watchlist, tickers and advanced charts",
+        body: [
+          "The Watchlist keeps every asset a user follows in one list, with price and daily change at a glance. A swipe shares any ticker straight into a chat.",
+          "Each ticker opens as a sheet with the price chart, company profile, key stats, earnings, dividends and the analyst consensus, summed up in a single gauge — so people never miss when to buy or sell. Price alerts notify them the moment an asset crosses a level they choose.",
+          "Experienced traders can expand the chart into an advanced view, vertical or horizontal, with candlesticks, drawing tools and indicators. And from any ticker, Trade opens a sheet listing the tournaments where that asset can be traded.",
+        ],
+        images: [
+          { alt: "Watchlist and ticker", frame: "phones", screens: [profit.watchlist, profit.ticker], wide: true, caption: "Watchlist and the ticker sheet with the analyst recommendation." },
+          { src: "/work/profit/ticker-flow.webp", alt: "Ticker view leading to vertical and horizontal advanced charts and the Trade sheet", width: 2000, height: 910, frame: "plain", wide: true, caption: "From the ticker to advanced charts — and into a tournament with Trade." },
+        ],
+      },
+      {
+        heading: "Market events in real time",
+        body: [
+          "Markets move on events, so events became first-class content. Economic releases, earnings and dividends each have their own view: the expected impact, the previous, forecast and actual values, and a history chart that shows how results compared with expectations over time.",
+          "Notifications bring the important ones to people in real time — economic events, earnings, and the news and tweets about the companies they follow — so market news never passes them by.",
+        ],
+        images: [
+          { alt: "Economic event", frame: "phones", screens: [profit.economicEvent], caption: "An economic event: impact, forecast and actual." },
+          { src: "/work/profit/event-charts.webp", alt: "Chart components for economic, earnings and dividend events", width: 2000, height: 1325, frame: "card", caption: "Charts for economic, earnings and dividend events." },
+        ],
+      },
+      {
+        heading: "Arena: trading games for everyone",
+        body: [
+          "Arena is where Profit.com becomes a game — free to play, with real prizes to win. Players trade real market prices with virtual money in themed tournaments such as Day Trading, Top Stocks, Crypto Gainz and Cash Kings, or challenge another player to a timed 1-to-1 battle for experience points. Leaderboards, prize pools, lives and a toolbox let them compete with top traders worldwide.",
+          "Every card has a state for every moment: before a tournament opens, after joining but before the first trade (with a clear Open Trade call to action), during play with live position and performance, and in the last minute, when the timer turns red. A green dot on the Arena tab and a short highlight on the card show players what changed while they were away.",
+        ],
+        images: [
+          { src: "/work/profit/arena-phones.webp", alt: "Arena trading screen and Watchlist on two phones", width: 2000, height: 1088, frame: "float", wide: true, caption: "Trading in Arena, with the Watchlist one tap away." },
+          { src: "/work/profit/arena-states.webp", alt: "All states of 1-to-1 battles and tournament cards", width: 2000, height: 1079, frame: "plain", wide: true, caption: "Every state of the 1-to-1 and tournament cards, with the rules behind them." },
+        ],
+      },
+      {
+        heading: "Communities and news",
+        body: [
+          "Trading is social, so Chat is built in. Group chats understand tickers: type $BTC and a live price card appears right in the message. Anyone can create a trading community and share a private room with an invite link.",
+          "News channels bring sources such as BBC News and Bloomberg into a feed where people react with a bull or a bear — a quick read of how the community feels about each story.",
+        ],
+        images: [
+          { alt: "Chat", frame: "phones", screens: [profit.chatGroup, profit.newsFeed, profit.inviteLink], wide: true, caption: "Group chat with live tickers, a news channel and invite links." },
+        ],
+      },
+      {
+        heading: "A custom design system for every platform",
+        body: [
+          "With this much product, consistency had to be designed in from the start. I built a custom design system to fit every need across platforms: foundations for colour, type and spacing; components for lists, sheets, tabs and controls; and a dedicated set for data — charts, tooltips, price changes and market states.",
+          "The iOS app was developed with native iOS components, so I built the system around the native library. Our components extend what iOS already does well instead of fighting it, which kept the app fast and familiar, while the same tokens and patterns carried over to the web.",
+          "Larger features like Arena got their own component sets, with every state and rule documented for engineers.",
+        ],
+        images: [
+          { src: "/work/profit/tournament-system.webp", alt: "Arena component set with leaderboard, rules, timers and image states", width: 2000, height: 360, frame: "plain", wide: true, caption: "Arena components — leaderboard, rules, timers, states and artwork — documented for engineering." },
+        ],
+      },
+      {
+        heading: "Results",
+        body: [
+          "Profit.com launched as a native iOS app that brings market data, news, community and trading games together — the all-in-one experience the research pointed to. The design system gave product and engineering one shared language, so new features like tournaments could be designed and built on top of what already existed.",
+        ],
+        metrics: [
+          { value: "1st", label: "All-in-one trading simulation app for everyone" },
+          { value: "4", label: "Markets in one app: stocks, crypto, indices and forex" },
+          { value: "1", label: "Custom design system across iOS and web" },
+        ],
+      },
+      {
+        heading: "What I learned",
+        body: [
+          "Designing for beginners and experienced traders at the same time is mostly about layering. Keep the first screen simple and friendly, and let the depth — advanced charts, indicators, event data — appear only when someone asks for it.",
+        ],
+      },
+    ],
+  },
+  {
     slug: "orb",
     client: "ORB Innovations",
     title: "Turning smart mouthguard data into insights athletes can use",
@@ -286,21 +432,6 @@ export const caseStudies: CaseStudy[] = [
     team: "Founders, engineering, data science",
     platform: "Mobile app",
     accent: ["#431407", "#f97316"],
-    sections: draftSections(),
-  },
-  {
-    slug: "profit",
-    client: "Profit.com",
-    title: "Redesigning an all-in-one platform for the financial markets",
-    category: "Fintech · Web & mobile",
-    year: "2022",
-    summary:
-      "Profit.com helps people analyse the markets, automate trading strategies and talk with other investors. I designed its flows, prototypes and design system across web and mobile.",
-    role: "Senior Product Designer",
-    timeline: "Mar 2022 – Feb 2024",
-    team: "Product, engineering, marketing",
-    platform: "Web, mobile",
-    accent: ["#052e16", "#16a34a"],
     sections: draftSections(),
   },
 ];

@@ -1,5 +1,6 @@
 import Image from "next/image";
 import { BrowserFrame } from "@/components/browser-frame";
+import { PhoneFrame } from "@/components/phone-frame";
 import type { CaseStudy } from "@/content/case-studies";
 
 // The case study's cover: a screen mockup, a single image,
@@ -15,6 +16,36 @@ export function Cover({
 }) {
   const [from, to] = study.accent;
   const background = `radial-gradient(120% 120% at 100% 0%, ${to} 0%, ${from} 70%)`;
+
+  if (study.mockup?.device === "phone") {
+    const { main, left, right } = study.mockup;
+    return (
+      <div className="absolute inset-0 overflow-hidden" style={{ background }}>
+        <div
+          aria-hidden
+          className="absolute inset-0 opacity-30"
+          style={{
+            backgroundImage: "radial-gradient(rgba(255,255,255,0.35) 1px, transparent 1px)",
+            backgroundSize: "22px 22px",
+            maskImage: "linear-gradient(to bottom, black, transparent 70%)",
+          }}
+        />
+        {left && (
+          <div className="absolute top-[22%] left-[10%] w-[26%] -rotate-[8deg] transition-transform duration-700 ease-out group-hover:-translate-x-2 sm:left-[21%] sm:w-[19%]">
+            <PhoneFrame screen={left} sizes="(min-width: 640px) 20vw, 26vw" />
+          </div>
+        )}
+        {right && (
+          <div className="absolute top-[22%] right-[10%] w-[26%] rotate-[8deg] transition-transform duration-700 ease-out group-hover:translate-x-2 sm:right-[21%] sm:w-[19%]">
+            <PhoneFrame screen={right} sizes="(min-width: 640px) 20vw, 26vw" />
+          </div>
+        )}
+        <div className="absolute top-[9%] left-1/2 w-[32%] -translate-x-1/2 transition-transform duration-700 ease-out group-hover:-translate-y-2 sm:w-[23%]">
+          <PhoneFrame screen={main} sizes="(min-width: 640px) 24vw, 32vw" priority={priority} />
+        </div>
+      </div>
+    );
+  }
 
   if (study.mockup) {
     const { main, left, right } = study.mockup;
