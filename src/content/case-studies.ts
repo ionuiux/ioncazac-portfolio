@@ -12,8 +12,9 @@ export type CaseImage = {
   width?: number;
   height?: number;
   // "browser" shows a full screen in a browser window,
-  // "card" shows a cropped detail floating on a tinted panel.
-  frame?: "browser" | "card";
+  // "card" shows a cropped detail floating on a tinted panel,
+  // "plain" shows a finished mockup as it is, uncropped.
+  frame?: "browser" | "card" | "plain";
   // Card only: values above 1 enlarge the detail and let it run off the right edge.
   zoom?: number;
   // Take the full width instead of half when a section has several images.
@@ -199,17 +200,78 @@ export const caseStudies: CaseStudy[] = [
   {
     slug: "digma",
     client: "Digma",
-    title: "Making code observability approachable for developers",
-    category: "Developer tools · Data visualisation",
+    title: "A design system that brought Digma into every IDE",
+    category: "Developer tools · Design system · AI",
     year: "2024",
     summary:
-      "Digma finds performance issues at the code level before they reach production. I designed the dashboards, flows and design system that make those insights clear to developers and managers.",
+      "Digma finds performance and scaling issues in code before they reach production. I architected its custom design system and a reusable component library that let every developer build native-feeling UI inside the IDE. Digma was later acquired by JetBrains.",
     role: "Senior Product Designer",
     timeline: "Feb 2024 – Apr 2025",
     team: "Product, engineering",
-    platform: "IDE plugin, Web",
-    accent: ["#0b1a33", "#3b82f6"],
-    sections: draftSections(),
+    platform: "IDE plugins, Web",
+    accent: ["#13132b", "#5b5ee6"],
+    cover: "/work/digma/ide-plugin.webp",
+    sections: [
+      {
+        heading: "The product",
+        body: [
+          "Digma is a preemptive observability tool. It uses standard observability data to find performance and scaling issues at the code level during pre-production — the issues tests miss — and shows them to developers right where they work: in the IDE, as they code.",
+          "That means the UI lives in places designers rarely design for: narrow side panels, inline code hints and dense lists of issues, inside editors that each have their own look and rules.",
+        ],
+      },
+      {
+        heading: "The challenge",
+        body: [
+          "Digma grew fast, and its interface grew with it. Screens were built one by one, so the same pattern looked and behaved differently from place to place, and every new feature started almost from scratch.",
+          "The goal was one consistent system that engineers could use on their own, and that felt at home in every IDE Digma runs in.",
+        ],
+      },
+      {
+        heading: "A custom design system",
+        body: [
+          "I designed the architecture of a custom design system from the ground up: foundations such as icons, typography and states, then core components like buttons, navigation, toasters and tooltips, each documented with its variants.",
+          "With that in place, I resolved the major consistency issues across the product, so the same thing now always looks and works the same way.",
+        ],
+        images: [
+          { src: "/work/digma/ds-foundations.webp", alt: "Digma design system foundations: icons, typography, buttons, toasters, navigation and tooltips", width: 2000, height: 682, frame: "plain", wide: true, caption: "Foundations and core components, documented and versioned." },
+          { src: "/work/digma/ds-insights.webp", alt: "Digma product components for insights, issues and errors", width: 1782, height: 1136, frame: "plain", wide: true, caption: "Product components — issue cards for N+1 queries, bottlenecks, slow queries and errors." },
+        ],
+      },
+      {
+        heading: "One library for every IDE",
+        body: [
+          "I turned the system into a fully scalable, reusable component library and introduced it to the whole development team. Developers could now build comprehensive UI from shared parts, natively integrated into the IDEs Digma supports, without waiting for a new design for every screen.",
+        ],
+        images: [
+          { src: "/work/digma/ide-plugin.webp", alt: "Digma panel inside the IDE next to the code it analyses", width: 1920, height: 1080, frame: "plain", wide: true, caption: "Digma inside the IDE — issues appear next to the code that causes them." },
+        ],
+      },
+      {
+        heading: "From insights to AI agents",
+        body: [
+          "The same system carried Digma into its next step: AI agents that investigate incidents. A team of agents — Watchman, Triage, Infra and Code Resolution, and a Validator — works through an issue step by step, and developers can follow along, chat with them and see related issues.",
+          "Teams shape how the agents work with templates, set rules with directives, and connect their own tools through MCP servers.",
+        ],
+        images: [
+          { src: "/work/digma/incident-agents.webp", alt: "Incident view with AI agents working through an issue", width: 2000, height: 1311, frame: "plain", wide: true, caption: "An incident under investigation, handed from agent to agent." },
+          { src: "/work/digma/incident-template.webp", alt: "Template for the incident agent flow", width: 2000, height: 1311, frame: "plain", caption: "Templates define the agent flow." },
+          { src: "/work/digma/directives.webp", alt: "Directives table with conditions and rules", width: 2000, height: 1311, frame: "plain", caption: "Directives add team rules." },
+          { src: "/work/digma/mcp-server.webp", alt: "Dialog for adding an MCP server and choosing its tools", width: 1270, height: 1288, frame: "card", caption: "Connecting tools through MCP servers." },
+          { src: "/work/digma/wizard.webp", alt: "Setup wizard with a code snippet", width: 1270, height: 1230, frame: "card", caption: "A setup wizard for integrations." },
+        ],
+      },
+      {
+        heading: "Results",
+        body: [
+          "Design and engineering now worked from the same source, so new UI stayed consistent from the first build. Digma was later acquired by JetBrains.",
+        ],
+        metrics: [
+          { value: "1", label: "Design system for the IDE plugins and the web app" },
+          { value: "All", label: "Developers building UI from the shared library" },
+          { value: "JetBrains", label: "Acquired Digma" },
+        ],
+      },
+    ],
   },
   {
     slug: "orb",

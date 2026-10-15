@@ -66,6 +66,12 @@ function CaseFigure({ image, accent }: { image: CaseImage; accent: string }) {
         </div>
       </div>
     );
+  } else if (image.frame === "plain" && image.width && image.height) {
+    content = (
+      <div className="flex flex-1 items-start overflow-hidden rounded-2xl ring-1 ring-black/5">
+        <Image src={image.src} alt={image.alt} width={image.width} height={image.height} sizes={sizes} className="block h-auto w-full" />
+      </div>
+    );
   } else {
     content = (
       <div className="relative aspect-[16/10] overflow-hidden rounded-2xl bg-subtle">
