@@ -177,7 +177,7 @@ export default async function CaseStudyPage({ params }: PageProps<"/work/[slug]"
             {section.metrics && (
               <dl className="mx-auto mt-10 grid max-w-4xl gap-4 sm:grid-cols-3">
                 {section.metrics.map((metric) => (
-                  <div key={metric.label} className="flex flex-col-reverse rounded-2xl bg-subtle p-6">
+                  <div key={metric.label} className="flex flex-col-reverse justify-end rounded-2xl bg-subtle p-6">
                     <dt className="mt-2 text-[13px] text-muted">{metric.label}</dt>
                     <dd className="text-4xl font-medium tracking-tight">{metric.value}</dd>
                   </div>

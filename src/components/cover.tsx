@@ -89,6 +89,7 @@ export function Cover({
         fill
         sizes={sizes}
         priority={priority}
+        style={study.coverPosition ? { objectPosition: study.coverPosition } : undefined}
         className="object-cover transition-transform duration-700 ease-out group-hover:scale-[1.03]"
       />
     );
