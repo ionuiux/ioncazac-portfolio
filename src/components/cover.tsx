@@ -30,18 +30,22 @@ export function Cover({
             maskImage: "linear-gradient(to bottom, black, transparent 70%)",
           }}
         />
-        {left && (
-          <div className="absolute top-[22%] left-[10%] w-[26%] -rotate-[8deg] transition-transform duration-700 ease-out group-hover:-translate-x-2 sm:left-[21%] sm:w-[19%]">
-            <PhoneFrame screen={left} sizes="(min-width: 640px) 20vw, 26vw" />
+        {/* Phones are sized by the cover's height (cqh) so they stay vertically
+            centred and fill the space whether the cover is 4:3 or 16:9. */}
+        <div className="absolute inset-0 flex items-center justify-center" style={{ containerType: "size" }}>
+          {left && (
+            <div className="relative -mr-[2cqw] w-[min(26cqw,31cqh)] shrink-0 translate-y-[6%] -rotate-[8deg] transition-transform duration-700 ease-out group-hover:-translate-x-2">
+              <PhoneFrame screen={left} sizes="(min-width: 640px) 20vw, 26vw" />
+            </div>
+          )}
+          <div className="relative z-10 w-[min(34cqw,39cqh)] shrink-0 transition-transform duration-700 ease-out group-hover:-translate-y-2">
+            <PhoneFrame screen={main} sizes="(min-width: 640px) 24vw, 32vw" priority={priority} />
           </div>
-        )}
-        {right && (
-          <div className="absolute top-[22%] right-[10%] w-[26%] rotate-[8deg] transition-transform duration-700 ease-out group-hover:translate-x-2 sm:right-[21%] sm:w-[19%]">
-            <PhoneFrame screen={right} sizes="(min-width: 640px) 20vw, 26vw" />
-          </div>
-        )}
-        <div className="absolute top-[9%] left-1/2 w-[32%] -translate-x-1/2 transition-transform duration-700 ease-out group-hover:-translate-y-2 sm:w-[23%]">
-          <PhoneFrame screen={main} sizes="(min-width: 640px) 24vw, 32vw" priority={priority} />
+          {right && (
+            <div className="relative -ml-[2cqw] w-[min(26cqw,31cqh)] shrink-0 translate-y-[6%] rotate-[8deg] transition-transform duration-700 ease-out group-hover:translate-x-2">
+              <PhoneFrame screen={right} sizes="(min-width: 640px) 20vw, 26vw" />
+            </div>
+          )}
         </div>
       </div>
     );
