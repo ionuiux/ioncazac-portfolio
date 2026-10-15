@@ -1,0 +1,159 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<title>Ion Cazac — Portfolio</title>
+<!-- One-page portfolio PDF. Regenerate with: print/build-one-pager.sh -->
+<style>
+  @font-face { font-family: Inter; src: url(../assets/fonts/Inter-Regular.ttf); font-weight: 400; }
+  @font-face { font-family: Inter; src: url(../assets/fonts/Inter-Medium.ttf); font-weight: 500; }
+  @font-face { font-family: Inter; src: url(../assets/fonts/Inter-SemiBold.ttf); font-weight: 600; }
+
+  @page { size: A4; margin: 0; }
+  :root { --ink: #0a0a0a; --muted: #6b6b6b; --line: #e7e7e7; --subtle: #f4f4f5; }
+  * { box-sizing: border-box; margin: 0; padding: 0; }
+  html, body { width: 210mm; height: 297mm; }
+  body {
+    font-family: Inter, sans-serif; color: var(--ink); background: #fff;
+    -webkit-print-color-adjust: exact; print-color-adjust: exact;
+    padding: 13mm 14mm 11mm; display: flex; flex-direction: column;
+    font-feature-settings: "cv11", "ss01";
+  }
+  a { color: inherit; text-decoration: none; }
+
+  .top { display: flex; justify-content: space-between; font-size: 9.5pt; color: var(--muted); }
+  .top nav { display: flex; gap: 14px; }
+  .top nav a { color: var(--ink); font-weight: 500; text-decoration: underline; text-underline-offset: 3px; text-decoration-thickness: 1px; }
+
+  header { display: flex; align-items: center; gap: 20px; margin-top: 6mm; }
+  header img.me { width: 84px; height: 84px; border-radius: 50%; object-fit: cover; }
+  header .who { flex: 1; }
+  header h1 { font-size: 32pt; font-weight: 600; letter-spacing: -0.03em; line-height: 1; }
+  header .role { margin-top: 7px; font-size: 13pt; font-weight: 500; letter-spacing: -0.01em; }
+  .qr { display: flex; flex-direction: column; align-items: center; gap: 5px; }
+  .qr .code { width: 82px; height: 82px; }
+  .qr .code svg { width: 100%; height: 100%; display: block; }
+  .qr span { font-size: 7.5pt; color: var(--muted); }
+
+  .intro { margin-top: 5mm; font-size: 10.5pt; line-height: 1.55; color: #4a4a4a; max-width: 165mm; }
+
+  .cta {
+    margin-top: 5mm; display: flex; align-items: center; justify-content: space-between;
+    background: var(--ink); color: #fff; border-radius: 14px; padding: 13px 18px;
+  }
+  .cta strong { font-size: 13pt; font-weight: 600; letter-spacing: -0.01em; }
+  .cta span { font-size: 10pt; color: #cfcfcf; }
+
+  h2 { margin-top: 6mm; font-size: 14pt; font-weight: 600; letter-spacing: -0.02em; display: flex; justify-content: space-between; align-items: baseline; }
+  h2 a { font-size: 9pt; font-weight: 500; color: var(--muted); }
+
+  .grid { margin-top: 4mm; display: grid; grid-template-columns: 1fr 1fr; gap: 5mm 5mm; }
+  .card .thumb { position: relative; height: 38mm; border-radius: 12px; overflow: hidden; background: var(--subtle); }
+  .card .thumb img { width: 100%; height: 100%; object-fit: cover; display: block; }
+  .card .thumb.profit { background: radial-gradient(120% 120% at 100% 0%, #25b48e 0%, #05211b 70%); display: flex; align-items: center; justify-content: center; }
+  .card .thumb.profit img { width: 96%; height: auto; object-fit: contain; }
+  .card .meta { margin-top: 8px; font-size: 8pt; color: var(--muted); }
+  .card .meta b { color: var(--ink); font-weight: 600; }
+  .card h3 { margin-top: 3px; font-size: 11pt; font-weight: 600; letter-spacing: -0.01em; line-height: 1.3; }
+  .card p { margin-top: 4px; font-size: 8.5pt; line-height: 1.45; color: #555; }
+  .card .link { margin-top: 5px; display: inline-block; font-size: 8.5pt; font-weight: 500; text-decoration: underline; text-underline-offset: 2px; }
+
+  .logos { margin-top: auto; padding-top: 5mm; display: flex; align-items: center; justify-content: space-between; }
+  .logos img { height: 17px; width: auto; filter: grayscale(1); opacity: 0.55; }
+  .logos img.michelin { height: 10px; }
+  .logos img.flovi { height: 19px; }
+
+  footer { margin-top: 4mm; padding-top: 3.5mm; border-top: 1px solid var(--line); display: flex; justify-content: space-between; font-size: 8.5pt; color: var(--muted); }
+  footer a { color: var(--ink); font-weight: 500; }
+</style>
+</head>
+<body>
+  <div class="top">
+    <span>design → code → deliver</span>
+    <nav>
+      <a href="https://ioncazac.com">ioncazac.com</a>
+      <a href="mailto:hi@ioncazac.com">hi@ioncazac.com</a>
+      <a href="https://www.linkedin.com/in/ion-cazac/">LinkedIn</a>
+      <a href="https://ioncazac.com/Ion-Cazac-CV.pdf">CV</a>
+    </nav>
+  </div>
+
+  <header>
+    <img class="me" src="img/ion.jpg" alt="Ion Cazac">
+    <div class="who">
+      <h1>Ion Cazac</h1>
+      <div class="role">Senior Product Designer</div>
+    </div>
+    <a class="qr" href="https://ioncazac.com">
+      <div class="code" id="qr"></div>
+      <span>Scan for portfolio</span>
+    </a>
+  </header>
+
+  <p class="intro">
+    I design, code and deliver digital products, owning them from first idea to launch. 10+ years across mobility,
+    logistics, fintech and developer tools — most recently leading an AI-native driver app and a company-wide design
+    system at Flovi across four markets. I mentor designers and I’m an early AI adopter, bringing AI into how teams
+    design and build. EU based, working with teams across Europe and the US.
+  </p>
+
+  <a class="cta" href="https://ioncazac.com">
+    <strong>View my full portfolio →</strong>
+    <span>ioncazac.com</span>
+  </a>
+
+  <h2>Selected case studies <a href="https://ioncazac.com/#work">All work at ioncazac.com ↗</a></h2>
+  <div class="grid">
+    <a class="card" href="https://ioncazac.com/work/flovi">
+      <div class="thumb"><img src="img/flovi.jpg" style="object-position: top" alt=""></div>
+      <div class="meta"><b>Flovi</b> · Mobility · B2B SaaS · Design system</div>
+      <h3>Unifying Flovi’s customer portal across four markets</h3>
+      <p>Redesign and platform unification: 30% more customers and reservations booked in about 20 seconds — 20% faster.</p>
+      <span class="link">ioncazac.com/work/flovi</span>
+    </a>
+    <a class="card" href="https://ioncazac.com/work/orb">
+      <div class="thumb"><img src="img/orb.jpg" style="object-position: 62% center" alt=""></div>
+      <div class="meta"><b>ORB Innovations</b> · Wearables · IoT · Mobile</div>
+      <h3>Turning smart mouthguard data into insights athletes can use</h3>
+      <p>ORB’s first UX designer: the companion app that turns 20+ metrics into one connected view.</p>
+      <span class="link">ioncazac.com/work/orb</span>
+    </a>
+    <a class="card" href="https://ioncazac.com/work/profit">
+      <div class="thumb profit"><img src="img/profit.png" alt=""></div>
+      <div class="meta"><b>Profit.com</b> · Fintech · iOS · Design system</div>
+      <h3>Designing the first all-in-one trading simulation app</h3>
+      <p>From market research to a native iOS app and a custom cross-platform design system.</p>
+      <span class="link">ioncazac.com/work/profit</span>
+    </a>
+    <a class="card" href="https://ioncazac.com/work/digma">
+      <div class="thumb"><img src="img/digma.jpg" alt=""></div>
+      <div class="meta"><b>Digma</b> · Developer tools · Design system · AI</div>
+      <h3>A design system that brought Digma into every IDE</h3>
+      <p>Custom design system and component library for IDE-native UI. Digma was later acquired by JetBrains.</p>
+      <span class="link">ioncazac.com/work/digma</span>
+    </a>
+  </div>
+
+  <div class="logos">
+    <img class="flovi" src="../public/logos/flovi.svg" alt="Flovi">
+    <img src="../public/logos/profit.svg" alt="Profit.com">
+    <img src="../public/logos/envato.svg" alt="Envato">
+    <img src="../public/logos/digital-silk.svg" alt="Digital Silk">
+    <img class="michelin" src="../public/logos/michelin.svg" alt="Michelin">
+    <img src="../public/logos/redbull.svg" alt="Red Bull">
+  </div>
+
+  <footer>
+    <span>Open to senior product design roles — remote, hybrid or on-site.</span>
+    <a href="https://ioncazac.com">ioncazac.com</a>
+  </footer>
+
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/qrcode-generator/1.4.4/qrcode.min.js"></script>
+  <script>
+    const qr = qrcode(0, "M");
+    qr.addData("https://ioncazac.com");
+    qr.make();
+    document.getElementById("qr").innerHTML = qr.createSvgTag({ cellSize: 4, margin: 0, scalable: true });
+  </script>
+</body>
+</html>
