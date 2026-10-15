@@ -12,6 +12,8 @@ export const profile = {
   availability: "Open to senior product design roles — remote, hybrid or on-site.",
   recommendationsUrl: "https://www.linkedin.com/in/ion-cazac/details/recommendations/",
   linkedin: "https://www.linkedin.com/in/ion-cazac/",
+  // Your CV lives in /public. Replace that file to update it.
+  cv: "/Ion-Cazac-CV.pdf",
   links: [
     { label: "LinkedIn", href: "https://www.linkedin.com/in/ion-cazac/" },
     { label: "Dribbble", href: "https://dribbble.com/yvancross" },

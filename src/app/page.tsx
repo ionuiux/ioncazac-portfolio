@@ -14,14 +14,24 @@ export default function Home() {
       {/* Top bar */}
       <header className="mx-auto flex max-w-6xl items-center justify-between gap-4 px-4 py-6 text-[14px] sm:px-6">
         <p className="text-muted">{profile.tagline}</p>
-        <a
-          href={profile.linkedin}
-          target="_blank"
-          rel="noreferrer"
-          className="font-medium underline decoration-1 underline-offset-4 transition-colors hover:text-muted"
-        >
-          LinkedIn ↗
-        </a>
+        <nav className="flex shrink-0 items-center gap-5">
+          <a
+            href={profile.cv}
+            target="_blank"
+            rel="noreferrer"
+            className="font-medium underline decoration-1 underline-offset-4 transition-colors hover:text-muted"
+          >
+            CV ↗
+          </a>
+          <a
+            href={profile.linkedin}
+            target="_blank"
+            rel="noreferrer"
+            className="font-medium underline decoration-1 underline-offset-4 transition-colors hover:text-muted"
+          >
+            LinkedIn ↗
+          </a>
+        </nav>
       </header>
 
       {/* Intro */}
