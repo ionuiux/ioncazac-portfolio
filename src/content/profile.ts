@@ -5,9 +5,10 @@ export const profile = {
   name: "Ion Cazac",
   title: "Senior Product Designer",
   intro:
-    "I help product teams turn complex problems into simple, usable products. 10+ years across mobility, logistics, fintech and developer tools — most recently leading an AI-native driver app and a company-wide design system at Flovi across four markets. Based in Chișinău, working with teams across Europe and the US.",
+    "I help product teams turn complex problems into simple, usable products. 10+ years across mobility, logistics, fintech and developer tools — most recently leading an AI-native driver app and a company-wide design system at Flovi across four markets. EU based, working with teams across Europe and the US.",
   email: "hi@ioncazac.com",
   availability: "Open to senior product design roles — remote, hybrid or on-site.",
+  recommendationsUrl: "https://www.linkedin.com/in/ion-cazac/details/recommendations/",
   links: [
     { label: "LinkedIn", href: "https://www.linkedin.com/in/ion-cazac/" },
     { label: "Dribbble", href: "https://dribbble.com/yvancross" },
@@ -30,13 +31,24 @@ export const clients = [
   "Red Bull",
 ];
 
-export const testimonials = [
+// Recommendations from LinkedIn. Photos live in /public/people/.
+// `href` is the person's own LinkedIn profile.
+export const testimonials: {
+  quote: string;
+  name: string;
+  role: string;
+  company?: string;
+  photo: string;
+  href: string;
+}[] = [
   {
     quote:
       "He’s not just a designer — you get a strategic partner, a systems thinker, and someone who deeply cares about delivering meaningful experiences.",
     name: "Roni Dover",
     role: "Managed Ion at",
     company: "Digma",
+    photo: "/people/roni-dover.jpg",
+    href: "https://www.linkedin.com/in/ronidover/",
   },
   {
     quote:
@@ -44,6 +56,7 @@ export const testimonials = [
     name: "Thomas Quinn",
     role: "CTO & Co-Founder",
     company: "ORB Innovations",
+    photo: "/people/thomas-quinn.jpg",
     href: "https://www.linkedin.com/in/thomasquinn93/",
   },
   {
@@ -51,13 +64,22 @@ export const testimonials = [
     name: "Daniel Björk",
     role: "CEO & Founder",
     company: "Reviall",
+    photo: "/people/daniel-bjork.jpg",
     href: "https://www.linkedin.com/in/daniel-bj%C3%B6rk-2a4295149/",
+  },
+  {
+    quote: "Any web, including responsive version, and mobile, specifically iOS apps are treated like a piece of art by Ion.",
+    name: "Vadim Armăsaru",
+    role: "Project Coordination & Operations",
+    photo: "/people/vadim-armasaru.jpg",
+    href: "https://www.linkedin.com/in/vadimarmasaru/",
   },
   {
     quote: "I wish there were more designers like Ion in this industry. Positive, loyal, innovative, the list goes on.",
     name: "Dan Taub",
     role: "Lead Designer",
     company: "Gala Games",
+    photo: "/people/dan-taub.jpg",
     href: "https://www.linkedin.com/in/dantaub/",
   },
   {
@@ -65,13 +87,23 @@ export const testimonials = [
     name: "Jamie Maloney",
     role: "VP, Client Partner",
     company: "Digital Silk",
+    photo: "/people/jamie-maloney.jpg",
+    href: "https://www.linkedin.com/in/jamiemaloneymba/",
   },
   {
     quote: "I found him to be both professional and reliable, which made him a pleasure to work with.",
     name: "Gabriel Shaoolian",
     role: "CEO & Founder",
     company: "Digital Silk",
+    photo: "/people/gabriel-shaoolian.jpg",
     href: "https://www.linkedin.com/in/gabrielshaoolian/",
+  },
+  {
+    quote: "More than just a UX graphics designer. Product oriented, always learning and polishing his skills.",
+    name: "Terentie Carp",
+    role: "IT Delivery Manager",
+    photo: "/people/terentie-carp.jpg",
+    href: "https://www.linkedin.com/in/terrencecarp/",
   },
 ];
 
