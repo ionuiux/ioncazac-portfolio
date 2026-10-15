@@ -34,7 +34,7 @@ export default function Home() {
           {profile.email}
         </a>
 
-        <ul className="mt-16 grid w-full grid-cols-3 items-center gap-x-6 gap-y-12">
+        <ul className="mt-16 grid w-full grid-cols-3 items-center gap-x-6 gap-y-12 lg:flex lg:w-[58rem] lg:max-w-[calc(100vw-4rem)] lg:justify-between lg:gap-x-10">
           {clients.map((client) => (
             <li key={client.name} className="flex justify-center">
               <Image
@@ -43,7 +43,7 @@ export default function Home() {
                 width={client.width}
                 height={client.height}
                 style={{ "--logo-h": `${client.display}px` } as React.CSSProperties}
-                className="h-[calc(var(--logo-h)*0.8)] w-auto max-w-full object-contain sm:h-[var(--logo-h)]"
+                className="h-[calc(var(--logo-h)*0.8)] w-auto max-w-full object-contain opacity-50 grayscale transition duration-300 hover:opacity-100 hover:grayscale-0 sm:h-[var(--logo-h)]"
               />
             </li>
           ))}
