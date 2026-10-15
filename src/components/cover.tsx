@@ -1,7 +1,9 @@
 import Image from "next/image";
+import { BrowserFrame } from "@/components/browser-frame";
 import type { CaseStudy } from "@/content/case-studies";
 
-// The case study's cover image, or a generated stand-in until one is added.
+// The case study's cover: a screen mockup, a single image,
+// or a generated stand-in until one of those is added.
 export function Cover({
   study,
   sizes,
@@ -11,6 +13,39 @@ export function Cover({
   sizes: string;
   priority?: boolean;
 }) {
+  const [from, to] = study.accent;
+  const background = `radial-gradient(120% 120% at 100% 0%, ${to} 0%, ${from} 70%)`;
+
+  if (study.mockup) {
+    const { main, left, right } = study.mockup;
+    return (
+      <div className="absolute inset-0 overflow-hidden" style={{ background }}>
+        <div
+          aria-hidden
+          className="absolute inset-0 opacity-30"
+          style={{
+            backgroundImage: "radial-gradient(rgba(255,255,255,0.35) 1px, transparent 1px)",
+            backgroundSize: "22px 22px",
+            maskImage: "linear-gradient(to bottom, black, transparent 70%)",
+          }}
+        />
+        {left && (
+          <div className="absolute top-[24%] left-[2%] hidden w-[40%] -rotate-[7deg] opacity-80 transition-transform duration-700 ease-out group-hover:-translate-x-2 sm:block">
+            <BrowserFrame {...left} sizes="(min-width: 640px) 40vw, 1px" />
+          </div>
+        )}
+        {right && (
+          <div className="absolute top-[20%] right-[2%] hidden w-[40%] rotate-[7deg] opacity-80 transition-transform duration-700 ease-out group-hover:translate-x-2 sm:block">
+            <BrowserFrame {...right} sizes="(min-width: 640px) 40vw, 1px" />
+          </div>
+        )}
+        <div className="absolute top-[10%] left-1/2 w-[90%] -translate-x-1/2 transition-transform duration-700 ease-out group-hover:-translate-y-2 sm:top-[12%] sm:w-[58%]">
+          <BrowserFrame {...main} sizes="(min-width: 640px) 60vw, 90vw" priority={priority} />
+        </div>
+      </div>
+    );
+  }
+
   if (study.cover) {
     return (
       <Image
@@ -24,13 +59,8 @@ export function Cover({
     );
   }
 
-  const [from, to] = study.accent;
   return (
-    <div
-      aria-hidden
-      className="absolute inset-0 overflow-hidden"
-      style={{ background: `radial-gradient(120% 120% at 100% 0%, ${to} 0%, ${from} 70%)` }}
-    >
+    <div aria-hidden className="absolute inset-0 overflow-hidden" style={{ background }}>
       <div className="absolute top-[16%] left-1/2 h-full w-[72%] -translate-x-1/2 rounded-t-xl bg-white/95 shadow-2xl shadow-black/30 transition-transform duration-700 ease-out group-hover:-translate-y-2">
         <div className="flex items-center gap-1.5 border-b border-black/5 px-4 py-3">
           <span className="size-2 rounded-full bg-black/10" />

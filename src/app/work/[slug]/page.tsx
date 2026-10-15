@@ -3,6 +3,7 @@ import Image from "next/image";
 import Link from "next/link";
 import { notFound } from "next/navigation";
 import { CaseStudyCard } from "@/components/case-study-card";
+import { BrowserFrame } from "@/components/browser-frame";
 import { Cover } from "@/components/cover";
 import { SiteFooter } from "@/components/site-footer";
 import { caseStudies, getCaseStudy, type CaseImage } from "@/content/case-studies";
@@ -22,22 +23,60 @@ export async function generateMetadata({ params }: PageProps<"/work/[slug]">): P
   return {
     title: `${study.client} case study`,
     description: study.summary,
-    openGraph: study.cover ? { images: [study.cover] } : undefined,
+    openGraph: {
+      images: [study.cover ?? study.mockup?.main.src ?? "/ion.jpg"],
+    },
   };
 }
 
-function CaseFigure({ image }: { image: CaseImage }) {
-  return (
-    <figure>
-      <div className="relative aspect-[16/10] overflow-hidden rounded-2xl bg-subtle">
-        {image.src ? (
-          <Image src={image.src} alt={image.alt} fill sizes="(min-width: 1152px) 1152px, 100vw" className="object-cover" />
-        ) : (
-          <div className="absolute inset-0 flex items-center justify-center text-[13px] text-muted">
-            Image placeholder — {image.alt}
-          </div>
-        )}
+function CaseFigure({ image, accent }: { image: CaseImage; accent: string }) {
+  const panel = { background: `linear-gradient(160deg, ${accent}24, ${accent}0f)` };
+  const half = !image.wide;
+  const sizes = half ? "(min-width: 640px) 50vw, 100vw" : "(min-width: 1152px) 1152px, 100vw";
+
+  let content;
+  if (!image.src) {
+    content = (
+      <div className="relative flex aspect-[16/10] items-center justify-center rounded-2xl bg-subtle text-[13px] text-muted">
+        Image placeholder — {image.alt}
       </div>
+    );
+  } else if (image.frame === "browser" && image.width && image.height) {
+    content = (
+      <div className="flex-1 rounded-2xl p-[6%] sm:p-[5%]" style={panel}>
+        <BrowserFrame src={image.src} alt={image.alt} width={image.width} height={image.height} sizes={sizes} />
+      </div>
+    );
+  } else if (image.frame === "card" && image.width && image.height) {
+    // Half-width panels size the card to fit both their width and height;
+    // a zoom above 1 enlarges it and lets it run off the right edge.
+    const zoom = image.zoom ?? 1;
+    const ratio = image.width / image.height;
+    const cardWidth = !half ? "100%" : zoom > 1 ? `${84 * zoom}cqw` : `min(84cqw, ${80 * ratio}cqh)`;
+    content = (
+      <div
+        className={`flex flex-1 items-center overflow-hidden rounded-2xl ${half ? "aspect-[4/3] sm:aspect-auto sm:min-h-[22rem]" : "p-[6%] sm:p-[5%]"}`}
+        style={half ? { ...panel, containerType: "size" } : panel}
+      >
+        <div
+          className="shrink-0 overflow-hidden rounded-xl bg-white shadow-[0_24px_48px_-20px_rgba(17,17,50,0.4)] ring-1 ring-black/5"
+          style={{ width: cardWidth, marginLeft: zoom > 1 ? "8%" : "auto", marginRight: zoom > 1 ? 0 : "auto" }}
+        >
+          <Image src={image.src} alt={image.alt} width={image.width} height={image.height} sizes={sizes} className="block h-auto w-full" />
+        </div>
+      </div>
+    );
+  } else {
+    content = (
+      <div className="relative aspect-[16/10] overflow-hidden rounded-2xl bg-subtle">
+        <Image src={image.src} alt={image.alt} fill sizes={sizes} className="object-cover" />
+      </div>
+    );
+  }
+
+  return (
+    <figure className={`flex flex-col ${image.wide ? "sm:col-span-2" : ""}`}>
+      {content}
       {image.caption && <figcaption className="mt-3 text-[13px] text-muted">{image.caption}</figcaption>}
     </figure>
   );
@@ -116,9 +155,9 @@ export default async function CaseStudyPage({ params }: PageProps<"/work/[slug]"
             )}
 
             {section.images && (
-              <div className={`mt-10 grid gap-4 sm:gap-6 ${section.images.length > 1 ? "sm:grid-cols-2" : ""}`}>
+              <div className={`mt-10 grid gap-x-4 gap-y-8 sm:gap-x-6 sm:gap-y-10 ${section.images.length > 1 ? "sm:grid-cols-2" : ""}`}>
                 {section.images.map((image, i) => (
-                  <CaseFigure key={i} image={image} />
+                  <CaseFigure key={i} image={image} accent={study.accent[1]} />
                 ))}
               </div>
             )}

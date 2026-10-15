@@ -51,13 +51,13 @@ export default function Home() {
       {/* Case studies */}
       <section id="work" className="border-t border-line px-4 pt-20 pb-24 sm:px-6 sm:pt-24">
         <h2 className="text-center text-4xl font-medium tracking-tight sm:text-6xl">Case Studies</h2>
-        <div className="mx-auto mt-12 max-w-6xl space-y-4 sm:mt-16 sm:space-y-6">
+        <div className="mx-auto mt-12 max-w-6xl space-y-10 sm:mt-16 sm:space-y-14">
           {featured.map((study) => (
             <CaseStudyCard key={study.slug} study={study} size="large" />
           ))}
         </div>
         {more.length > 0 && (
-          <div className="mx-auto mt-10 grid max-w-6xl gap-x-6 gap-y-10 sm:mt-12 sm:grid-cols-2">
+          <div className="mx-auto mt-10 grid max-w-6xl gap-x-6 gap-y-10 sm:mt-14 sm:grid-cols-2">
             {more.map((study) => (
               <CaseStudyCard key={study.slug} study={study} />
             ))}
