@@ -29,7 +29,7 @@ export default function Home() {
         </p>
         <a
           href={`mailto:${profile.email}`}
-          className="mt-6 text-[15px] font-medium underline decoration-1 underline-offset-4 hover:decoration-2"
+          className="mt-8 text-3xl font-medium tracking-tight underline decoration-2 underline-offset-[6px] transition-colors hover:text-muted sm:text-5xl sm:underline-offset-8"
         >
           {profile.email}
         </a>
