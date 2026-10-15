@@ -24,8 +24,21 @@ export async function generateMetadata({ params }: PageProps<"/work/[slug]">): P
   return {
     title: `${study.client} case study`,
     description: study.summary,
+    // Case studies share the site's image (a PNG every network can show),
+    // with their own title and description.
     openGraph: {
-      images: [study.cover ?? study.mockup?.main.src ?? "/ion.jpg"],
+      title: `${study.client} — ${study.title}`,
+      description: study.summary,
+      url: `/work/${study.slug}`,
+      siteName: "Ion Cazac",
+      type: "article",
+      images: [{ url: "/opengraph-image", width: 1200, height: 630, alt: "Ion Cazac — Senior Product Designer" }],
+    },
+    twitter: {
+      card: "summary_large_image",
+      title: `${study.client} — ${study.title}`,
+      description: study.summary,
+      images: ["/opengraph-image"],
     },
   };
 }
