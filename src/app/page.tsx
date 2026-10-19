@@ -15,12 +15,7 @@ export default function Home() {
       <header className="flex items-center justify-between gap-4 py-6 text-[14px]">
         <p className="text-muted">{profile.tagline}</p>
         <nav className="flex shrink-0 items-center gap-5">
-          <a
-            href={profile.cv}
-            target="_blank"
-            rel="noreferrer"
-            className="link-button"
-          >
+          <a href={profile.cv} download className="link-button">
             CV ↗
           </a>
           <a
