@@ -52,7 +52,7 @@ export const testimonials: {
     quote:
       "He’s not just a designer — you get a strategic partner, a systems thinker, and someone who deeply cares about delivering meaningful experiences.",
     name: "Roni Dover",
-    role: "Managed Ion at",
+    role: "CTO & Co-Founder at",
     company: "Digma",
     photo: "/people/roni-dover.jpg",
     logo: "/companies/digma.jpg",
