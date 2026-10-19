@@ -7,7 +7,7 @@ export const profile = {
   greeting: "Hi, I’m Ion",
   tagline: "design → code → deliver",
   intro:
-    "I build products, from first idea to launch. 10+ years across mobility, fintech and developer tools — most recently an AI-native driver app and a company-wide design system at Flovi. Project owner, mentor and early AI adopter. EU based, working with teams across Europe and the US.",
+    "I build products, from first idea to launch. 12+ years across mobility, fintech and developer tools — most recently as an AI-native product builder at Flovi. Project owner, mentor and early AI adopter. EU based, working with teams across Europe and the US.",
   email: "hi@ioncazac.com",
   availability: "Open to senior product design roles — remote, hybrid or on-site.",
   recommendationsUrl: "https://www.linkedin.com/in/ion-cazac/details/recommendations/",
