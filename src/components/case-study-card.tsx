@@ -12,7 +12,7 @@ export function CaseStudyCard({
   if (size === "large") {
     return (
       <Link href={`/work/${study.slug}`} className="group block" data-reveal>
-        <div className="relative aspect-[4/3] overflow-hidden bg-subtle sm:aspect-[16/9]">
+        <div className="relative aspect-[8/3] overflow-hidden bg-subtle sm:aspect-[32/9]">
           <Cover study={study} sizes="100vw" priority />
         </div>
         <div className="mt-4 flex items-start justify-between gap-6">
@@ -31,7 +31,7 @@ export function CaseStudyCard({
 
   return (
     <Link href={`/work/${study.slug}`} className="group block" data-reveal>
-      <div className="relative aspect-[4/3] overflow-hidden bg-subtle">
+      <div className="relative aspect-[8/3] overflow-hidden bg-subtle">
         <Cover study={study} sizes="(min-width: 640px) 50vw, 100vw" />
       </div>
       <p className="mt-3 text-[14px]">
