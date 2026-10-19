@@ -10,9 +10,9 @@ export default function Home() {
   const more = caseStudies.slice(2);
 
   return (
-    <main>
+    <main className="site-container">
       {/* Top bar */}
-      <header className="mx-auto flex max-w-7xl items-center justify-between gap-4 px-4 py-6 text-[14px] sm:px-6">
+      <header className="flex items-center justify-between gap-4 py-6 text-[14px]">
         <p className="text-muted">{profile.tagline}</p>
         <nav className="flex shrink-0 items-center gap-5">
           <a
@@ -35,7 +35,7 @@ export default function Home() {
       </header>
 
       {/* Intro */}
-      <section className="mx-auto max-w-7xl px-4 pt-8 pb-20 sm:px-6 sm:pt-14 sm:pb-24">
+      <section className="pt-8 pb-20 sm:pt-14 sm:pb-24">
         {/* Photo on the left, name and introduction on the right (stacked on phones). */}
         <div className="flex flex-col gap-8 md:flex-row md:items-start md:gap-12 lg:gap-16">
           <Image
@@ -81,15 +81,15 @@ export default function Home() {
       </section>
 
       {/* Case studies */}
-      <section id="work" className="border-t border-line px-4 pt-20 pb-24 sm:px-6 sm:pt-24">
+      <section id="work" className="border-t border-line pt-20 pb-24 sm:pt-24">
         <h2 className="text-center text-4xl font-medium tracking-tight sm:text-6xl">Case Studies</h2>
-        <div className="mx-auto mt-12 max-w-7xl space-y-10 sm:mt-16 sm:space-y-14">
+        <div className="mt-12 space-y-10 sm:mt-16 sm:space-y-14">
           {featured.map((study) => (
             <CaseStudyCard key={study.slug} study={study} size="large" />
           ))}
         </div>
         {more.length > 0 && (
-          <div className="mx-auto mt-10 grid max-w-7xl gap-x-6 gap-y-10 sm:mt-14 sm:grid-cols-2">
+          <div className="mt-10 grid gap-x-6 gap-y-10 sm:mt-14 sm:grid-cols-2">
             {more.map((study) => (
               <CaseStudyCard key={study.slug} study={study} />
             ))}
@@ -98,13 +98,13 @@ export default function Home() {
       </section>
 
       {/* Artworks */}
-      <section id="artworks" className="border-t border-line px-4 pt-20 pb-24 sm:px-6 sm:pt-24">
+      <section id="artworks" className="border-t border-line pt-20 pb-24 sm:pt-24">
         <h2 className="sr-only">Artworks</h2>
-        <ul className="mx-auto grid max-w-7xl grid-cols-2 gap-x-4 gap-y-8 sm:gap-x-6 lg:grid-cols-4">
+        <ul className="grid grid-cols-2 gap-x-4 gap-y-8 sm:gap-x-6 lg:grid-cols-4">
           {artworks.map((art, i) => (
             <li key={art.href} className={i < 2 ? "lg:col-span-2" : ""}>
               <a href={art.href} target="_blank" rel="noreferrer" className="group block">
-                <div className="relative aspect-[4/3] overflow-hidden rounded-xl bg-subtle">
+                <div className="relative aspect-[4/3] overflow-hidden bg-subtle">
                   <Image
                     src={art.src}
                     alt={art.title}
@@ -133,9 +133,9 @@ export default function Home() {
       </section>
 
       {/* Recommendations */}
-      <section id="recommendations" className="border-t border-line px-4 pt-20 pb-24 sm:px-6 sm:pt-24">
+      <section id="recommendations" className="border-t border-line pt-20 pb-24 sm:pt-24">
         <h2 className="text-center text-4xl font-medium tracking-tight sm:text-6xl">Recommendations</h2>
-        <ul className="mx-auto mt-14 grid max-w-7xl gap-x-10 gap-y-16 sm:mt-20 sm:grid-cols-2 lg:grid-cols-4">
+        <ul className="mt-14 grid gap-x-10 gap-y-16 sm:mt-20 sm:grid-cols-2 lg:grid-cols-4">
           {testimonials.map((t) => (
             <li key={t.name} className="flex flex-col items-center text-center">
               <Image
@@ -170,7 +170,7 @@ export default function Home() {
       </section>
 
       {/* Experience */}
-      <section id="experience" className="border-t border-line px-4 pt-20 pb-24 sm:px-6 sm:pt-24">
+      <section id="experience" className="border-t border-line pt-20 pb-24 sm:pt-24">
         <h2 className="text-center text-4xl font-medium tracking-tight sm:text-6xl">Experience</h2>
         <ul className="mx-auto mt-12 max-w-3xl divide-y divide-line border-y border-line sm:mt-16">
           {experience.map((job) => (

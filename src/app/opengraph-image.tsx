@@ -41,7 +41,6 @@ const card = {
   position: "absolute" as const,
   display: "flex",
   overflow: "hidden",
-  borderRadius: 22,
   boxShadow: "0 30px 60px -20px rgba(15, 23, 42, 0.45)",
 };
 

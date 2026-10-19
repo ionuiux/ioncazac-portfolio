@@ -9,7 +9,7 @@ async function currentYear() {
 export async function SiteFooter() {
   const year = await currentYear();
   return (
-    <footer id="contact" className="border-t border-line px-4 pt-24 pb-10 text-center sm:px-6">
+    <footer id="contact" className="border-t border-line pt-24 pb-10 text-center">
       <h2 className="text-4xl font-medium tracking-tight sm:text-6xl">Get in touch</h2>
       <p className="mx-auto mt-4 max-w-md text-[17px] text-muted text-balance">
         {profile.availability}
@@ -34,7 +34,7 @@ export async function SiteFooter() {
           </li>
         ))}
       </ul>
-      <div className="mx-auto mt-24 flex max-w-7xl items-center justify-between text-[12px] text-muted">
+      <div className="mt-24 flex items-center justify-between text-[12px] text-muted">
         <p>© {year} {profile.name}. All rights reserved.</p>
         <a href="#top" className="hover:text-foreground">
           Back to top ↑

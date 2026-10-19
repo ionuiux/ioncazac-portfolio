@@ -46,7 +46,7 @@ export async function generateMetadata({ params }: PageProps<"/work/[slug]">): P
 function CaseFigure({ image, accent }: { image: CaseImage; accent: string }) {
   const panel = { background: `linear-gradient(160deg, ${accent}24, ${accent}0f)` };
   const half = !image.wide;
-  const sizes = half ? "(min-width: 640px) 50vw, 100vw" : "(min-width: 1280px) 1280px, 100vw";
+  const sizes = half ? "(min-width: 640px) 50vw, 100vw" : "100vw";
 
   let content;
   if (image.frame === "phones" && image.screens?.length) {
@@ -56,7 +56,7 @@ function CaseFigure({ image, accent }: { image: CaseImage; accent: string }) {
       ? ["w-[46%]", "w-[40%]", "w-[30%]"][count - 1]
       : ["w-[46%] sm:w-[26%]", "w-[40%] sm:w-[24%]", "w-[30%] sm:w-[22%]"][count - 1];
     content = (
-      <div className="flex flex-1 items-start justify-center gap-[4%] overflow-hidden rounded-2xl px-[4%] pt-[8%] pb-[6%]" style={panel}>
+      <div className="flex flex-1 items-start justify-center gap-[4%] overflow-hidden px-[4%] pt-[8%] pb-[6%]" style={panel}>
         {image.screens.slice(0, 3).map((screen, i) => (
           <PhoneFrame
             key={screen.src}
@@ -69,13 +69,13 @@ function CaseFigure({ image, accent }: { image: CaseImage; accent: string }) {
     );
   } else if (!image.src) {
     content = (
-      <div className="relative flex aspect-[16/10] items-center justify-center rounded-2xl bg-subtle text-[13px] text-muted">
+      <div className="relative flex aspect-[16/10] items-center justify-center bg-subtle text-[13px] text-muted">
         Image placeholder — {image.alt}
       </div>
     );
   } else if (image.frame === "browser" && image.width && image.height) {
     content = (
-      <div className="flex-1 rounded-2xl p-[6%] sm:p-[5%]" style={panel}>
+      <div className="flex-1 p-[6%] sm:p-[5%]" style={panel}>
         <BrowserFrame src={image.src} alt={image.alt} width={image.width} height={image.height} sizes={sizes} />
       </div>
     );
@@ -87,11 +87,11 @@ function CaseFigure({ image, accent }: { image: CaseImage; accent: string }) {
     const cardWidth = !half ? "100%" : zoom > 1 ? `${84 * zoom}cqw` : `min(84cqw, ${80 * ratio}cqh)`;
     content = (
       <div
-        className={`flex flex-1 items-center overflow-hidden rounded-2xl ${half ? "aspect-[4/3] sm:aspect-auto sm:min-h-[22rem]" : "p-[6%] sm:p-[5%]"}`}
+        className={`flex flex-1 items-center overflow-hidden ${half ? "aspect-[4/3] sm:aspect-auto sm:min-h-[22rem]" : "p-[6%] sm:p-[5%]"}`}
         style={half ? { ...panel, containerType: "size" } : panel}
       >
         <div
-          className="shrink-0 overflow-hidden rounded-xl shadow-[0_24px_48px_-20px_rgba(17,17,50,0.4)] ring-1 ring-black/5"
+          className="shrink-0 overflow-hidden shadow-[0_24px_48px_-20px_rgba(17,17,50,0.4)] ring-1 ring-black/5"
           style={{ width: cardWidth, marginLeft: zoom > 1 ? "8%" : "auto", marginRight: zoom > 1 ? 0 : "auto" }}
         >
           <Image src={image.src} alt={image.alt} width={image.width} height={image.height} sizes={sizes} className="block h-auto w-full" />
@@ -100,19 +100,19 @@ function CaseFigure({ image, accent }: { image: CaseImage; accent: string }) {
     );
   } else if (image.frame === "float" && image.width && image.height) {
     content = (
-      <div className="flex flex-1 items-center justify-center rounded-2xl p-[5%]" style={panel}>
+      <div className="flex flex-1 items-center justify-center p-[5%]" style={panel}>
         <Image src={image.src} alt={image.alt} width={image.width} height={image.height} sizes={sizes} className="block h-auto w-full" />
       </div>
     );
   } else if (image.frame === "plain" && image.width && image.height) {
     content = (
-      <div className="flex flex-1 items-start overflow-hidden rounded-2xl ring-1 ring-black/5">
+      <div className="flex flex-1 items-start overflow-hidden ring-1 ring-black/5">
         <Image src={image.src} alt={image.alt} width={image.width} height={image.height} sizes={sizes} className="block h-auto w-full" />
       </div>
     );
   } else {
     content = (
-      <div className="relative aspect-[16/10] overflow-hidden rounded-2xl bg-subtle">
+      <div className="relative aspect-[16/10] overflow-hidden bg-subtle">
         <Image src={image.src} alt={image.alt} fill sizes={sizes} className="object-cover" />
       </div>
     );
@@ -142,8 +142,8 @@ export default async function CaseStudyPage({ params }: PageProps<"/work/[slug]"
   ];
 
   return (
-    <main>
-      <nav className="mx-auto flex max-w-7xl items-center justify-between px-4 py-6 text-[14px] sm:px-6">
+    <main className="site-container">
+      <nav className="flex items-center justify-between py-6 text-[14px]">
         <Link href="/" className="font-medium hover:text-muted">
           ← {profile.name}
         </Link>
@@ -152,7 +152,7 @@ export default async function CaseStudyPage({ params }: PageProps<"/work/[slug]"
         </a>
       </nav>
 
-      <header className="mx-auto max-w-3xl px-4 pt-12 text-center sm:pt-20">
+      <header className="mx-auto max-w-3xl pt-12 text-center sm:pt-20">
         <p className="text-[13px] text-muted">
           <span className="font-medium text-foreground">{study.client}</span> · {study.category} · {study.year}
         </p>
@@ -169,15 +169,15 @@ export default async function CaseStudyPage({ params }: PageProps<"/work/[slug]"
         ))}
       </dl>
 
-      <div className="mx-auto mt-14 max-w-7xl px-4 sm:px-6">
-        <div className="relative aspect-[4/3] overflow-hidden rounded-2xl bg-subtle sm:aspect-[16/9]">
-          <Cover study={study} sizes="(min-width: 1280px) 1280px, 100vw" priority />
+      <div className="mt-14">
+        <div className="relative aspect-[4/3] overflow-hidden bg-subtle sm:aspect-[16/9]">
+          <Cover study={study} sizes="100vw" priority />
         </div>
       </div>
 
       <article className="pt-8 pb-16">
         {study.sections.map((section) => (
-          <section key={section.heading} className="mx-auto mt-16 max-w-7xl px-4 sm:mt-24 sm:px-6">
+          <section key={section.heading} className="mt-16 sm:mt-24">
             <div className="mx-auto grid max-w-4xl gap-4 md:grid-cols-[200px_1fr] md:gap-12">
               <h2 className="text-[15px] font-medium">{section.heading}</h2>
               <div className="space-y-4 text-[17px] leading-relaxed text-neutral-600">
@@ -190,7 +190,7 @@ export default async function CaseStudyPage({ params }: PageProps<"/work/[slug]"
             {section.metrics && (
               <dl className="mx-auto mt-10 grid max-w-4xl gap-4 sm:grid-cols-3">
                 {section.metrics.map((metric) => (
-                  <div key={metric.label} className="flex flex-col-reverse justify-end rounded-2xl bg-subtle p-6">
+                  <div key={metric.label} className="flex flex-col-reverse justify-end bg-subtle p-6">
                     <dt className="mt-2 text-[13px] text-muted">{metric.label}</dt>
                     <dd className="text-4xl font-medium tracking-tight">{metric.value}</dd>
                   </div>
@@ -210,9 +210,9 @@ export default async function CaseStudyPage({ params }: PageProps<"/work/[slug]"
       </article>
 
       {next.slug !== study.slug && (
-        <section className="border-t border-line px-4 pt-16 pb-24 sm:px-6">
+        <section className="border-t border-line pt-16 pb-24">
           <p className="text-center text-[13px] text-muted">Next case study</p>
-          <div className="mx-auto mt-6 max-w-7xl">
+          <div className="mt-6">
             <CaseStudyCard study={next} size="large" />
           </div>
         </section>
