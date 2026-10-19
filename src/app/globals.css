@@ -48,3 +48,61 @@ body {
     margin-inline: 8px;
   }
 }
+
+/* Logo strip under the intro: drifts slowly left → right, forever.
+   The track holds three identical sets; sliding it by exactly one set
+   (a third of its width) lands on an identical frame, so the loop has no seam. */
+.logo-marquee {
+  overflow: hidden;
+  mask-image: linear-gradient(to right, transparent, #000 8%, #000 92%, transparent);
+}
+.logo-track {
+  display: flex;
+  width: max-content;
+  animation: logo-drift 90s linear infinite;
+}
+.logo-marquee:hover .logo-track {
+  animation-play-state: paused;
+}
+.logo-set {
+  display: flex;
+  flex-shrink: 0;
+  align-items: center;
+  /* Gap and trailing padding match, so the space between sets equals the space between logos. */
+  gap: 4.5rem;
+  padding-right: 4.5rem;
+}
+@media (max-width: 640px) {
+  .logo-set {
+    gap: 3rem;
+    padding-right: 3rem;
+  }
+}
+@keyframes logo-drift {
+  from {
+    transform: translateX(calc(-100% / 3));
+  }
+  to {
+    transform: translateX(0);
+  }
+}
+/* Visitors who ask for less motion get a still, wrapped row instead. */
+@media (prefers-reduced-motion: reduce) {
+  .logo-marquee {
+    mask-image: none;
+  }
+  .logo-track {
+    animation: none;
+    width: auto;
+  }
+  .logo-set {
+    flex-wrap: wrap;
+    justify-content: center;
+    row-gap: 2.5rem;
+    padding-right: 0;
+    flex-shrink: 1;
+  }
+  .logo-set[aria-hidden] {
+    display: none;
+  }
+}

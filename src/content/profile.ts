@@ -24,9 +24,10 @@ export const profile = {
   ],
 };
 
-// Logos shown under the intro. Files live in /public/logos/.
+// Logos in the slowly scrolling strip under the intro. Files live in /public/logos/.
 // `width` and `height` are the SVG's own size; `display` is how tall it
 // appears on desktop (in px), tuned so every logo looks about the same size.
+// The share image (opengraph-image.tsx) shows only the first six.
 export const clients = [
   { name: "Flovi", logo: "/logos/flovi.svg", width: 63, height: 22, display: 28 },
   { name: "Profit.com", logo: "/logos/profit.svg", width: 113, height: 26, display: 26 },
@@ -34,6 +35,11 @@ export const clients = [
   { name: "Digital Silk", logo: "/logos/digital-silk.svg", width: 124, height: 24, display: 22 },
   { name: "Michelin", logo: "/logos/michelin.svg", width: 126, height: 13, display: 15 },
   { name: "Red Bull", logo: "/logos/redbull.svg", width: 83, height: 19, display: 24 },
+  { name: "Digma", logo: "/logos/digma.svg", width: 127, height: 33, display: 28 },
+  { name: "ORB Innovations", logo: "/logos/orb.svg", width: 305, height: 101, display: 34 },
+  { name: "pyck", logo: "/logos/pyck.svg", width: 82, height: 32, display: 28 },
+  { name: "UNDP", logo: "/logos/undp.svg", width: 479, height: 237, display: 36 },
+  { name: "ShareVision", logo: "/logos/sharevision.svg", width: 189, height: 40, display: 28 },
 ];
 
 // Recommendations from LinkedIn. Photos live in /public/people/.

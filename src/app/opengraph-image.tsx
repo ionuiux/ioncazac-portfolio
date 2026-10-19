@@ -23,9 +23,9 @@ const flovi = jpeg(await readFile(join(process.cwd(), "assets/og/flovi.jpg")));
 const orb = jpeg(await readFile(join(process.cwd(), "assets/og/orb.jpg")));
 const profit = jpeg(await readFile(join(process.cwd(), "assets/og/profit.jpg")));
 
-// Client logos, recoloured to one grey so the row reads as a calm strip.
+// The first six client logos, recoloured to one grey so the row reads as a calm strip.
 const logos = await Promise.all(
-  clients.map(async (client) => {
+  clients.slice(0, 6).map(async (client) => {
     const file = client.logo.replace("/logos/", "");
     const svg = (await readFile(join(process.cwd(), "public", "logos", file), "utf8")).replace(/fill="(?!none)[^"]*"/g, 'fill="#a3a3a3"');
     return {

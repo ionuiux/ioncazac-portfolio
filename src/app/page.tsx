@@ -64,20 +64,28 @@ export default function Home() {
           </div>
         </div>
 
-        <ul className="mt-16 grid w-full grid-cols-3 items-center gap-x-6 gap-y-12 sm:mt-20 lg:flex lg:justify-between lg:gap-x-10">
-          {clients.map((client) => (
-            <li key={client.name} className="flex justify-center">
-              <Image
-                src={client.logo}
-                alt={client.name}
-                width={client.width}
-                height={client.height}
-                style={{ "--logo-h": `${client.display}px` } as React.CSSProperties}
-                className="h-[calc(var(--logo-h)*0.8)] w-auto max-w-full object-contain opacity-50 grayscale transition duration-300 hover:opacity-100 hover:grayscale-0 sm:h-[var(--logo-h)]"
-              />
-            </li>
-          ))}
-        </ul>
+        {/* Logo strip: three identical copies slide right in a seamless loop (see .logo-marquee in globals.css). */}
+        <div className="logo-marquee mt-16 sm:mt-20">
+          <div className="logo-track">
+            {[0, 1, 2].map((copy) => (
+              <ul key={copy} aria-hidden={copy > 0 || undefined} className="logo-set">
+                {clients.map((client) => (
+                  <li key={client.name} className="flex shrink-0 items-center">
+                    <Image
+                      src={client.logo}
+                      alt={client.name}
+                      width={client.width}
+                      height={client.height}
+                      loading="eager"
+                      style={{ "--logo-h": `${client.display}px` } as React.CSSProperties}
+                      className="h-[calc(var(--logo-h)*0.8)] w-auto object-contain opacity-50 grayscale transition duration-300 hover:opacity-100 hover:grayscale-0 sm:h-[var(--logo-h)]"
+                    />
+                  </li>
+                ))}
+              </ul>
+            ))}
+          </div>
+        </div>
       </section>
 
       {/* Case studies */}
