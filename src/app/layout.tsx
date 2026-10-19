@@ -1,6 +1,8 @@
 import type { Metadata } from "next";
 import { Inter } from "next/font/google";
 import { Analytics } from "@vercel/analytics/next";
+import { SmoothScroll } from "@/components/smooth-scroll";
+import "lenis/dist/lenis.css";
 import "./globals.css";
 
 const inter = Inter({
@@ -37,6 +39,11 @@ export default function RootLayout({ children }: LayoutProps<"/">) {
   return (
     <html lang="en" id="top" className={`${inter.variable} antialiased`}>
       <body>
+        {/* Without JavaScript, show the tiles that would otherwise fade in on scroll. */}
+        <noscript>
+          <style>{"[data-reveal] { opacity: 1 !important; }"}</style>
+        </noscript>
+        <SmoothScroll />
         {children}
         {/* Vercel Web Analytics: cookie-free visit counts, see the Analytics tab in Vercel. */}
         <Analytics />

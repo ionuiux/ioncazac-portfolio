@@ -1,5 +1,6 @@
 import Image from "next/image";
 import { CaseStudyCard } from "@/components/case-study-card";
+import { RevealOnScroll } from "@/components/reveal-on-scroll";
 import { SiteFooter } from "@/components/site-footer";
 import { artworks, dribbbleUrl } from "@/content/artworks";
 import { caseStudies } from "@/content/case-studies";
@@ -11,6 +12,7 @@ export default function Home() {
 
   return (
     <main className="site-container">
+      <RevealOnScroll />
       {/* Top bar */}
       <header className="flex items-center justify-between gap-4 py-6 text-[14px]">
         <p className="text-muted">{profile.tagline}</p>
@@ -102,7 +104,7 @@ export default function Home() {
         <h2 className="sr-only">Artworks</h2>
         <ul className="grid grid-cols-2 gap-x-4 gap-y-8 sm:gap-x-6 lg:grid-cols-4">
           {artworks.map((art, i) => (
-            <li key={art.href} className={i < 2 ? "lg:col-span-2" : ""}>
+            <li key={art.href} className={i < 2 ? "lg:col-span-2" : ""} data-reveal>
               <a href={art.href} target="_blank" rel="noreferrer" className="group block">
                 <div className="relative aspect-[4/3] overflow-hidden bg-subtle">
                   <Image

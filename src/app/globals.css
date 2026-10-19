@@ -18,9 +18,8 @@
   --font-sans: var(--font-inter), ui-sans-serif, system-ui, sans-serif;
 }
 
-html {
-  scroll-behavior: smooth;
-}
+/* Smooth scrolling comes from Lenis (src/components/smooth-scroll.tsx); CSS
+   smooth scrolling would fight it, so it is not set here. */
 
 body {
   background: var(--background);
@@ -147,5 +146,21 @@ body {
     .link-line {
       transition: none;
     }
+  }
+}
+
+/* Case study and artwork tiles fade in as they scroll into view, like the work
+   grid on inakisoria.com (src/components/reveal-on-scroll.tsx adds .is-in). */
+[data-reveal] {
+  opacity: 0;
+  transition: opacity 0.35s ease;
+  transition-delay: calc(var(--d, 0) * 40ms);
+}
+[data-reveal].is-in {
+  opacity: 1;
+}
+@media (prefers-reduced-motion: reduce) {
+  [data-reveal] {
+    transition: none;
   }
 }

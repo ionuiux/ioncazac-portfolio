@@ -68,6 +68,11 @@ async function preparePage(site) {
     ),
   );
   await document.fonts.ready;
+  // Show the tiles that normally fade in as you scroll.
+  document.querySelectorAll("[data-reveal]").forEach((tile) => {
+    tile.style.transition = "none";
+    tile.classList.add("is-in");
+  });
   // Freeze the moving logo strip with Flovi first, just clear of the left edge fade (8%).
   document.querySelectorAll(".logo-track").forEach((track) =>
     track.getAnimations().forEach((animation) => {

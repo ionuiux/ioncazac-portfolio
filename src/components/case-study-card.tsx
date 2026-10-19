@@ -11,7 +11,7 @@ export function CaseStudyCard({
 }) {
   if (size === "large") {
     return (
-      <Link href={`/work/${study.slug}`} className="group block">
+      <Link href={`/work/${study.slug}`} className="group block" data-reveal>
         <div className="relative aspect-[4/3] overflow-hidden bg-subtle sm:aspect-[16/9]">
           <Cover study={study} sizes="100vw" priority />
         </div>
@@ -30,7 +30,7 @@ export function CaseStudyCard({
   }
 
   return (
-    <Link href={`/work/${study.slug}`} className="group block">
+    <Link href={`/work/${study.slug}`} className="group block" data-reveal>
       <div className="relative aspect-[4/3] overflow-hidden bg-subtle">
         <Cover study={study} sizes="(min-width: 640px) 50vw, 100vw" />
       </div>
