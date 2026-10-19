@@ -50,9 +50,6 @@ export default function Home() {
             <h1 className="text-5xl font-bold tracking-[-0.035em] sm:text-7xl lg:text-8xl">
               {profile.greeting} <span aria-hidden>👋</span>
             </h1>
-            <p className="mt-3 text-xl font-medium tracking-tight sm:mt-4 sm:text-2xl lg:text-3xl">
-              {profile.name} — {profile.title}
-            </p>
             <p className="mt-6 text-[17px] leading-relaxed text-muted sm:mt-8 lg:text-xl lg:leading-relaxed">{profile.intro}</p>
             <p className="mt-10 text-[14px] text-muted">Send me a message ↓</p>
             <a
