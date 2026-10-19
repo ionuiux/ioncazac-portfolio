@@ -17,10 +17,6 @@ export const profile = {
   links: [
     { label: "LinkedIn", href: "https://www.linkedin.com/in/ion-cazac/" },
     { label: "Dribbble", href: "https://dribbble.com/yvancross" },
-    {
-      label: "Figma demos",
-      href: "https://www.figma.com/design/OYIERKnZrp3LLdesaW68BV/Demo?node-id=46-46922",
-    },
   ],
 };
 

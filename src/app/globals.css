@@ -106,3 +106,20 @@ body {
     display: none;
   }
 }
+
+/* One look for every text button on the site (the email links keep their own big style).
+   In the components layer, so utilities like mt-3 still apply alongside it. */
+@layer components {
+  .link-button {
+    font-size: 14px;
+    font-weight: 500;
+    color: var(--foreground);
+    text-decoration-line: underline;
+    text-decoration-thickness: 1px;
+    text-underline-offset: 4px;
+    transition: color 150ms ease;
+  }
+  .link-button:hover {
+    color: var(--muted);
+  }
+}

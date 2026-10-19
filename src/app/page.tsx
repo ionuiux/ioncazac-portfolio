@@ -19,7 +19,7 @@ export default function Home() {
             href={profile.cv}
             target="_blank"
             rel="noreferrer"
-            className="font-medium underline decoration-1 underline-offset-4 transition-colors hover:text-muted"
+            className="link-button"
           >
             CV ↗
           </a>
@@ -27,7 +27,7 @@ export default function Home() {
             href={profile.linkedin}
             target="_blank"
             rel="noreferrer"
-            className="font-medium underline decoration-1 underline-offset-4 transition-colors hover:text-muted"
+            className="link-button"
           >
             LinkedIn ↗
           </a>
@@ -133,7 +133,7 @@ export default function Home() {
             href={dribbbleUrl}
             target="_blank"
             rel="noreferrer"
-            className="text-[15px] font-medium underline decoration-1 underline-offset-4 hover:decoration-2"
+            className="link-button"
           >
             See all on Dribbble ↗
           </a>
@@ -172,7 +172,7 @@ export default function Home() {
                 href={profile.recommendationsUrl}
                 target="_blank"
                 rel="noreferrer"
-                className="mt-3 text-[13px] text-muted underline decoration-1 underline-offset-4 transition-colors hover:text-foreground"
+                className="link-button mt-3"
               >
                 Read full on LinkedIn ↗
               </a>

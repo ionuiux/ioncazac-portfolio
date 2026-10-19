@@ -144,10 +144,10 @@ export default async function CaseStudyPage({ params }: PageProps<"/work/[slug]"
   return (
     <main className="site-container">
       <nav className="flex items-center justify-between py-6 text-[14px]">
-        <Link href="/" className="font-medium hover:text-muted">
+        <Link href="/" className="link-button">
           ← {profile.name}
         </Link>
-        <a href="#contact" className="text-muted hover:text-foreground">
+        <a href="#contact" className="link-button">
           Get in touch
         </a>
       </nav>
