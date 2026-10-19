@@ -169,7 +169,7 @@ export default function Home() {
                     href={profile.recommendationsUrl}
                     target="_blank"
                     rel="noreferrer"
-                    className="font-medium text-foreground underline transition-colors hover:text-muted"
+                    className="link-line font-medium text-foreground"
                   >
                     {t.name}
                   </a>{" "}

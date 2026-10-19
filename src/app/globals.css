@@ -114,12 +114,31 @@ body {
     font-size: 14px;
     font-weight: 500;
     color: var(--foreground);
-    text-decoration-line: underline;
-    text-decoration-thickness: 1px;
-    text-underline-offset: 4px;
-    transition: color 150ms ease;
   }
-  .link-button:hover {
-    color: var(--muted);
+
+  /* No underline at rest. On hover (or keyboard focus) a 1px line draws in from
+     the left; on the way out it slides off to the right. */
+  .link-button,
+  .link-line {
+    text-decoration: none;
+    padding-bottom: 2px;
+    background-image: linear-gradient(currentColor, currentColor);
+    background-repeat: no-repeat;
+    background-position: 100% 100%;
+    background-size: 0% 1px;
+    transition: background-size 400ms cubic-bezier(0.65, 0, 0.35, 1);
+  }
+  .link-button:hover,
+  .link-button:focus-visible,
+  .link-line:hover,
+  .link-line:focus-visible {
+    background-position: 0% 100%;
+    background-size: 100% 1px;
+  }
+  @media (prefers-reduced-motion: reduce) {
+    .link-button,
+    .link-line {
+      transition: none;
+    }
   }
 }
