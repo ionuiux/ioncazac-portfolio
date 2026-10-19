@@ -34,18 +34,23 @@ body {
   color: var(--background);
 }
 
-/* Page container: full width with a small side margin, like inakisoria.com. */
+/* Page container: full width with a small side margin, like inakisoria.com.
+   A solid scrollbar (a Mac with a mouse, Windows) sits inside the right margin
+   and makes it look wider, so the left margin gets the same extra width:
+   100vw - 100% is the scrollbar's width, and 0 when scrollbars overlay the page. */
 .site-container {
-  margin-inline: 20px;
+  --side: 20px;
+  margin-right: var(--side);
+  margin-left: calc(var(--side) + 100vw - 100%);
 }
 @media (max-width: 800px) {
   .site-container {
-    margin-inline: 12px;
+    --side: 12px;
   }
 }
 @media (max-width: 600px) {
   .site-container {
-    margin-inline: 8px;
+    --side: 8px;
   }
 }
 
