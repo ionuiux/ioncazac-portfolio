@@ -12,7 +12,7 @@ export default function Home() {
   return (
     <main>
       {/* Top bar */}
-      <header className="mx-auto flex max-w-6xl items-center justify-between gap-4 px-4 py-6 text-[14px] sm:px-6">
+      <header className="mx-auto flex max-w-7xl items-center justify-between gap-4 px-4 py-6 text-[14px] sm:px-6">
         <p className="text-muted">{profile.tagline}</p>
         <nav className="flex shrink-0 items-center gap-5">
           <a
@@ -35,31 +35,36 @@ export default function Home() {
       </header>
 
       {/* Intro */}
-      <section className="mx-auto flex max-w-xl flex-col items-center px-4 pt-10 pb-20 text-center sm:pt-16 sm:pb-24">
-        <Image
-          src="/ion.jpg"
-          alt={`Portrait of ${profile.name}`}
-          width={192}
-          height={192}
-          priority
-          className="size-24 rounded-full object-cover"
-        />
-        <h1 className="mt-8 text-5xl font-medium tracking-tight sm:text-6xl">
-          {profile.greeting} <span aria-hidden>👋</span>
-        </h1>
-        <p className="mt-3 text-[17px] font-medium">
-          {profile.name} — {profile.title}
-        </p>
-        <p className="mt-6 text-[17px] leading-relaxed text-muted text-balance">{profile.intro}</p>
-        <p className="mt-10 text-[14px] text-muted">Send me a message</p>
-        <a
-          href={`mailto:${profile.email}`}
-          className="mt-2 text-3xl font-medium tracking-tight underline decoration-2 underline-offset-[6px] transition-colors hover:text-muted sm:text-5xl sm:underline-offset-8"
-        >
-          {profile.email}
-        </a>
+      <section className="mx-auto max-w-7xl px-4 pt-8 pb-20 sm:px-6 sm:pt-14 sm:pb-24">
+        {/* Photo on the left, name and introduction on the right (stacked on phones). */}
+        <div className="flex flex-col gap-8 md:flex-row md:items-start md:gap-12 lg:gap-16">
+          <Image
+            src="/ion.jpg"
+            alt={`Portrait of ${profile.name}`}
+            width={512}
+            height={512}
+            priority
+            className="size-28 shrink-0 rounded-full object-cover sm:size-40 lg:size-64"
+          />
+          <div className="min-w-0 md:pt-2">
+            <h1 className="text-5xl font-bold tracking-[-0.035em] sm:text-7xl lg:text-8xl">
+              {profile.greeting} <span aria-hidden>👋</span>
+            </h1>
+            <p className="mt-3 text-xl font-medium tracking-tight sm:mt-4 sm:text-2xl lg:text-3xl">
+              {profile.name} — {profile.title}
+            </p>
+            <p className="mt-6 text-[17px] leading-relaxed text-muted sm:mt-8 lg:text-xl lg:leading-relaxed">{profile.intro}</p>
+            <p className="mt-10 text-[14px] text-muted">Send me a message</p>
+            <a
+              href={`mailto:${profile.email}`}
+              className="mt-2 inline-block text-3xl font-medium tracking-tight underline decoration-2 underline-offset-[6px] transition-colors hover:text-muted sm:text-5xl sm:underline-offset-8"
+            >
+              {profile.email}
+            </a>
+          </div>
+        </div>
 
-        <ul className="mt-16 grid w-full grid-cols-3 items-center gap-x-6 gap-y-12 lg:flex lg:w-[58rem] lg:max-w-[calc(100vw-4rem)] lg:justify-between lg:gap-x-10">
+        <ul className="mt-16 grid w-full grid-cols-3 items-center gap-x-6 gap-y-12 sm:mt-20 lg:flex lg:justify-between lg:gap-x-10">
           {clients.map((client) => (
             <li key={client.name} className="flex justify-center">
               <Image
@@ -78,13 +83,13 @@ export default function Home() {
       {/* Case studies */}
       <section id="work" className="border-t border-line px-4 pt-20 pb-24 sm:px-6 sm:pt-24">
         <h2 className="text-center text-4xl font-medium tracking-tight sm:text-6xl">Case Studies</h2>
-        <div className="mx-auto mt-12 max-w-6xl space-y-10 sm:mt-16 sm:space-y-14">
+        <div className="mx-auto mt-12 max-w-7xl space-y-10 sm:mt-16 sm:space-y-14">
           {featured.map((study) => (
             <CaseStudyCard key={study.slug} study={study} size="large" />
           ))}
         </div>
         {more.length > 0 && (
-          <div className="mx-auto mt-10 grid max-w-6xl gap-x-6 gap-y-10 sm:mt-14 sm:grid-cols-2">
+          <div className="mx-auto mt-10 grid max-w-7xl gap-x-6 gap-y-10 sm:mt-14 sm:grid-cols-2">
             {more.map((study) => (
               <CaseStudyCard key={study.slug} study={study} />
             ))}
@@ -95,7 +100,7 @@ export default function Home() {
       {/* Artworks */}
       <section id="artworks" className="border-t border-line px-4 pt-20 pb-24 sm:px-6 sm:pt-24">
         <h2 className="sr-only">Artworks</h2>
-        <ul className="mx-auto grid max-w-6xl grid-cols-2 gap-x-4 gap-y-8 sm:gap-x-6 lg:grid-cols-4">
+        <ul className="mx-auto grid max-w-7xl grid-cols-2 gap-x-4 gap-y-8 sm:gap-x-6 lg:grid-cols-4">
           {artworks.map((art, i) => (
             <li key={art.href} className={i < 2 ? "lg:col-span-2" : ""}>
               <a href={art.href} target="_blank" rel="noreferrer" className="group block">
@@ -130,7 +135,7 @@ export default function Home() {
       {/* Recommendations */}
       <section id="recommendations" className="border-t border-line px-4 pt-20 pb-24 sm:px-6 sm:pt-24">
         <h2 className="text-center text-4xl font-medium tracking-tight sm:text-6xl">Recommendations</h2>
-        <ul className="mx-auto mt-14 grid max-w-6xl gap-x-10 gap-y-16 sm:mt-20 sm:grid-cols-2 lg:grid-cols-4">
+        <ul className="mx-auto mt-14 grid max-w-7xl gap-x-10 gap-y-16 sm:mt-20 sm:grid-cols-2 lg:grid-cols-4">
           {testimonials.map((t) => (
             <li key={t.name} className="flex flex-col items-center text-center">
               <Image

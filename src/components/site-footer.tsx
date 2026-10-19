@@ -34,7 +34,7 @@ export async function SiteFooter() {
           </li>
         ))}
       </ul>
-      <div className="mx-auto mt-24 flex max-w-6xl items-center justify-between text-[12px] text-muted">
+      <div className="mx-auto mt-24 flex max-w-7xl items-center justify-between text-[12px] text-muted">
         <p>© {year} {profile.name}. All rights reserved.</p>
         <a href="#top" className="hover:text-foreground">
           Back to top ↑

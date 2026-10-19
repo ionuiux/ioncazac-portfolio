@@ -46,7 +46,7 @@ export async function generateMetadata({ params }: PageProps<"/work/[slug]">): P
 function CaseFigure({ image, accent }: { image: CaseImage; accent: string }) {
   const panel = { background: `linear-gradient(160deg, ${accent}24, ${accent}0f)` };
   const half = !image.wide;
-  const sizes = half ? "(min-width: 640px) 50vw, 100vw" : "(min-width: 1152px) 1152px, 100vw";
+  const sizes = half ? "(min-width: 640px) 50vw, 100vw" : "(min-width: 1280px) 1280px, 100vw";
 
   let content;
   if (image.frame === "phones" && image.screens?.length) {
@@ -143,7 +143,7 @@ export default async function CaseStudyPage({ params }: PageProps<"/work/[slug]"
 
   return (
     <main>
-      <nav className="mx-auto flex max-w-6xl items-center justify-between px-4 py-6 text-[14px] sm:px-6">
+      <nav className="mx-auto flex max-w-7xl items-center justify-between px-4 py-6 text-[14px] sm:px-6">
         <Link href="/" className="font-medium hover:text-muted">
           ← {profile.name}
         </Link>
@@ -169,15 +169,15 @@ export default async function CaseStudyPage({ params }: PageProps<"/work/[slug]"
         ))}
       </dl>
 
-      <div className="mx-auto mt-14 max-w-6xl px-4 sm:px-6">
+      <div className="mx-auto mt-14 max-w-7xl px-4 sm:px-6">
         <div className="relative aspect-[4/3] overflow-hidden rounded-2xl bg-subtle sm:aspect-[16/9]">
-          <Cover study={study} sizes="(min-width: 1152px) 1152px, 100vw" priority />
+          <Cover study={study} sizes="(min-width: 1280px) 1280px, 100vw" priority />
         </div>
       </div>
 
       <article className="pt-8 pb-16">
         {study.sections.map((section) => (
-          <section key={section.heading} className="mx-auto mt-16 max-w-6xl px-4 sm:mt-24 sm:px-6">
+          <section key={section.heading} className="mx-auto mt-16 max-w-7xl px-4 sm:mt-24 sm:px-6">
             <div className="mx-auto grid max-w-4xl gap-4 md:grid-cols-[200px_1fr] md:gap-12">
               <h2 className="text-[15px] font-medium">{section.heading}</h2>
               <div className="space-y-4 text-[17px] leading-relaxed text-neutral-600">
@@ -212,7 +212,7 @@ export default async function CaseStudyPage({ params }: PageProps<"/work/[slug]"
       {next.slug !== study.slug && (
         <section className="border-t border-line px-4 pt-16 pb-24 sm:px-6">
           <p className="text-center text-[13px] text-muted">Next case study</p>
-          <div className="mx-auto mt-6 max-w-6xl">
+          <div className="mx-auto mt-6 max-w-7xl">
             <CaseStudyCard study={next} size="large" />
           </div>
         </section>

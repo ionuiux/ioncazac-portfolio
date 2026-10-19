@@ -13,7 +13,7 @@ export function CaseStudyCard({
     return (
       <Link href={`/work/${study.slug}`} className="group block">
         <div className="relative aspect-[4/3] overflow-hidden rounded-2xl bg-subtle sm:aspect-[16/9]">
-          <Cover study={study} sizes="(min-width: 1152px) 1152px, 100vw" priority />
+          <Cover study={study} sizes="(min-width: 1280px) 1280px, 100vw" priority />
         </div>
         <div className="mt-4 flex items-start justify-between gap-6">
           <p className="text-[15px] leading-snug">
