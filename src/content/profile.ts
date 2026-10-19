@@ -79,13 +79,6 @@ export const testimonials: {
     href: "https://www.linkedin.com/in/daniel-bj%C3%B6rk-2a4295149/",
   },
   {
-    quote: "Any web, including responsive version, and mobile, specifically iOS apps are treated like a piece of art by Ion.",
-    name: "Vadim Armăsaru",
-    role: "Project Coordination & Operations",
-    photo: "/people/vadim-armasaru.jpg",
-    href: "https://www.linkedin.com/in/vadimarmasaru/",
-  },
-  {
     quote: "I wish there were more designers like Ion in this industry. Positive, loyal, innovative, the list goes on.",
     name: "Dan Taub",
     role: "Lead Designer",
@@ -94,27 +87,12 @@ export const testimonials: {
     href: "https://www.linkedin.com/in/dantaub/",
   },
   {
-    quote: "Each time the client was extremely happy and impressed with Ion’s work.",
-    name: "Jamie Maloney",
-    role: "VP, Client Partner",
-    company: "Digital Silk",
-    photo: "/people/jamie-maloney.jpg",
-    href: "https://www.linkedin.com/in/jamiemaloneymba/",
-  },
-  {
     quote: "I found him to be both professional and reliable, which made him a pleasure to work with.",
     name: "Gabriel Shaoolian",
     role: "CEO & Founder",
     company: "Digital Silk",
     photo: "/people/gabriel-shaoolian.jpg",
     href: "https://www.linkedin.com/in/gabrielshaoolian/",
-  },
-  {
-    quote: "More than just a UX graphics designer. Product oriented, always learning and polishing his skills.",
-    name: "Terentie Carp",
-    role: "IT Delivery Manager",
-    photo: "/people/terentie-carp.jpg",
-    href: "https://www.linkedin.com/in/terrencecarp/",
   },
 ];
 

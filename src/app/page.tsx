@@ -142,10 +142,14 @@ export default function Home() {
 
       {/* Recommendations */}
       <section id="recommendations" className="border-t border-line pt-20 pb-24 sm:pt-24">
-        <h2 className="text-center text-4xl font-medium tracking-tight sm:text-6xl">Recommendations</h2>
-        <ul className="mt-14 grid gap-x-10 gap-y-16 sm:mt-20 sm:grid-cols-2 lg:grid-cols-4">
+        <h2 className="sr-only">Recommendations</h2>
+        {/* Centred rows, so an odd number of people never leaves one stranded on the left. */}
+        <ul className="flex flex-wrap justify-center gap-x-10 gap-y-16">
           {testimonials.map((t) => (
-            <li key={t.name} className="flex flex-col items-center text-center">
+            <li
+              key={t.name}
+              className="flex w-full flex-col items-center text-center sm:w-[calc((100%-40px)/2)] lg:w-[calc((100%-80px)/3)] xl:w-[calc((100%-160px)/5)]"
+            >
               <Image
                 src={t.photo}
                 alt={t.name}
