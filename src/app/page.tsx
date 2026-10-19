@@ -181,11 +181,11 @@ export default function Home() {
       {/* Experience */}
       <section id="experience" className="border-t border-line pt-20 pb-24 sm:pt-24">
         <h2 className="text-center text-4xl font-medium tracking-tight sm:text-6xl">Experience</h2>
-        <ul className="mx-auto mt-12 max-w-3xl divide-y divide-line border-y border-line sm:mt-16">
+        <ul className="mt-12 divide-y divide-line border-y border-line sm:mt-16">
           {experience.map((job) => (
             <li
               key={`${job.company}-${job.dates}`}
-              className="grid grid-cols-[minmax(0,1fr)_7rem] gap-x-4 py-4 text-[15px] sm:grid-cols-[minmax(0,1.1fr)_minmax(0,1.4fr)_minmax(0,1fr)_7rem]"
+              className="grid grid-cols-[minmax(0,1fr)_7rem] gap-x-4 py-4 text-[15px] sm:grid-cols-[minmax(0,1.1fr)_minmax(0,1.4fr)_minmax(0,1fr)_7rem] lg:grid-cols-4"
             >
               <span className="font-medium">{job.company}</span>
               <span className="order-3 col-span-2 text-muted sm:order-none sm:col-span-1">{job.role}</span>
