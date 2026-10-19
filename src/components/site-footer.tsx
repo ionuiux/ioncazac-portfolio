@@ -16,7 +16,7 @@ export async function SiteFooter() {
       </p>
       <a
         href={`mailto:${profile.email}`}
-        className="mt-8 inline-block text-2xl font-medium tracking-tight underline decoration-2 underline-offset-[6px] transition-colors hover:text-muted sm:text-4xl"
+        className="link-line mt-8 inline-block text-2xl font-medium tracking-tight [--line:2px] sm:text-4xl"
       >
         {profile.email}
       </a>

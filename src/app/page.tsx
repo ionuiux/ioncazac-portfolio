@@ -57,7 +57,7 @@ export default function Home() {
             <p className="mt-10 text-[14px] text-muted">Send me a message ↓</p>
             <a
               href={`mailto:${profile.email}`}
-              className="mt-2 inline-block text-3xl font-medium tracking-tight underline decoration-2 underline-offset-[6px] transition-colors hover:text-muted sm:text-5xl sm:underline-offset-8"
+              className="link-line mt-2 inline-block text-3xl font-medium tracking-tight [--line:2px] sm:text-5xl"
             >
               {profile.email}
             </a>
