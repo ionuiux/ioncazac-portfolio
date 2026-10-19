@@ -143,39 +143,39 @@ export default function Home() {
       {/* Recommendations */}
       <section id="recommendations" className="border-t border-line pt-20 pb-24 sm:pt-24">
         <h2 className="sr-only">Recommendations</h2>
-        {/* Centred rows, so an odd number of people never leaves one stranded on the left. */}
-        <ul className="flex flex-wrap justify-center gap-x-10 gap-y-16">
+        {/* Laid out like inakisoria.com: photo + company logo, quote, then "Name · Role Company". */}
+        <ul className="flex flex-wrap justify-center gap-y-16 sm:gap-y-20">
           {testimonials.map((t) => (
-            <li
-              key={t.name}
-              className="flex w-full flex-col items-center text-center sm:w-[calc((100%-40px)/2)] lg:w-[calc((100%-80px)/3)] xl:w-[calc((100%-160px)/5)]"
-            >
-              <Image
-                src={t.photo}
-                alt={t.name}
-                width={96}
-                height={96}
-                className="size-12 rounded-full object-cover ring-1 ring-black/5"
-              />
-              <blockquote className="mt-5 max-w-sm text-lg leading-snug tracking-tight text-balance">
-                “{t.quote}”
-              </blockquote>
-              <p className="mt-4 text-[13px] text-muted">
-                <a href={t.href} target="_blank" rel="noreferrer" className="font-medium text-foreground hover:underline">
-                  {t.name}
-                </a>
-                <br />
-                {t.role}
-                {t.company && <> {t.company}</>}
-              </p>
-              <a
-                href={profile.recommendationsUrl}
-                target="_blank"
-                rel="noreferrer"
-                className="link-button mt-3"
-              >
-                Read full on LinkedIn ↗
-              </a>
+            <li key={t.name} className="w-full px-4 text-center sm:w-1/2 lg:w-1/3">
+              <figure className="mx-auto max-w-[320px]">
+                <div className="flex items-center justify-center">
+                  <Image src={t.photo} alt="" width={100} height={100} className="size-[50px] rounded-full object-cover" />
+                  {/* The white padding cuts a thin gap where the logo overlaps the photo. */}
+                  <span className="relative -my-[3px] -ml-2.5 rounded-full bg-white p-[3px]">
+                    <Image
+                      src={t.logo}
+                      alt=""
+                      width={100}
+                      height={100}
+                      className="size-[50px] rounded-full object-cover ring-1 ring-black/5"
+                    />
+                  </span>
+                </div>
+                <blockquote className="mt-10 text-base leading-[1.3] tracking-[-0.3px] sm:text-lg md:text-[19px]">
+                  “{t.quote}”
+                </blockquote>
+                <figcaption className="mt-6 text-[13px] leading-[1.5] text-muted">
+                  <a
+                    href={profile.recommendationsUrl}
+                    target="_blank"
+                    rel="noreferrer"
+                    className="font-medium text-foreground underline transition-colors hover:text-muted"
+                  >
+                    {t.name}
+                  </a>{" "}
+                  · {t.role} {t.company}
+                </figcaption>
+              </figure>
             </li>
           ))}
         </ul>

@@ -38,15 +38,15 @@ export const clients = [
   { name: "ShareVision", logo: "/logos/sharevision.svg", width: 189, height: 40, display: 28 },
 ];
 
-// Recommendations from LinkedIn. Photos live in /public/people/.
-// `href` is the person's own LinkedIn profile.
+// Recommendations from LinkedIn. Photos live in /public/people/, company
+// logos in /public/companies/. Each name links to profile.recommendationsUrl.
 export const testimonials: {
   quote: string;
   name: string;
   role: string;
-  company?: string;
+  company: string;
   photo: string;
-  href: string;
+  logo: string;
 }[] = [
   {
     quote:
@@ -55,7 +55,7 @@ export const testimonials: {
     role: "Managed Ion at",
     company: "Digma",
     photo: "/people/roni-dover.jpg",
-    href: "https://www.linkedin.com/in/ronidover/",
+    logo: "/companies/digma.jpg",
   },
   {
     quote:
@@ -64,7 +64,7 @@ export const testimonials: {
     role: "CTO & Co-Founder",
     company: "ORB Innovations",
     photo: "/people/thomas-quinn.jpg",
-    href: "https://www.linkedin.com/in/thomasquinn93/",
+    logo: "/companies/orb.jpg",
   },
   {
     quote: "Ion not only grasped my concept but also took it to the next level.",
@@ -72,7 +72,7 @@ export const testimonials: {
     role: "CEO & Founder",
     company: "Reviall",
     photo: "/people/daniel-bjork.jpg",
-    href: "https://www.linkedin.com/in/daniel-bj%C3%B6rk-2a4295149/",
+    logo: "/companies/reviall.jpg",
   },
   {
     quote: "I wish there were more designers like Ion in this industry. Positive, loyal, innovative, the list goes on.",
@@ -80,7 +80,7 @@ export const testimonials: {
     role: "Lead Designer",
     company: "Gala Games",
     photo: "/people/dan-taub.jpg",
-    href: "https://www.linkedin.com/in/dantaub/",
+    logo: "/companies/gala.jpg",
   },
   {
     quote: "I found him to be both professional and reliable, which made him a pleasure to work with.",
@@ -88,7 +88,7 @@ export const testimonials: {
     role: "CEO & Founder",
     company: "Digital Silk",
     photo: "/people/gabriel-shaoolian.jpg",
-    href: "https://www.linkedin.com/in/gabrielshaoolian/",
+    logo: "/companies/digital-silk.jpg",
   },
 ];
 
