@@ -91,7 +91,8 @@ export const caseStudies: CaseStudy[] = [
     team: "Product, engineering, 4 markets",
     platform: "Web app",
     accent: ["#1b1a4b", "#5153c0"],
-    mockup: { main: flovi.dashboard, left: flovi.offices, right: flovi.invoices },
+    cover: "/work/flovi/cover.jpg",
+    coverPosition: "60% 0%",
     sections: [
       {
         heading: "The challenge",
