@@ -54,7 +54,7 @@ export default function Home() {
               {profile.name} — {profile.title}
             </p>
             <p className="mt-6 text-[17px] leading-relaxed text-muted sm:mt-8 lg:text-xl lg:leading-relaxed">{profile.intro}</p>
-            <p className="mt-10 text-[14px] text-muted">Send me a message</p>
+            <p className="mt-10 text-[14px] text-muted">Send me a message ↓</p>
             <a
               href={`mailto:${profile.email}`}
               className="mt-2 inline-block text-3xl font-medium tracking-tight underline decoration-2 underline-offset-[6px] transition-colors hover:text-muted sm:text-5xl sm:underline-offset-8"
