@@ -18,7 +18,7 @@ export default function Home() {
         <p className="text-muted">{profile.tagline}</p>
         <nav className="flex shrink-0 items-center gap-5">
           <a href={profile.cv} download className="link-button">
-            CV ↗
+            Download CV
           </a>
           <a
             href={profile.linkedin}
