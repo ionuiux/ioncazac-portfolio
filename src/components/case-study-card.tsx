@@ -2,9 +2,9 @@ import Link from "next/link";
 import type { CaseStudy } from "@/content/case-studies";
 import { Cover } from "@/components/cover";
 
-// Card images are 600px (large) and 500px (small) tall on laptops and up; on
-// tablets they keep that same shape (7:3 and 11:8) scaled to the width, and on
-// phones, where every card is full width, both use 11:8.
+// Cards sit two per row from tablet width up. Their images are 600px (large) and
+// 500px (small) tall on laptops and up; on smaller screens they keep that same
+// shape (8:7 and 11:8) scaled to the width.
 export function CaseStudyCard({
   study,
   size = "small",
@@ -15,8 +15,8 @@ export function CaseStudyCard({
   if (size === "large") {
     return (
       <Link href={`/work/${study.slug}`} className="group block" data-reveal>
-        <div className="relative aspect-[11/8] overflow-hidden bg-subtle sm:aspect-[7/3] lg:aspect-auto lg:h-[600px]">
-          <Cover study={study} sizes="100vw" priority />
+        <div className="relative aspect-[8/7] overflow-hidden bg-subtle lg:aspect-auto lg:h-[600px]">
+          <Cover study={study} sizes="(min-width: 640px) 50vw, 100vw" priority />
         </div>
         <div className="mt-4 flex items-start justify-between gap-6">
           <p className="text-[15px] leading-snug">

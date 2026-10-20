@@ -288,8 +288,7 @@ export const caseStudies: CaseStudy[] = [
     team: "Product, iOS & web engineering, marketing",
     platform: "iOS (native), Web",
     accent: ["#05211b", "#25b48e"],
-    cover: "/work/profit/cover.webp",
-    coverFullWidth: { width: 1731, height: 909, background: "#081014" },
+    cover: "/work/profit/discover-analyze-profit.webp",
     sections: [
       {
         heading: "The opportunity",

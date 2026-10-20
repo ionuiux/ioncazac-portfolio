@@ -90,7 +90,7 @@ export default function Home() {
       {/* Case studies */}
       <section id="work" className="border-t border-line pt-20 pb-24 sm:pt-24">
         <h2 className="text-center text-4xl font-medium tracking-tight sm:text-6xl">Case Studies</h2>
-        <div className="mt-12 space-y-10 sm:mt-16 sm:space-y-14">
+        <div className="mt-12 grid gap-x-6 gap-y-10 sm:mt-16 sm:grid-cols-2">
           {featured.map((study) => (
             <CaseStudyCard key={study.slug} study={study} size="large" />
           ))}
