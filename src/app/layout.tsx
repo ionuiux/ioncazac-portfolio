@@ -1,6 +1,7 @@
 import type { Metadata } from "next";
 import { Inter } from "next/font/google";
 import { Analytics } from "@vercel/analytics/next";
+import { SpeedInsights } from "@vercel/speed-insights/next";
 import { SmoothScroll } from "@/components/smooth-scroll";
 import "lenis/dist/lenis.css";
 import "./globals.css";
@@ -47,6 +48,8 @@ export default function RootLayout({ children }: LayoutProps<"/">) {
         {children}
         {/* Vercel Web Analytics: cookie-free visit counts, see the Analytics tab in Vercel. */}
         <Analytics />
+        {/* Vercel Speed Insights: real-visitor page speed (Core Web Vitals), see the Speed Insights tab in Vercel. */}
+        <SpeedInsights />
       </body>
     </html>
   );
