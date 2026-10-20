@@ -55,6 +55,10 @@ export type CaseStudy = {
   cover?: string;
   // Which part of the cover image stays visible when it is cropped, e.g. "65% center".
   coverPosition?: string;
+  // For a cover wider than its frame: show its full width, centred vertically,
+  // and fade its bottom edge into `background` (the image's own background
+  // colour) instead of cropping the sides. Needs the image's size.
+  coverFullWidth?: { width: number; height: number; background: string };
   mockup?: { main: Screen; left?: Screen; right?: Screen; device?: "browser" | "phone" };
   sections: CaseSection[];
 };
@@ -284,7 +288,8 @@ export const caseStudies: CaseStudy[] = [
     team: "Product, iOS & web engineering, marketing",
     platform: "iOS (native), Web",
     accent: ["#05211b", "#25b48e"],
-    mockup: { device: "phone", main: profit.discover, left: profit.watchlist, right: profit.arena },
+    cover: "/work/profit/cover.webp",
+    coverFullWidth: { width: 1731, height: 909, background: "#081014" },
     sections: [
       {
         heading: "The opportunity",

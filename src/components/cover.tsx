@@ -81,6 +81,24 @@ export function Cover({
     );
   }
 
+  if (study.cover && study.coverFullWidth) {
+    const { width, height, background } = study.coverFullWidth;
+    return (
+      <div className="absolute inset-0 flex items-center overflow-hidden" style={{ background }}>
+        <Image
+          src={study.cover}
+          alt={`${study.client} — ${study.title}`}
+          width={width}
+          height={height}
+          sizes={sizes}
+          priority={priority}
+          className="h-auto w-full transition-transform duration-700 ease-out group-hover:scale-[1.03]"
+          style={{ maskImage: "linear-gradient(to bottom, black 65%, transparent)" }}
+        />
+      </div>
+    );
+  }
+
   if (study.cover) {
     return (
       <Image
