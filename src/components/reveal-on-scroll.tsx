@@ -1,11 +1,14 @@
 "use client";
 
 import { useEffect } from "react";
+import { usePathname } from "next/navigation";
 
 // Tiles marked `data-reveal` fade in as they scroll into view, like the work grid
 // on inakisoria.com: each one waits until its image has loaded, and tiles that
 // arrive together are staggered 40ms apart. The fade itself is in globals.css.
+// Rendered on every page that has tiles; it re-checks on each page change.
 export function RevealOnScroll() {
+  const pathname = usePathname();
   useEffect(() => {
     const tiles = [...document.querySelectorAll<HTMLElement>("[data-reveal]:not(.is-in)")];
     tiles.forEach((tile) => {
@@ -31,7 +34,7 @@ export function RevealOnScroll() {
     );
     tiles.forEach((tile) => observer.observe(tile));
     return () => observer.disconnect();
-  }, []);
+  }, [pathname]);
 
   return null;
 }

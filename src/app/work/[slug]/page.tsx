@@ -6,6 +6,7 @@ import { CaseStudyCard } from "@/components/case-study-card";
 import { BrowserFrame } from "@/components/browser-frame";
 import { Cover } from "@/components/cover";
 import { PhoneFrame } from "@/components/phone-frame";
+import { RevealOnScroll } from "@/components/reveal-on-scroll";
 import { SiteFooter } from "@/components/site-footer";
 import { caseStudies, getCaseStudy, type CaseImage } from "@/content/case-studies";
 import { profile } from "@/content/profile";
@@ -143,6 +144,7 @@ export default async function CaseStudyPage({ params }: PageProps<"/work/[slug]"
 
   return (
     <main className="site-container">
+      <RevealOnScroll />
       <nav className="flex items-center justify-between py-6 text-[14px]">
         <Link href="/" className="link-button">
           ← {profile.name}
