@@ -178,6 +178,21 @@ export default async function CaseStudyPage({ params }: PageProps<"/work/[slug]"
       </div>
 
       <article className="pt-8 pb-16">
+        {study.overview && (
+          <dl className="mx-auto mt-16 grid max-w-4xl gap-6 bg-subtle p-6 sm:mt-24 sm:grid-cols-3 sm:gap-8 sm:p-8">
+            {[
+              { label: "The problem", text: study.overview.problem },
+              { label: "Key insight", text: study.overview.insight },
+              { label: "The impact", text: study.overview.impact },
+            ].map((item) => (
+              <div key={item.label}>
+                <dt className="text-[13px] text-muted">{item.label}</dt>
+                <dd className="mt-2 text-[16px] leading-relaxed">{item.text}</dd>
+              </div>
+            ))}
+          </dl>
+        )}
+
         {study.sections.map((section) => (
           <section key={section.heading} className="mt-16 sm:mt-24">
             <div className="mx-auto grid max-w-4xl gap-4 md:grid-cols-[200px_1fr] md:gap-12">
@@ -198,6 +213,36 @@ export default async function CaseStudyPage({ params }: PageProps<"/work/[slug]"
                   </div>
                 ))}
               </dl>
+            )}
+
+            {section.insights && (
+              <ol className="mx-auto mt-10 grid max-w-4xl gap-4 sm:grid-cols-2">
+                {section.insights.map((insight, i) => (
+                  <li key={insight.title} className="bg-subtle p-6">
+                    <p className="text-[13px] text-muted tabular-nums">Insight {String(i + 1).padStart(2, "0")}</p>
+                    <h3 className="mt-3 text-[17px] font-medium">{insight.title}</h3>
+                    <p className="mt-2 text-[15px] leading-relaxed text-neutral-600">{insight.body}</p>
+                  </li>
+                ))}
+              </ol>
+            )}
+
+            {section.decisions && (
+              <ol className="mx-auto mt-10 max-w-4xl divide-y divide-line border-y border-line">
+                {section.decisions.map((decision, i) => (
+                  <li key={decision.problem} className="grid gap-3 py-6 md:grid-cols-[200px_1fr_1fr] md:gap-12">
+                    <p className="text-[13px] text-muted tabular-nums">{String(i + 1).padStart(2, "0")}</p>
+                    <div>
+                      <p className="text-[13px] text-muted">Problem</p>
+                      <p className="mt-1 text-[16px] leading-relaxed">{decision.problem}</p>
+                    </div>
+                    <div>
+                      <p className="text-[13px] text-muted">What I did</p>
+                      <p className="mt-1 text-[16px] leading-relaxed text-neutral-600">{decision.solution}</p>
+                    </div>
+                  </li>
+                ))}
+              </ol>
             )}
 
             {section.images && (

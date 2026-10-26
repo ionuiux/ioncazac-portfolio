@@ -36,6 +36,10 @@ export type CaseSection = {
   body: string[];
   images?: CaseImage[];
   metrics?: { value: string; label: string }[];
+  // Research findings, shown as numbered cards.
+  insights?: { title: string; body: string }[];
+  // Problem-solving: each problem paired with what was done about it.
+  decisions?: { problem: string; solution: string }[];
 };
 
 export type CaseStudy = {
@@ -45,6 +49,8 @@ export type CaseStudy = {
   category: string;
   year: string;
   summary: string;
+  // The story in three lines, shown at the top of the case study.
+  overview?: { problem: string; insight: string; impact: string };
   role: string;
   timeline: string;
   team: string;
@@ -90,6 +96,14 @@ export const caseStudies: CaseStudy[] = [
     year: "2025",
     summary:
       "I redesigned Flovi’s customer portal and unified it across four markets. The result: 30% more customers, and reservations that take about 20 seconds to book — 20% faster than before.",
+    overview: {
+      problem:
+        "Four markets, four versions of the same portal. Booking a transfer — the task customers repeat most — was slow, and every new feature had to be built four times.",
+      insight:
+        "The markets didn’t need different products. What really changed between them — currency, VAT, office rules — was content, not screens.",
+      impact:
+        "30% more customers, bookings in about 20 seconds — 20% faster — and one product for the team to improve instead of four.",
+    },
     role: "Senior Product Designer",
     timeline: "Apr 2025 – Oct 2026",
     team: "Product, engineering, 4 markets",
@@ -99,7 +113,7 @@ export const caseStudies: CaseStudy[] = [
     coverPosition: "60% 0%",
     sections: [
       {
-        heading: "The challenge",
+        heading: "The problem",
         body: [
           "Flovi moves cars for rental and fleet companies: a professional driver picks a car up in one place and delivers it to another. Customers book and follow those transfers in the Flovi customer portal.",
           "As Flovi grew market by market, the portal grew with it. Each market ended up with its own version — different layouts, different words for the same things, and features that existed in one country but not in the next. Booking a transfer, the task customers do most, took longer than it should. And every new feature had to be designed and built more than once.",
@@ -109,6 +123,54 @@ export const caseStudies: CaseStudy[] = [
         heading: "My role",
         body: [
           "I led design for the customer portal end to end: auditing the existing portals, defining one structure for every market, building a shadcn-based design system together with engineering, and designing the core flows. I also brought AI tools into our workflow so we could explore and prototype ideas much faster.",
+        ],
+      },
+      {
+        heading: "Research and insights",
+        body: [
+          "Before designing anything, I audited all four portals side by side and mapped every step of the booking flow in each one. I went through the questions customers kept bringing to support and operations, and looked at how finance teams worked with invoices at the end of each billing cycle.",
+        ],
+        insights: [
+          {
+            title: "Four portals, one job",
+            body: "The portals used different words, layouts and steps for the same tasks. Only a few differences were real business needs — currency, VAT, office rules and opening hours. The rest was history.",
+          },
+          {
+            title: "Booking repeated what Flovi already knew",
+            body: "Customers re-entered details the system already had, like office addresses and opening hours, on every single reservation.",
+          },
+          {
+            title: "“Where is my car?”",
+            body: "Many customer calls were simply to ask where a transfer was. The information existed — the portal just didn’t show it.",
+          },
+          {
+            title: "Finance wanted no surprises",
+            body: "Costs only became clear when the invoice arrived. Finance teams wanted to see the total building up during the cycle, so they could plan for it.",
+          },
+        ],
+      },
+      {
+        heading: "How I solved it",
+        body: [
+          "Each insight turned into a design decision — starting with the foundation, then the tasks customers do most.",
+        ],
+        decisions: [
+          {
+            problem: "Four portals drifting apart, with every feature built four times.",
+            solution: "One portal on a shared, shadcn-based design system. Market differences live in content and settings, so a change is designed and built once and ships everywhere.",
+          },
+          {
+            problem: "Booking a transfer took too long.",
+            solution: "A form that asks one thing at a time, fills in pickup and drop-off windows from office hours, and keeps a live summary next to it.",
+          },
+          {
+            problem: "Customers had to call to find out where their car was.",
+            solution: "A live map on Home with status filters, and a driver card with route progress and a live ETA.",
+          },
+          {
+            problem: "Costs were a surprise at the end of every cycle.",
+            solution: "The current billing cycle — trips so far, amount accrued and an estimated total — always one click away.",
+          },
         ],
       },
       {
@@ -152,9 +214,10 @@ export const caseStudies: CaseStudy[] = [
         ],
       },
       {
-        heading: "Results",
+        heading: "Impact",
         body: [
-          "One portal gave every market the same, faster experience — and gave the team one product to improve instead of four.",
+          "For customers, one portal means the same, faster experience in every market: a reservation takes about 20 seconds, 20% faster than before, and every transfer can be followed live without picking up the phone.",
+          "For the business, the redesign and the move to one platform helped Flovi grow its customer base by 30%. And for the team, a new feature is now designed and built once for all four markets, instead of four times.",
         ],
         metrics: [
           { value: "+30%", label: "More customers" },
@@ -178,6 +241,14 @@ export const caseStudies: CaseStudy[] = [
     year: "2023",
     summary:
       "ORB's custom-fit smart mouthguard records 20+ performance and wellness metrics. As ORB's first UX designer, I designed the companion app that turns that data into one connected view — from pairing the mouthguard to live sessions, session reports and history.",
+    overview: {
+      problem:
+        "A smart mouthguard records 20+ metrics in every session, but athletes and coaches wanted answers, not sensor data — and the hardware was still in development.",
+      insight:
+        "A number only means something in context: the sport, the type of session, how hard it felt and the athlete’s own history.",
+      impact:
+        "A companion app that turns every session into three clear views, built on a design system that gave ORB “a great start and a strong direction”, in its CTO’s words.",
+    },
     role: "Senior Product Designer",
     timeline: "Jun – Dec 2023",
     team: "Founders, engineering, data science",
@@ -194,7 +265,7 @@ export const caseStudies: CaseStudy[] = [
         ],
       },
       {
-        heading: "The challenge",
+        heading: "The problem",
         body: [
           "This was a product with no reference point. The hardware was still in development, the data came from a device inside an athlete's mouth, and the people using it — athletes and coaches — wanted answers, not raw sensor data.",
           "The app had to make a technical product feel simple: get a custom-made mouthguard to the athlete, pair it reliably, record a session with a weak signal or a low battery, and turn thousands of data points into a few numbers that actually mean something.",
@@ -205,6 +276,58 @@ export const caseStudies: CaseStudy[] = [
         body: [
           "I joined ORB as its first UX designer and designed the app end to end: user research and testing with athletes, flows and wireframes, interactive prototypes, the visual design and the design system.",
           "I worked closely with the founders, developers and data scientists, so every screen matched what the hardware and the algorithms could really deliver — and adjusted quickly when they changed.",
+        ],
+      },
+      {
+        heading: "Research and insights",
+        body: [
+          "With no similar product to learn from, the research came from the people and the hardware. I ran interviews and usability tests with athletes, talked to coaches about how they review a session, and worked through real session data and the device’s limits with the engineers and data scientists.",
+        ],
+        insights: [
+          {
+            title: "Answers, not data",
+            body: "Athletes didn’t want to read sensor traces. They wanted to know how hard a session was, how they moved, and whether they took a hit.",
+          },
+          {
+            title: "Context changes the meaning",
+            body: "The same heart rate means something different in training and in a match, or when an injury hasn’t fully healed. Every number needed the story of the session around it.",
+          },
+          {
+            title: "The device won’t always be reachable",
+            body: "A mouthguard in a moving athlete’s mouth loses signal and battery. The app had to expect that, not treat it as an error.",
+          },
+          {
+            title: "The journey starts before the first session",
+            body: "Every mouthguard is custom-made from an impression, so the first experience is waiting for it. People needed to know what happens next, and when.",
+          },
+        ],
+      },
+      {
+        heading: "How I solved it",
+        body: [
+          "Each insight shaped a design decision — from how the data is organised to how the app behaves when the hardware lets it down.",
+        ],
+        decisions: [
+          {
+            problem: "Thousands of data points in every session.",
+            solution: "Three areas — heart rate, movement and impacts — each answering one question, with the detail one tap deeper.",
+          },
+          {
+            problem: "Numbers without context meant nothing.",
+            solution: "A short session report adds the sport, session type, perceived effort and notes, and every metric is shown next to the athlete’s history.",
+          },
+          {
+            problem: "Signal and battery could drop in the middle of play.",
+            solution: "Signal and battery are always visible, and a clear reconnecting state keeps the session going instead of failing.",
+          },
+          {
+            problem: "A session could end by accident mid-game.",
+            solution: "Ending a session is a deliberate hold, never a single tap.",
+          },
+          {
+            problem: "The hardware and the algorithms kept changing.",
+            solution: "A design system with every component and state documented, so screens could change quickly without losing consistency.",
+          },
         ],
       },
       {
@@ -263,14 +386,21 @@ export const caseStudies: CaseStudy[] = [
         ],
       },
       {
-        heading: "Results",
+        heading: "Impact",
         body: [
+          "Athletes can go from impression kit to their first session, record reliably in tough conditions, and review more than 20 metrics in three clear views — with the context that makes them meaningful.",
           "The app gave ORB a clear, consistent foundation to build on while the hardware was still evolving. In the words of Thomas Quinn, ORB's CTO and co-founder: “Ion joined ORB as our first UX Designer and he knocked our design needs out of the park, even with the challenges of working with development IoT hardware. His work gave ORB a great start and a strong direction.”",
         ],
         metrics: [
           { value: "20+", label: "Performance and wellness metrics in one view" },
           { value: "3", label: "Areas per session: heart rate, movement, impacts" },
           { value: "1st", label: "UX designer at ORB" },
+        ],
+      },
+      {
+        heading: "What I learned",
+        body: [
+          "Designing for hardware in development means designing for failure first. Planning the reconnecting, low-battery and no-signal states early made the main flow simpler — and kept the app honest about what the device could really measure.",
         ],
       },
     ],
@@ -283,6 +413,14 @@ export const caseStudies: CaseStudy[] = [
     year: "2022",
     summary:
       "Profit.com brings global markets, news, community and trading games into one app — practise with virtual money, compete with traders worldwide and win real prizes. I led the product design from market research to a native iOS app and the custom design system behind it.",
+    overview: {
+      problem:
+        "Learning to trade meant risking real money or using dry paper-trading tools nobody came back to — with market data, news and conversation spread across different apps.",
+      insight:
+        "No product served the curious beginner, the competitive player and the active trader at once. The gap was learning, real data, community and a daily reason to return — in one place.",
+      impact:
+        "A native iOS app that brings markets, news, community and trading games together, built on one design system that carried every new feature across iOS and web.",
+    },
     role: "Senior Product Designer",
     timeline: "Mar 2022 – Feb 2024",
     team: "Product, iOS & web engineering, marketing",
@@ -291,7 +429,7 @@ export const caseStudies: CaseStudy[] = [
     cover: "/work/profit/discover-analyze-profit.webp",
     sections: [
       {
-        heading: "The opportunity",
+        heading: "The problem",
         body: [
           "Learning to trade usually means picking between two bad options: a real brokerage account, where every beginner mistake costs money, or a paper-trading tool so dry that nobody comes back after a week. Market data, news and the conversation around them live in yet more apps.",
           "Profit.com set out to bring all of it together. Real market data, news and a community of traders — plus trading games where people practise with virtual money, compete with others and can win real prizes. The ambition was the first all-in-one trading simulation app built for everyone: simple enough for a complete beginner, deep enough for someone who trades every day.",
@@ -305,11 +443,61 @@ export const caseStudies: CaseStudy[] = [
         ],
       },
       {
-        heading: "Market research and market fit",
+        heading: "Research and insights",
         body: [
           "Everything started with market research. I mapped the products people already use to trade, follow markets and talk about investing — brokers, market-data and news apps, social trading communities and existing simulators — and compared what each did well and where it left people on their own.",
           "Surveys and card sorting helped me build personas and shape the navigation: the curious beginner who wants to learn without risking money, the competitive player motivated by rankings and prizes, and the active trader who expects professional charts and fast data. No single product served all three.",
           "That gap — learning, real data, community and a reason to come back every day, in one app — became our market fit and the brief for everything that followed.",
+        ],
+        insights: [
+          {
+            title: "The fear of losing money",
+            body: "Beginners wanted to learn on real markets without real risk. Virtual money removed the fear; real prices kept it meaningful.",
+          },
+          {
+            title: "Practice needs a reason to return",
+            body: "Paper trading on its own felt pointless after a week. Rankings, prizes and short challenges gave people a reason to come back every day.",
+          },
+          {
+            title: "Depth on demand",
+            body: "Active traders expected professional charts and data that overwhelmed beginners. The same screen had to work for both.",
+          },
+          {
+            title: "Trading is social",
+            body: "People talked about markets in other apps and shared screenshots of tickers. The conversation belonged next to the data.",
+          },
+        ],
+      },
+      {
+        heading: "How I solved it",
+        body: [
+          "Each insight became a design decision, and together they defined the product.",
+        ],
+        decisions: [
+          {
+            problem: "Data, news, community and practice lived in different apps.",
+            solution: "One app with five spaces — Discover, Watchlist, Arena, Chat and Wallet — with Arena at the centre of the tab bar.",
+          },
+          {
+            problem: "Paper trading didn’t keep people coming back.",
+            solution: "Arena turns practice into a game: themed tournaments, 1-to-1 battles, leaderboards and real prizes — up to $30,000 a month, plus daily wins.",
+          },
+          {
+            problem: "Beginners and professionals needed different depth.",
+            solution: "Layering: a simple first view of every ticker, with advanced charts, drawing tools and indicators one tap deeper.",
+          },
+          {
+            problem: "Markets move on events that people missed.",
+            solution: "Economic releases, earnings and dividends became content of their own, with real-time notifications for the companies people follow.",
+          },
+          {
+            problem: "The conversation happened somewhere else.",
+            solution: "Chat built into the app: type $BTC for a live price card, share any ticker with a swipe, and react to news with a bull or a bear.",
+          },
+          {
+            problem: "A product this big could drift apart across iOS and web.",
+            solution: "A custom design system built on the native iOS library, with the same tokens and patterns carried over to the web.",
+          },
         ],
       },
       {
@@ -389,9 +577,10 @@ export const caseStudies: CaseStudy[] = [
         ],
       },
       {
-        heading: "Results",
+        heading: "Impact",
         body: [
-          "Profit.com launched as a native iOS app that brings market data, news, community and trading games together — the all-in-one experience the research pointed to. The design system gave product and engineering one shared language, so new features like tournaments could be designed and built on top of what already existed.",
+          "Profit.com launched as a native iOS app that brings market data, news, community and trading games together — the all-in-one experience the research pointed to. Beginners can practise on real markets without risking money, and competitive players have a reason to come back every day.",
+          "For the business, the research gave the executive team a clear, shared direction before development started. And the design system gave product and engineering one language, so new features — tournaments, premium content like the Weekly Brief — were built on top of what already existed instead of from scratch.",
         ],
         metrics: [
           { value: "1st", label: "All-in-one trading simulation app for everyone" },
@@ -415,6 +604,14 @@ export const caseStudies: CaseStudy[] = [
     year: "2024",
     summary:
       "Digma finds performance and scaling issues in code before they reach production. I architected its custom design system and a reusable component library that let every developer build native-feeling UI inside the IDE. Digma was later acquired by JetBrains.",
+    overview: {
+      problem:
+        "Digma’s UI lives inside developers’ IDEs, and it had been built screen by screen — the same pattern looked and behaved differently, and every feature started almost from scratch.",
+      insight:
+        "Developers trust tools that feel native to their editor, and engineers were building most of the UI themselves. They needed a system they could use without waiting for design.",
+      impact:
+        "One design system and component library used by every developer, consistent UI from the first build, and a foundation that carried Digma into AI agents — before JetBrains acquired it.",
+    },
     role: "Senior Product Designer",
     timeline: "Feb 2024 – Apr 2025",
     team: "Product, engineering",
@@ -430,10 +627,68 @@ export const caseStudies: CaseStudy[] = [
         ],
       },
       {
-        heading: "The challenge",
+        heading: "The problem",
         body: [
           "Digma grew fast, and its interface grew with it. Screens were built one by one, so the same pattern looked and behaved differently from place to place, and every new feature started almost from scratch.",
           "The goal was one consistent system that engineers could use on their own, and that felt at home in every IDE Digma runs in.",
+        ],
+      },
+      {
+        heading: "My role",
+        body: [
+          "As Senior Product Designer, I owned the design system end to end: the audit, its architecture, the foundations and components, the documentation, and rolling it out to the development team. I also designed product features on top of it, including the AI agents experience.",
+        ],
+      },
+      {
+        heading: "Research and insights",
+        body: [
+          "I started with an audit: every screen in the IDE plugins and the web app, side by side, grouped by pattern. Alongside it, I talked to the engineers who built the UI and looked at how developers actually used Digma inside their editors.",
+        ],
+        insights: [
+          {
+            title: "One pattern, many versions",
+            body: "The audit found the same elements — buttons, issue cards, tooltips, empty states — built several times over, each slightly different.",
+          },
+          {
+            title: "Native, or it’s noise",
+            body: "Developers spend the whole day in their editor. Anything that looked foreign next to their code felt like noise, so the UI had to match the IDE around it.",
+          },
+          {
+            title: "Space is the real constraint",
+            body: "Digma lives in narrow side panels and inline hints. Every component had to stay readable when it’s small and dense.",
+          },
+          {
+            title: "Engineers build most of the UI",
+            body: "Most screens were built by engineers directly. They needed clear components, with every variant and state, that they could use without a designer in the loop.",
+          },
+        ],
+      },
+      {
+        heading: "How I solved it",
+        body: [
+          "Each finding from the audit turned into a part of the system.",
+        ],
+        decisions: [
+          {
+            problem: "Inconsistent screens, built one by one.",
+            solution: "A design system architecture from the ground up: foundations first, then core components, each documented with its variants and states.",
+          },
+          {
+            problem: "Many issue types, each with its own layout.",
+            solution: "One issue-card pattern that covers N+1 queries, bottlenecks, slow queries and errors, so new issue types reuse it instead of starting over.",
+          },
+          {
+            problem: "UI that had to feel at home in every IDE.",
+            solution: "Components designed to follow the look of the IDE around them, so Digma reads as part of the editor rather than a web page inside it.",
+          },
+          {
+            problem: "Every new screen waited for design.",
+            solution: "A scalable, reusable component library introduced to the whole development team, so developers could build complete UI from shared parts.",
+          },
+          {
+            problem: "A new kind of product: AI agents.",
+            solution: "The same system extended to agent timelines, chat, templates, directives and MCP connections — without starting a new visual language.",
+          },
         ],
       },
       {
@@ -457,7 +712,7 @@ export const caseStudies: CaseStudy[] = [
         ],
       },
       {
-        heading: "From insights to AI agents",
+        heading: "From issues to AI agents",
         body: [
           "The same system carried Digma into its next step: AI agents that investigate incidents. A team of agents — Watchman, Triage, Infra and Code Resolution, and a Validator — works through an issue step by step, and developers can follow along, chat with them and see related issues.",
           "Teams shape how the agents work with templates, set rules with directives, and connect their own tools through MCP servers.",
@@ -471,14 +726,21 @@ export const caseStudies: CaseStudy[] = [
         ],
       },
       {
-        heading: "Results",
+        heading: "Impact",
         body: [
-          "Design and engineering now worked from the same source, so new UI stayed consistent from the first build. Digma was later acquired by JetBrains.",
+          "Design and engineering now worked from the same source, so new UI stayed consistent from the first build and developers stopped rebuilding the same patterns. New features could be put together from shared parts instead of waiting for new designs.",
+          "The system was flexible enough to carry Digma from code-level issues into AI agents that investigate incidents. Digma was later acquired by JetBrains.",
         ],
         metrics: [
           { value: "1", label: "Design system for the IDE plugins and the web app" },
           { value: "All", label: "Developers building UI from the shared library" },
           { value: "JetBrains", label: "Acquired Digma" },
+        ],
+      },
+      {
+        heading: "What I learned",
+        body: [
+          "A design system for developers only works if developers want to use it. Building it with the engineers — in their tools and their language — mattered as much as the components themselves.",
         ],
       },
     ],
