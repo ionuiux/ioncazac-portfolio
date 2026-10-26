@@ -28,16 +28,16 @@ export async function generateMetadata({ params }: PageProps<"/work/[slug]">): P
     // Case studies share the site's image (a PNG every network can show),
     // with their own title and description.
     openGraph: {
-      title: `${study.client} — ${study.title}`,
+      title: `${study.client} - ${study.title}`,
       description: study.summary,
       url: `/work/${study.slug}`,
       siteName: "Ion Cazac",
       type: "article",
-      images: [{ url: "/opengraph-image", width: 1200, height: 630, alt: "Ion Cazac — Senior Product Designer" }],
+      images: [{ url: "/opengraph-image", width: 1200, height: 630, alt: "Ion Cazac - Senior Product Designer" }],
     },
     twitter: {
       card: "summary_large_image",
-      title: `${study.client} — ${study.title}`,
+      title: `${study.client} - ${study.title}`,
       description: study.summary,
       images: ["/opengraph-image"],
     },
@@ -71,7 +71,7 @@ function CaseFigure({ image, accent }: { image: CaseImage; accent: string }) {
   } else if (!image.src) {
     content = (
       <div className="relative flex aspect-[16/10] items-center justify-center bg-subtle text-[13px] text-muted">
-        Image placeholder — {image.alt}
+        Image placeholder - {image.alt}
       </div>
     );
   } else if (image.frame === "browser" && image.width && image.height) {

@@ -1,5 +1,5 @@
 // Everything about you that appears on the homepage lives here.
-// Edit the text between the quotes and save — the site updates automatically.
+// Edit the text between the quotes and save - the site updates automatically.
 
 export const profile = {
   name: "Ion Cazac",
@@ -7,9 +7,9 @@ export const profile = {
   greeting: "Hi, I’m Ion",
   tagline: "design → code → deliver",
   intro:
-    "I build products, from first idea to launch. 12+ years across mobility, fintech and developer tools — most recently as an AI-native product builder at Flovi. Product designer, owner, mentor and early AI adopter. EU based, working with teams across Europe and the US.",
+    "I build products, from first idea to launch. 12+ years across mobility, fintech and developer tools - most recently as an AI-native product builder at Flovi. Product designer, owner, mentor and early AI adopter. EU based, working with teams across Europe and the US.",
   email: "hi@ioncazac.com",
-  availability: "Open to senior product design roles — remote, hybrid or on-site.",
+  availability: "Open to senior product design roles - remote, hybrid or on-site.",
   recommendationsUrl: "https://www.linkedin.com/in/ion-cazac/details/recommendations/",
   linkedin: "https://www.linkedin.com/in/ion-cazac/",
   // The CV download is a PDF of this homepage, links included. After changing
@@ -51,7 +51,7 @@ export const testimonials: {
 }[] = [
   {
     quote:
-      "He’s not just a designer — you get a strategic partner, a systems thinker, and someone who deeply cares about delivering meaningful experiences.",
+      "He’s not just a designer - you get a strategic partner, a systems thinker, and someone who deeply cares about delivering meaningful experiences.",
     name: "Roni Dover",
     role: "CTO & Co-Founder at",
     company: "Digma",

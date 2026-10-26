@@ -87,7 +87,7 @@ export function Cover({
       <div className="absolute inset-0 flex items-center overflow-hidden" style={{ background }}>
         <Image
           src={study.cover}
-          alt={`${study.client} — ${study.title}`}
+          alt={`${study.client} - ${study.title}`}
           width={width}
           height={height}
           sizes={sizes}
@@ -103,7 +103,7 @@ export function Cover({
     return (
       <Image
         src={study.cover}
-        alt={`${study.client} — ${study.title}`}
+        alt={`${study.client} - ${study.title}`}
         fill
         sizes={sizes}
         priority={priority}
