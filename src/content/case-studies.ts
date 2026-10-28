@@ -104,7 +104,7 @@ export const caseStudies: CaseStudy[] = [
       impact:
         "30% more customers, bookings in about 20 seconds, and one product for the team to work on instead of four.",
     },
-    role: "Senior Product Designer",
+    role: "AI-Native Product Designer",
     timeline: "Apr 2025 – Oct 2026",
     team: "Product, engineering, 4 markets",
     platform: "Web app",

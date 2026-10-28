@@ -97,7 +97,7 @@ export const testimonials: {
 ];
 
 export const experience = [
-  { company: "Flovi", role: "Senior Product Designer", location: "Helsinki, Hybrid", dates: "2025 – 2026" },
+  { company: "Flovi", role: "AI-Native Product Designer", location: "Helsinki, Hybrid", dates: "2025 – 2026" },
   { company: "pyck", role: "Senior Product Designer", location: "EMEA, Contract", dates: "2024 – 2026" },
   { company: "Digma", role: "Senior Product Designer", location: "San Francisco, Remote", dates: "2024 – 2025" },
   { company: "ORB Innovations", role: "Senior Product Designer", location: "London, Contract", dates: "2023" },
