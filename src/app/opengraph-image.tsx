@@ -6,7 +6,7 @@ import { clients, profile } from "@/content/profile";
 // The share image shown when ioncazac.com is posted on LinkedIn, Slack, X, etc.
 // It is generated at build time from the files below.
 
-export const alt = "Ion Cazac - Senior Product Designer. design → code → deliver.";
+export const alt = "Ion Cazac - AI-Native Product Designer. design → code → deliver.";
 export const size = { width: 1200, height: 630 };
 export const contentType = "image/png";
 
@@ -94,7 +94,7 @@ export default function Image() {
         >
           <img src={portrait} width={112} height={112} style={{ borderRadius: 999, objectFit: "cover" }} alt="" />
           <div style={{ marginTop: 30, fontSize: 84, fontWeight: 600, letterSpacing: -3, lineHeight: 1 }}>{profile.greeting}</div>
-          <div style={{ marginTop: 18, fontSize: 32, fontWeight: 500, letterSpacing: -0.5 }}>
+          <div style={{ marginTop: 18, fontSize: 28, fontWeight: 500, letterSpacing: -0.5 }}>
             {`${profile.name} - ${profile.title}`}
           </div>
           <div style={{ marginTop: 14, fontSize: 26, color: "#737373" }}>{profile.tagline}</div>

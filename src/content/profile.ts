@@ -3,7 +3,10 @@
 
 export const profile = {
   name: "Ion Cazac",
-  title: "Senior Product Designer",
+  // `title` is the short form used in browser tabs and link previews;
+  // the intro on the homepage adds the `specialties` in brackets.
+  title: "AI-Native Product Designer",
+  specialties: "AI Engineer, Lead, Mentor, Design Systems, UI/UX",
   greeting: "Hi, I’m Ion",
   tagline: "design → code → deliver",
   intro:
