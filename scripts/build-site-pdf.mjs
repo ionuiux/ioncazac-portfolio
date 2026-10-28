@@ -1,5 +1,7 @@
-// Prints the homepage — exactly as it looks on a 1440px-wide screen — to a single
-// tall PDF page with every link still clickable, and saves it as the CV download.
+// Prints the homepage - exactly as it looks on a 1440px-wide screen - to a single
+// tall PDF page with every link still clickable, and saves it to ~/Downloads.
+// (It is no longer the CV download: public/Ion-Cazac-CV.pdf is Ion's own CV,
+// so this never writes into /public.)
 //   - Links to other pages (case studies, the CV itself) point to the live site.
 //   - Email, LinkedIn and Dribbble links work as they do on the site.
 //   - "#" links (e.g. Back to top) jump within the PDF.
@@ -10,14 +12,14 @@
 import { spawn } from "node:child_process";
 import { existsSync } from "node:fs";
 import { mkdtemp, readFile, rm, writeFile } from "node:fs/promises";
-import { tmpdir } from "node:os";
+import { homedir, tmpdir } from "node:os";
 import { join } from "node:path";
 import { setTimeout as sleep } from "node:timers/promises";
 
 const SITE = "https://ioncazac.com";
 const PORT = 3210;
 const WIDTH = 1440;
-const OUT = join(process.cwd(), "public", "Ion-Cazac-CV.pdf");
+const OUT = join(homedir(), "Downloads", "Ion Cazac - Website.pdf");
 const CHROME = "/Applications/Google Chrome.app/Contents/MacOS/Google Chrome";
 
 async function waitFor(check, what, timeout = 30_000) {
