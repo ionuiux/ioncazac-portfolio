@@ -3,10 +3,9 @@
 
 export const profile = {
   name: "Ion Cazac",
-  // `title` is the short form used in browser tabs and link previews;
-  // the intro on the homepage adds the `specialties` in brackets.
-  title: "AI-Native Product Designer",
-  specialties: "AI Engineer, Lead, Mentor, Design Systems, UI/UX",
+  // Same title as the CV, used in the intro, browser tabs, link previews and
+  // structured data. Keep it in step with the CV.
+  title: "Senior Product Designer · AI-Native Product Builder",
   greeting: "Hi, I’m Ion",
   tagline: "design → code → deliver",
   intro:
@@ -108,7 +107,7 @@ export const testimonials: {
 export const experience = [
   {
     company: "Flovi",
-    role: "AI-Native Product Designer",
+    role: "Senior Product Designer",
     location: "Helsinki · Hybrid · Full-time",
     dates: "2025 – 2026",
     outcome: "Unified the customer portal across 4 markets: +30% customers and 20% faster booking. Designed an AI-native driver app and led launches in 2 new countries.",

@@ -111,7 +111,7 @@ export const caseStudies: CaseStudy[] = [
       { value: "~20 s", label: "To book a transfer, 20% faster" },
       { value: "4", label: "Markets on one portal" },
     ],
-    role: "AI-Native Product Designer",
+    role: "Senior Product Designer",
     timeline: "Apr 2025 – Oct 2026",
     team: "Product, engineering, 4 markets",
     platform: "Web app",

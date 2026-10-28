@@ -33,7 +33,7 @@ export async function generateMetadata({ params }: PageProps<"/work/[slug]">): P
       url: `/work/${study.slug}`,
       siteName: "Ion Cazac",
       type: "article",
-      images: [{ url: "/opengraph-image", width: 1200, height: 630, alt: "Ion Cazac - AI-Native Product Designer" }],
+      images: [{ url: "/opengraph-image", width: 1200, height: 630, alt: "Ion Cazac - Senior Product Designer · AI-Native Product Builder" }],
     },
     twitter: {
       card: "summary_large_image",

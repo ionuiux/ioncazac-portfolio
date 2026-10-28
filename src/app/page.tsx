@@ -97,7 +97,7 @@ export default function Home() {
             </h1>
             <p className="mt-6 text-[17px] leading-relaxed text-muted sm:mt-8 lg:text-xl lg:leading-relaxed">
               <span className="text-foreground">
-                {profile.name}, {profile.title} ({profile.specialties}).
+                {profile.name}, {profile.title}.
               </span>{" "}
               {profile.intro}
             </p>
