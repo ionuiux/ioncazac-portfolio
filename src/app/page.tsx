@@ -45,6 +45,11 @@ const personJsonLd = {
   },
 };
 
+// Rows in the Experience section share one grid so the columns line up:
+// company | description | role | location | dates (from 1024px up).
+const ROW =
+  "grid grid-cols-[minmax(0,1fr)_7rem] gap-x-4 gap-y-1 lg:grid-cols-[minmax(0,0.9fr)_minmax(0,2.2fr)_minmax(0,1.1fr)_minmax(0,1.2fr)_7rem] lg:gap-x-6";
+
 export default function Home() {
   const featured = caseStudies.slice(0, 2);
   const more = caseStudies.slice(2);
@@ -208,19 +213,21 @@ export default function Home() {
       {/* Experience */}
       <section id="experience" className="border-t border-line pt-20 pb-24 sm:pt-24">
         <h2 className="text-center text-4xl font-medium tracking-tight sm:text-6xl">Experience</h2>
+        {/* Desktop: company, description, role, location and dates each in their own column.
+            Phones and tablets: company and dates, then role and location, then the description. */}
         <ul className="mt-12 divide-y divide-line border-y border-line sm:mt-16">
           {experience.map((job) => (
-            <li
-              key={`${job.company}-${job.dates}`}
-              className="grid grid-cols-[minmax(0,1fr)_7rem] gap-x-4 py-4 text-[15px] sm:grid-cols-[minmax(0,1.1fr)_minmax(0,1.4fr)_minmax(0,1fr)_7rem] lg:grid-cols-4"
-            >
+            <li key={`${job.company}-${job.dates}`} className={`${ROW} py-5 text-[15px]`}>
               <span className="font-medium">{job.company}</span>
-              <span className="order-3 col-span-2 text-muted sm:order-none sm:col-span-1">{job.role}</span>
-              <span className="hidden text-muted sm:block">{job.location}</span>
-              <span className="text-right text-muted tabular-nums">{job.dates}</span>
-              <p className="order-4 col-span-2 mt-1.5 text-[14px] leading-relaxed text-neutral-600 sm:col-span-3 sm:col-start-2 sm:mt-2">
+              <p className="order-4 col-span-2 mt-1 text-[14px] leading-relaxed text-neutral-600 lg:order-none lg:col-span-1 lg:mt-0 lg:text-[15px]">
                 {job.outcome}
               </p>
+              <span className="order-3 col-span-2 text-muted lg:order-none lg:col-span-1">
+                {job.role}
+                <span className="lg:hidden"> · {job.location}</span>
+              </span>
+              <span className="hidden text-muted lg:block">{job.location}</span>
+              <span className="order-2 text-right text-muted tabular-nums lg:order-none">{job.dates}</span>
             </li>
           ))}
         </ul>
@@ -236,13 +243,10 @@ export default function Home() {
           </summary>
           <ul className="divide-y divide-line border-t border-line">
             {earlierExperience.map((job) => (
-              <li
-                key={`${job.company}-${job.dates}`}
-                className="grid grid-cols-[minmax(0,1fr)_7rem] gap-x-4 py-3 text-[14px] sm:grid-cols-[minmax(0,1.1fr)_minmax(0,1.4fr)_minmax(0,1fr)_7rem] lg:grid-cols-4"
-              >
+              <li key={`${job.company}-${job.dates}`} className={`${ROW} py-3 text-[14px]`}>
                 <span>{job.company}</span>
-                <span className="order-3 col-span-2 text-muted sm:order-none sm:col-span-2">{job.role}</span>
-                <span className="text-right text-muted tabular-nums">{job.dates}</span>
+                <span className="order-3 col-span-2 text-muted lg:order-none lg:col-span-1 lg:col-start-3">{job.role}</span>
+                <span className="order-2 text-right text-muted tabular-nums lg:order-none lg:col-start-5">{job.dates}</span>
               </li>
             ))}
           </ul>
@@ -251,9 +255,9 @@ export default function Home() {
         <h3 className="mt-16 text-[15px] font-medium">Awards</h3>
         <ul className="mt-4 divide-y divide-line border-y border-line">
           {awards.map((award) => (
-            <li key={award.name} className="grid grid-cols-[minmax(0,1fr)_auto] gap-x-4 py-4 text-[15px] lg:grid-cols-4">
+            <li key={award.name} className={`${ROW} py-4 text-[15px]`}>
               <span className="font-medium">{award.name}</span>
-              <span className="text-right text-muted lg:col-span-3 lg:text-left">{award.detail}</span>
+              <span className="order-2 text-right text-muted lg:order-none lg:col-span-4 lg:text-left">{award.detail}</span>
             </li>
           ))}
         </ul>
