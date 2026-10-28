@@ -10,9 +10,11 @@ export const profile = {
   greeting: "Hi, I’m Ion",
   tagline: "design → code → deliver",
   intro:
-    "I build products, from first idea to launch. 12+ years across mobility, fintech and developer tools - most recently as an AI-native product builder at Flovi. Product designer, owner, mentor and early AI adopter. EU based, working with teams across Europe and the US.",
+    "I turn messy B2B products into simple, AI-native ones, and ship them in code. 12+ years across mobility, fintech and developer tools, most recently as an AI-native product builder at Flovi. Product designer, owner, mentor and early AI adopter. Red Dot Award 2024.",
+  // The line under the intro; the first item gets a green "available" dot.
+  status: ["Available now", "B2B contract or full-time", "EU citizen", "Remote EU / US or relocation in the EU"],
   email: "hi@ioncazac.com",
-  availability: "Open to senior product design roles - remote, hybrid or on-site.",
+  availability: "Available now for B2B contracts or full-time roles. Remote EU / US, or relocation in the EU.",
   recommendationsUrl: "https://www.linkedin.com/in/ion-cazac/details/recommendations/",
   linkedin: "https://www.linkedin.com/in/ion-cazac/",
   // Your CV lives in /public. Replace that file to update the Download CV button.
@@ -20,8 +22,15 @@ export const profile = {
   links: [
     { label: "LinkedIn", href: "https://www.linkedin.com/in/ion-cazac/" },
     { label: "Dribbble", href: "https://dribbble.com/yvancross" },
+    { label: "GitHub", href: "https://github.com/ionuiux" },
   ],
 };
+
+export const awards = [
+  { name: "Red Dot Award", detail: "2024" },
+  { name: "MUSE Design Awards", detail: "Best Fintech Product" },
+  { name: "Awwwards", detail: "Nominee" },
+];
 
 // Logos in the slowly scrolling strip under the intro. Files live in /public/logos/.
 // `width` and `height` are the SVG's own size; `display` is how tall it
@@ -95,19 +104,72 @@ export const testimonials: {
   },
 ];
 
+// Recent roles, each with a one-line result. Keep these in step with the CV.
 export const experience = [
-  { company: "Flovi", role: "AI-Native Product Designer", location: "Helsinki, Hybrid", dates: "2025 – 2026" },
-  { company: "pyck", role: "Senior Product Designer", location: "EMEA, Contract", dates: "2024 – 2026" },
-  { company: "Digma", role: "Senior Product Designer", location: "San Francisco, Remote", dates: "2024 – 2025" },
-  { company: "ORB Innovations", role: "Senior Product Designer", location: "London, Contract", dates: "2023" },
-  { company: "Reviall", role: "Senior Product Designer", location: "Sweden, Contract", dates: "2023" },
-  { company: "Profit.com", role: "Senior Product Designer", location: "Chișinău, Hybrid", dates: "2022 – 2024" },
-  { company: "ShareVision", role: "Product Designer", location: "London, Remote", dates: "2021 – 2022" },
-  { company: "Digital Silk", role: "User Experience Designer", location: "Miami, Remote", dates: "2020 – 2021" },
-  { company: "Utilities One", role: "Lead Designer", location: "New Jersey, Remote", dates: "2019 – 2020" },
-  { company: "US Energy Solutions", role: "Product Designer", location: "Philadelphia, Remote", dates: "2019 – 2020" },
-  { company: "UNDP", role: "Creative Designer", location: "Remote", dates: "2018" },
-  { company: "Envato", role: "User Experience Designer", location: "Remote", dates: "2015 – 2017" },
-  { company: "Overdrive", role: "Product Designer", location: "Full time", dates: "2015 – 2017" },
-  { company: "RTDS", role: "Creative Product Designer", location: "Hybrid", dates: "2014 – 2019" },
+  {
+    company: "Flovi",
+    role: "AI-Native Product Designer",
+    location: "Helsinki · Hybrid · Full-time",
+    dates: "2025 – 2026",
+    outcome: "Unified the customer portal across 4 markets: +30% customers and 20% faster booking. Designed an AI-native driver app and led launches in 2 new countries.",
+  },
+  {
+    company: "pyck",
+    role: "Senior Product Designer",
+    location: "EMEA · Remote · Contract, part-time",
+    dates: "2024 – 2026",
+    outcome: "End-to-end product design and design leadership.",
+  },
+  {
+    company: "Digma",
+    role: "Senior Product Designer",
+    location: "San Francisco · Remote · Full-time",
+    dates: "2024 – 2025",
+    outcome: "Built the design system used across all IDE plugins and the web app, and designed the AI agents experience. Acquired by JetBrains.",
+  },
+  {
+    company: "Profit.com",
+    role: "Senior Product Designer",
+    location: "Chișinău · Hybrid · Full-time",
+    dates: "2022 – 2024",
+    outcome: "Designed the iOS and web trading app and Arena, a trading game with prizes of up to $30,000 a month.",
+  },
+  {
+    company: "ORB Innovations",
+    role: "Senior Product Designer",
+    location: "London · Remote · Contract",
+    dates: "2023",
+    outcome: "First UX designer: designed the app for a smart mouthguard that tracks 20+ metrics.",
+  },
+  {
+    company: "Reviall",
+    role: "Senior Product Designer",
+    location: "Sweden · Remote · Contract",
+    dates: "2023",
+    outcome: "Designed real-time reporting dashboards for the drilling industry.",
+  },
+  {
+    company: "ShareVision",
+    role: "Product Designer",
+    location: "London · Remote · Full-time",
+    dates: "2021 – 2022",
+    outcome: "Designed case-management workflows and dashboards for social services.",
+  },
+  {
+    company: "Digital Silk",
+    role: "UX Designer",
+    location: "Miami · Remote · Full-time",
+    dates: "2020 – 2021",
+    outcome: "Redesigned the G Pen e-commerce site: sales and retention up almost 40%.",
+  },
+];
+
+// Older roles, shown folded away under "Earlier experience".
+export const earlierExperience = [
+  { company: "Utilities One", role: "Lead Designer", dates: "2019 – 2020" },
+  { company: "US Energy Solutions", role: "Product Designer", dates: "2019 – 2020" },
+  { company: "UNDP", role: "Creative Designer", dates: "2018" },
+  { company: "Envato", role: "UX Designer", dates: "2015 – 2017" },
+  { company: "Overdrive", role: "Product Designer", dates: "2015 – 2017" },
+  { company: "RTDS", role: "Creative Product Designer", dates: "2014 – 2019" },
 ];

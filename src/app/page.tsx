@@ -4,7 +4,46 @@ import { RevealOnScroll } from "@/components/reveal-on-scroll";
 import { SiteFooter } from "@/components/site-footer";
 import { artworks, dribbbleUrl } from "@/content/artworks";
 import { caseStudies } from "@/content/case-studies";
-import { clients, experience, profile, testimonials } from "@/content/profile";
+import { awards, clients, earlierExperience, experience, profile, testimonials } from "@/content/profile";
+
+const SITE = "https://ioncazac.com";
+
+// Structured data so search engines and AI recruiting tools can read who Ion is.
+const personJsonLd = {
+  "@context": "https://schema.org",
+  "@type": "Person",
+  name: profile.name,
+  jobTitle: profile.title,
+  description: profile.intro,
+  url: SITE,
+  image: `${SITE}/ion.jpg`,
+  email: `mailto:${profile.email}`,
+  address: { "@type": "PostalAddress", addressLocality: "Chișinău", addressCountry: "MD" },
+  sameAs: profile.links.map((link) => link.href),
+  knowsAbout: [
+    "Product design",
+    "UX/UI design",
+    "AI product design",
+    "AI agents UX",
+    "Design systems",
+    "Prototyping in code",
+    "React",
+    "shadcn/ui",
+    "User research",
+    "Usability testing",
+    "B2B SaaS",
+    "Dashboards",
+    "Figma",
+    "Mentoring",
+  ],
+  award: awards.map((award) => `${award.name}, ${award.detail}`),
+  subjectOf: {
+    "@type": "DigitalDocument",
+    name: `${profile.name} - CV`,
+    url: `${SITE}${profile.cv}`,
+    encodingFormat: "application/pdf",
+  },
+};
 
 export default function Home() {
   const featured = caseStudies.slice(0, 2);
@@ -12,6 +51,10 @@ export default function Home() {
 
   return (
     <main className="site-container">
+      <script
+        type="application/ld+json"
+        dangerouslySetInnerHTML={{ __html: JSON.stringify(personJsonLd).replace(/</g, "\\u003c") }}
+      />
       <RevealOnScroll />
       {/* Top bar */}
       <header className="flex items-center justify-between gap-4 py-6 text-[14px]">
@@ -53,6 +96,23 @@ export default function Home() {
               </span>{" "}
               {profile.intro}
             </p>
+            <ul className="mt-6 flex flex-wrap items-center gap-x-3 gap-y-1.5 text-[14px] text-muted">
+              {profile.status.map((item, i) => (
+                <li key={item} className="flex items-center gap-x-3">
+                  {i === 0 ? (
+                    <span className="flex items-center gap-2 font-medium text-foreground">
+                      <span aria-hidden className="size-2 rounded-full bg-emerald-500" />
+                      {item}
+                    </span>
+                  ) : (
+                    <>
+                      <span aria-hidden>·</span>
+                      {item}
+                    </>
+                  )}
+                </li>
+              ))}
+            </ul>
             <p className="mt-10 text-[14px] text-muted">Send me a message ↓</p>
             <a
               href={`mailto:${profile.email}`}
@@ -102,41 +162,6 @@ export default function Home() {
             ))}
           </div>
         )}
-      </section>
-
-      {/* Artworks */}
-      <section id="artworks" className="border-t border-line pt-20 pb-24 sm:pt-24">
-        <h2 className="sr-only">Artworks</h2>
-        <ul className="grid grid-cols-2 gap-x-4 gap-y-8 sm:gap-x-6 lg:grid-cols-4">
-          {artworks.map((art, i) => (
-            <li key={art.href} className={i < 2 ? "lg:col-span-2" : ""} data-reveal>
-              <a href={art.href} target="_blank" rel="noreferrer" className="group block">
-                <div className="relative aspect-[4/3] overflow-hidden bg-subtle">
-                  <Image
-                    src={art.src}
-                    alt={art.title}
-                    fill
-                    sizes={i < 2 ? "(min-width: 1024px) 50vw, 50vw" : "(min-width: 1024px) 25vw, 50vw"}
-                    className="object-cover transition-transform duration-500 ease-out group-hover:scale-[1.04]"
-                  />
-                </div>
-                <p className="mt-2.5 truncate text-[13px] text-muted transition-colors group-hover:text-foreground">
-                  {art.title}
-                </p>
-              </a>
-            </li>
-          ))}
-        </ul>
-        <p className="mt-12 text-center">
-          <a
-            href={dribbbleUrl}
-            target="_blank"
-            rel="noreferrer"
-            className="link-button"
-          >
-            See all on Dribbble ↗
-          </a>
-        </p>
       </section>
 
       {/* Recommendations */}
@@ -193,9 +218,80 @@ export default function Home() {
               <span className="order-3 col-span-2 text-muted sm:order-none sm:col-span-1">{job.role}</span>
               <span className="hidden text-muted sm:block">{job.location}</span>
               <span className="text-right text-muted tabular-nums">{job.dates}</span>
+              <p className="order-4 col-span-2 mt-1.5 text-[14px] leading-relaxed text-neutral-600 sm:col-span-3 sm:col-start-2 sm:mt-2">
+                {job.outcome}
+              </p>
             </li>
           ))}
         </ul>
+
+        {/* Older roles stay folded away; a click opens them (no JavaScript needed). */}
+        <details className="group border-b border-line">
+          <summary className="flex cursor-pointer list-none items-center justify-between py-4 text-[15px] font-medium [&::-webkit-details-marker]:hidden">
+            Earlier experience
+            <span className="flex items-center gap-2 text-muted tabular-nums">
+              2014 – 2020
+              <span aria-hidden className="transition-transform group-open:rotate-180">↓</span>
+            </span>
+          </summary>
+          <ul className="divide-y divide-line border-t border-line">
+            {earlierExperience.map((job) => (
+              <li
+                key={`${job.company}-${job.dates}`}
+                className="grid grid-cols-[minmax(0,1fr)_7rem] gap-x-4 py-3 text-[14px] sm:grid-cols-[minmax(0,1.1fr)_minmax(0,1.4fr)_minmax(0,1fr)_7rem] lg:grid-cols-4"
+              >
+                <span>{job.company}</span>
+                <span className="order-3 col-span-2 text-muted sm:order-none sm:col-span-2">{job.role}</span>
+                <span className="text-right text-muted tabular-nums">{job.dates}</span>
+              </li>
+            ))}
+          </ul>
+        </details>
+
+        <h3 className="mt-16 text-[15px] font-medium">Awards</h3>
+        <ul className="mt-4 divide-y divide-line border-y border-line">
+          {awards.map((award) => (
+            <li key={award.name} className="grid grid-cols-[minmax(0,1fr)_auto] gap-x-4 py-4 text-[15px] lg:grid-cols-4">
+              <span className="font-medium">{award.name}</span>
+              <span className="text-right text-muted lg:col-span-3 lg:text-left">{award.detail}</span>
+            </li>
+          ))}
+        </ul>
+      </section>
+
+      {/* Artworks */}
+      <section id="artworks" className="border-t border-line pt-20 pb-24 sm:pt-24">
+        <h2 className="sr-only">Artworks</h2>
+        <ul className="grid grid-cols-2 gap-x-4 gap-y-8 sm:gap-x-6">
+          {artworks.map((art) => (
+            <li key={art.href} data-reveal>
+              <a href={art.href} target="_blank" rel="noreferrer" className="group block">
+                <div className="relative aspect-[4/3] overflow-hidden bg-subtle">
+                  <Image
+                    src={art.src}
+                    alt={art.title}
+                    fill
+                    sizes="50vw"
+                    className="object-cover transition-transform duration-500 ease-out group-hover:scale-[1.04]"
+                  />
+                </div>
+                <p className="mt-2.5 truncate text-[13px] text-muted transition-colors group-hover:text-foreground">
+                  {art.title}
+                </p>
+              </a>
+            </li>
+          ))}
+        </ul>
+        <p className="mt-12 text-center">
+          <a
+            href={dribbbleUrl}
+            target="_blank"
+            rel="noreferrer"
+            className="link-button"
+          >
+            See all on Dribbble ↗
+          </a>
+        </p>
       </section>
 
       <SiteFooter />

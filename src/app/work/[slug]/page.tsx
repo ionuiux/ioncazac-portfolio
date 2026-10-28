@@ -171,6 +171,17 @@ export default async function CaseStudyPage({ params }: PageProps<"/work/[slug]"
         ))}
       </dl>
 
+      {study.results && (
+        <dl className="mx-auto mt-6 grid max-w-4xl gap-4 sm:grid-cols-3">
+          {study.results.map((result) => (
+            <div key={result.label} className="flex flex-col-reverse justify-end bg-subtle p-6">
+              <dt className="mt-2 text-[13px] text-muted">{result.label}</dt>
+              <dd className="text-4xl font-medium tracking-tight">{result.value}</dd>
+            </div>
+          ))}
+        </dl>
+      )}
+
       <div className="mt-14">
         <div className="relative aspect-[4/3] overflow-hidden bg-subtle sm:aspect-[16/9]">
           <Cover study={study} sizes="100vw" priority />

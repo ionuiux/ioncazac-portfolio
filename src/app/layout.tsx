@@ -12,7 +12,7 @@ const inter = Inter({
 });
 
 const description =
-  "Ion Cazac is an AI-native product designer helping product teams turn complex problems into simple, usable products.";
+  "Ion Cazac is an AI-native product designer with 12+ years in B2B SaaS, mobility, fintech and developer tools. Red Dot Award 2024. EU citizen, available now for B2B contracts or full-time roles.";
 
 export const metadata: Metadata = {
   metadataBase: new URL("https://ioncazac.com"),

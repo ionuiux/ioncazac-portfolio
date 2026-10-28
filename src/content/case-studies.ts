@@ -51,6 +51,8 @@ export type CaseStudy = {
   summary: string;
   // The story in three lines, shown at the top of the case study.
   overview?: { problem: string; insight: string; impact: string };
+  // Three headline numbers, shown as a strip right under the title.
+  results?: { value: string; label: string }[];
   role: string;
   timeline: string;
   team: string;
@@ -104,6 +106,11 @@ export const caseStudies: CaseStudy[] = [
       impact:
         "30% more customers, bookings in about 20 seconds, and one product for the team to work on instead of four.",
     },
+    results: [
+      { value: "+30%", label: "More customers" },
+      { value: "~20 s", label: "To book a transfer, 20% faster" },
+      { value: "4", label: "Markets on one portal" },
+    ],
     role: "AI-Native Product Designer",
     timeline: "Apr 2025 – Oct 2026",
     team: "Product, engineering, 4 markets",
@@ -217,11 +224,6 @@ export const caseStudies: CaseStudy[] = [
           "For customers, the portal now works the same way in every market, and it’s faster. Booking takes about 20 seconds, and they can follow every transfer live without picking up the phone.",
           "For the business, the redesign and the move to one platform helped Flovi grow its customers by 30%. For the team, a new feature is now built once for all four markets instead of four times.",
         ],
-        metrics: [
-          { value: "+30%", label: "More customers" },
-          { value: "~20 s", label: "To book a transfer, 20% faster" },
-          { value: "4", label: "Markets on one portal" },
-        ],
       },
       {
         heading: "What I learned",
@@ -238,7 +240,7 @@ export const caseStudies: CaseStudy[] = [
     category: "Wearables · IoT · Mobile",
     year: "2023",
     summary:
-      "ORB’s smart mouthguard records more than 20 performance and wellness metrics. As ORB’s first UX designer, I designed the app that brings it all together, from pairing the mouthguard to live sessions, reports and history.",
+      "ORB’s smart mouthguard records 20+ performance and wellness metrics in every session. As ORB’s first UX designer, I designed the app that turns them into three clear views, from pairing the mouthguard to live sessions, reports and history.",
     overview: {
       problem:
         "The mouthguard records 20+ metrics every session, but athletes and coaches wanted simple answers. And the hardware was still being built.",
@@ -247,6 +249,11 @@ export const caseStudies: CaseStudy[] = [
       impact:
         "An app that turns every session into three clear views, built on a design system that gave ORB “a great start and a strong direction”, as its CTO put it.",
     },
+    results: [
+      { value: "20+", label: "Metrics recorded in every session" },
+      { value: "3", label: "Clear views per session: heart rate, movement, impacts" },
+      { value: "1st", label: "UX designer at ORB" },
+    ],
     role: "Senior Product Designer",
     timeline: "Jun – Dec 2023",
     team: "Founders, engineering, data science",
@@ -387,11 +394,6 @@ export const caseStudies: CaseStudy[] = [
           "Athletes can go from impression kit to their first session, record reliably even in tough conditions, and review more than 20 metrics in three clear views, with the context that makes them useful.",
           "The app gave ORB a solid, consistent base to build on while the hardware was still changing. Thomas Quinn, ORB’s CTO and co-founder, put it this way: “Ion joined ORB as our first UX Designer and he knocked our design needs out of the park, even with the challenges of working with development IoT hardware. His work gave ORB a great start and a strong direction.”",
         ],
-        metrics: [
-          { value: "20+", label: "Metrics in one place" },
-          { value: "3", label: "Views per session: heart rate, movement, impacts" },
-          { value: "1st", label: "UX designer at ORB" },
-        ],
       },
       {
         heading: "What I learned",
@@ -408,7 +410,7 @@ export const caseStudies: CaseStudy[] = [
     category: "Fintech · iOS · Design system",
     year: "2022",
     summary:
-      "Profit.com puts global markets, news, community and trading games in one app. You practise with virtual money, compete with traders around the world and can win real prizes. I led the design from market research to the native iOS app and its design system.",
+      "Profit.com puts global markets, news, community and trading games in one app. I led the design for two years, from market research to the native iOS app, one design system for iOS and web, and Arena, a trading game with prizes of up to $30,000 a month.",
     overview: {
       problem:
         "Learning to trade meant risking real money or using boring paper-trading apps. And market data, news and discussion were spread across different apps.",
@@ -417,6 +419,11 @@ export const caseStudies: CaseStudy[] = [
       impact:
         "A native iOS app that brings markets, news, community and trading games together, built on one design system for iOS and web.",
     },
+    results: [
+      { value: "$30k", label: "Top monthly prize in Arena, the trading game" },
+      { value: "4", label: "Markets in one app: stocks, crypto, indices and forex" },
+      { value: "2", label: "Platforms on one design system: iOS and web" },
+    ],
     role: "Senior Product Designer",
     timeline: "Mar 2022 – Feb 2024",
     team: "Product, iOS & web engineering, marketing",
@@ -576,11 +583,6 @@ export const caseStudies: CaseStudy[] = [
           "Profit.com launched as a native iOS app that brings market data, news, community and trading games together, the all-in-one app the research pointed to. Beginners can practise on real markets without risking money, and competitive players have a reason to come back every day.",
           "The research gave the leadership team a clear direction before development started. The design system gave product and engineering a shared language, so new features like tournaments and the Weekly Brief were built on what already existed, not from scratch.",
         ],
-        metrics: [
-          { value: "1st", label: "All-in-one trading simulation app for everyone" },
-          { value: "4", label: "Markets in one app: stocks, crypto, indices and forex" },
-          { value: "1", label: "Design system for iOS and web" },
-        ],
       },
       {
         heading: "What I learned",
@@ -597,7 +599,7 @@ export const caseStudies: CaseStudy[] = [
     category: "Developer tools · Design system · AI",
     year: "2024",
     summary:
-      "Digma finds performance and scaling problems in code before they reach production. I designed its custom design system and a component library that let every developer build UI that feels native inside the IDE. Digma was later acquired by JetBrains.",
+      "Digma finds performance and scaling problems in code before they reach production. I built the design system used across all its IDE plugins and web app, and designed its AI agents experience. Digma was later acquired by JetBrains.",
     overview: {
       problem:
         "Digma’s UI lives inside developers’ code editors, and it had been built screen by screen. The same things looked and worked differently, and every feature started almost from zero.",
@@ -606,6 +608,11 @@ export const caseStudies: CaseStudy[] = [
       impact:
         "One design system and component library used by every developer, consistent UI from the first build, and a base that carried Digma into AI agents, before JetBrains acquired it.",
     },
+    results: [
+      { value: "1", label: "Design system for all IDE plugins and the web app" },
+      { value: "5", label: "AI agents in the incident experience" },
+      { value: "JetBrains", label: "Acquired Digma" },
+    ],
     role: "Senior Product Designer",
     timeline: "Feb 2024 – Apr 2025",
     team: "Product, engineering",
@@ -722,11 +729,6 @@ export const caseStudies: CaseStudy[] = [
         body: [
           "Design and engineering worked from the same source. New UI was consistent from the first build, and developers stopped rebuilding the same patterns. New features were put together from shared parts instead of waiting for new designs.",
           "The system was flexible enough to take Digma from code issues to AI agents that investigate incidents. Digma was later acquired by JetBrains.",
-        ],
-        metrics: [
-          { value: "1", label: "Design system for the IDE plugins and the web app" },
-          { value: "All", label: "Developers building UI from the shared library" },
-          { value: "JetBrains", label: "Acquired Digma" },
         ],
       },
       {
