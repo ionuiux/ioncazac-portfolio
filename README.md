@@ -1,6 +1,11 @@
 # ioncazac.com
 
-Ion Cazac's portfolio, built with Next.js and Tailwind CSS. It is hosted on Vercel.
+The source of [ioncazac.com](https://ioncazac.com), the portfolio of Ion Cazac, Senior Product Designer · AI-Native Product Builder. I designed it and built it in code with AI (Claude Code).
+
+- **Stack:** Next.js 16 (App Router), Tailwind CSS 4, TypeScript, hosted on Vercel.
+- **Content as data:** every case study, role and recommendation lives in `src/content/`, and the pages are built from it.
+- **Readable by AI tools:** schema.org Person data, a plain-text CV at `/cv`, `llms.txt`, a sitemap and `robots.txt`.
+- **Details:** smooth scrolling with Lenis, tiles that fade in on scroll, a looping logo strip, and an Open Graph image generated in code. Motion is turned off for people who prefer reduced motion.
 
 ## Where to edit things
 
