@@ -107,7 +107,7 @@ export const testimonials: {
 export const experience = [
   {
     company: "Flovi",
-    role: "Senior Product Designer",
+    role: "AI-Native Product Designer",
     location: "Helsinki · Hybrid · Full-time",
     dates: "2025 – 2026",
     outcome: "Unified the customer portal across 4 markets: +30% customers and 20% faster booking. Designed an AI-native driver app and led launches in 2 new countries.",

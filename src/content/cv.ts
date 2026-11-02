@@ -21,7 +21,7 @@ export const cv = {
   experience: [
     {
       company: "Flovi",
-      role: "Senior Product Designer",
+      role: "AI-Native Product Designer",
       dates: "Apr 2025 – Oct 2026",
       details: "Helsinki, Finland · Hybrid · Full-time · Mobility B2B SaaS",
       points: [
