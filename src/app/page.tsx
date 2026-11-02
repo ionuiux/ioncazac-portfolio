@@ -4,6 +4,7 @@ import { RevealOnScroll } from "@/components/reveal-on-scroll";
 import { SiteFooter } from "@/components/site-footer";
 import { artworks, dribbbleUrl } from "@/content/artworks";
 import { caseStudies } from "@/content/case-studies";
+import { cv } from "@/content/cv";
 import { awards, clients, earlierExperience, experience, profile, testimonials } from "@/content/profile";
 
 const SITE = "https://ioncazac.com";
@@ -18,6 +19,7 @@ const personJsonLd = {
   url: SITE,
   image: `${SITE}/ion.jpg`,
   email: `mailto:${profile.email}`,
+  telephone: cv.phone,
   address: { "@type": "PostalAddress", addressLocality: "Chișinău", addressCountry: "MD" },
   sameAs: profile.links.map((link) => link.href),
   knowsAbout: [

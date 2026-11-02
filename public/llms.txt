@@ -18,10 +18,12 @@
 
 - [CV as a web page](https://ioncazac.com/cv)
 - [CV as a PDF](https://ioncazac.com/Ion-Cazac-CV.pdf)
+- [Sitemap](https://ioncazac.com/sitemap.xml)
 
 ## Contact
 
 - Email: hi@ioncazac.com
+- Phone: +373 60 913 066
 - LinkedIn: https://www.linkedin.com/in/ion-cazac/
 - GitHub: https://github.com/ionuiux
 - Dribbble: https://dribbble.com/yvancross
