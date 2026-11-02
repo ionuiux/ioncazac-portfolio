@@ -162,7 +162,7 @@ export default async function CaseStudyPage({ params }: PageProps<"/work/[slug]"
         <p className="mx-auto mt-6 max-w-xl text-[17px] leading-relaxed text-muted text-balance">{study.summary}</p>
       </header>
 
-      <dl className="mx-auto mt-14 grid max-w-4xl grid-cols-2 gap-y-6 border-y border-line px-4 py-6 sm:grid-cols-4 sm:px-6">
+      <dl className="mx-auto mt-14 grid max-w-4xl grid-cols-2 gap-x-4 gap-y-6 border-y border-line px-4 py-6 sm:grid-cols-4 sm:px-6">
         {meta.map((item) => (
           <div key={item.label}>
             <dt className="text-[12px] text-muted">{item.label}</dt>
@@ -230,7 +230,9 @@ export default async function CaseStudyPage({ params }: PageProps<"/work/[slug]"
               <ol className="mx-auto mt-10 grid max-w-4xl gap-4 sm:grid-cols-2">
                 {section.insights.map((insight, i) => (
                   <li key={insight.title} className="bg-subtle p-6">
-                    <p className="text-[13px] text-muted tabular-nums">Insight {String(i + 1).padStart(2, "0")}</p>
+                    <p className="text-[13px] text-muted tabular-nums">
+                      {insight.label ?? `Insight ${String(i + 1).padStart(2, "0")}`}
+                    </p>
                     <h3 className="mt-3 text-[17px] font-medium">{insight.title}</h3>
                     <p className="mt-2 text-[15px] leading-relaxed text-neutral-600">{insight.body}</p>
                   </li>

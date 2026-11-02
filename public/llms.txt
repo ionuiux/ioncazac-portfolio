@@ -10,7 +10,7 @@
 
 ## Selected work
 
-- [Flovi](https://ioncazac.com/work/flovi): one customer portal for four markets. +30% customers, and booking takes about 20 seconds, 20% faster.
+- [Flovi](https://ioncazac.com/work/flovi): one customer portal for four markets, designed with AI for usage analytics, metrics, interviews and testing. +30% customers, and booking takes about 20 seconds, 20% faster.
 - [Digma](https://ioncazac.com/work/digma): a design system for all IDE plugins and the web app, plus the AI agents experience. Digma was acquired by JetBrains.
 - [Profit.com](https://ioncazac.com/work/profit): an all-in-one trading app for iOS and web, with Arena, a trading game with prizes of up to $30,000 a month.
 

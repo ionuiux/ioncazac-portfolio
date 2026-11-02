@@ -36,8 +36,8 @@ export type CaseSection = {
   body: string[];
   images?: CaseImage[];
   metrics?: { value: string; label: string }[];
-  // Research findings, shown as numbered cards.
-  insights?: { title: string; body: string }[];
+  // Research findings, shown as numbered cards. A `label` replaces the number.
+  insights?: { title: string; body: string; label?: string }[];
   // Problem-solving: each problem paired with what was done about it.
   decisions?: { problem: string; solution: string }[];
 };
@@ -93,18 +93,18 @@ export const caseStudies: CaseStudy[] = [
   {
     slug: "flovi",
     client: "Flovi",
-    title: "One customer portal for four markets",
-    category: "Mobility · B2B SaaS · Design system",
+    title: "One customer portal for four markets, designed with AI",
+    category: "Mobility · B2B SaaS · AI-assisted design",
     year: "2025",
     summary:
-      "I redesigned Flovi’s customer portal and brought four markets onto one version of it. Flovi got 30% more customers, and booking a transfer now takes about 20 seconds, 20% faster than before.",
+      "I redesigned Flovi’s customer portal and brought four markets onto one version of it. AI was part of every step: reading usage data, running interviews, building prototypes and testing them. Flovi got 30% more customers, and booking a transfer now takes about 20 seconds, 20% faster than before.",
     overview: {
       problem:
-        "Each of Flovi’s four markets had its own version of the portal. Booking was slow, and every new feature had to be built four times.",
+        "Each of Flovi’s four markets had its own version of the portal. Booking was slow, every feature had to be built four times, and nobody had a clear picture of how customers really used it.",
       insight:
-        "The markets didn’t need different products. The real differences, like currency, VAT and office rules, were just content.",
+        "With AI, we analysed usage across all four markets and saw that customers did the same few things in the same order everywhere. The real differences, like currency, VAT and office rules, were just content.",
       impact:
-        "30% more customers, bookings in about 20 seconds, and one product for the team to work on instead of four.",
+        "30% more customers, bookings in about 20 seconds, one product instead of four, and a team that uses AI to go from data to a tested idea much faster.",
     },
     results: [
       { value: "+30%", label: "More customers" },
@@ -124,49 +124,83 @@ export const caseStudies: CaseStudy[] = [
         body: [
           "Flovi moves cars for rental and fleet companies. A driver picks up a car in one place and delivers it to another, and customers book and track these transfers in the Flovi portal.",
           "The portal grew one market at a time, and each market ended up with its own version. The layouts were different, the same things had different names, and some features only existed in one country. Booking a transfer, the thing customers do most, took too long. And every new feature had to be designed and built more than once.",
+          "We also had a lot of data about how customers used the portal: bookings, statuses, support questions and invoices from four markets. But it sat in different places and different languages, and nobody had time to read it all.",
         ],
       },
       {
         heading: "My role",
         body: [
-          "I led the design of the customer portal. I audited the old portals, defined one structure for all markets, built a design system with the engineers based on shadcn, and designed the main flows. I also brought AI tools into our process, so we could test ideas and prototype much faster.",
+          "I led the design of the customer portal and made AI part of how we worked, from research to release. I used it to analyse usage data and metrics, run and summarise customer interviews, build prototypes in code and test them.",
+          "Alongside that, I audited the old portals, defined one structure for all markets, built a design system with the engineers based on shadcn, and designed the main flows.",
+        ],
+      },
+      {
+        heading: "How AI fit into the work",
+        body: [
+          "I used AI as a research and prototyping partner at every stage. It did the heavy reading and building, so I could spend my time on the decisions. I checked everything it found against the raw data and with the people in each market before we acted on it.",
+        ],
+        insights: [
+          {
+            label: "Analytics",
+            title: "Finding usage patterns",
+            body: "I gave Claude anonymised booking and usage data from all four markets and asked it to find patterns: when customers book, which routes repeat, which pages they open first and what they check before calling support.",
+          },
+          {
+            label: "Metrics",
+            title: "One set of numbers for every market",
+            body: "AI helped me define and track the metrics that mattered: time to book, completed bookings, “where is my car?” questions and how often finance teams checked costs. All four markets were measured the same way.",
+          },
+          {
+            label: "Interviews",
+            title: "Interviews in every market",
+            body: "I interviewed customers and operations teams in each market. AI transcribed the calls, translated the ones in local languages and pulled out the themes that came up across all of them.",
+          },
+          {
+            label: "Testing",
+            title: "Real prototypes, tested fast",
+            body: "I built working prototypes in code with Cursor, Claude and our shadcn components, so customers tested something that felt real. AI summarised every session and tagged each problem by flow and market.",
+          },
         ],
       },
       {
         heading: "Research and insights",
         body: [
-          "Before designing anything, I put all four portals side by side and mapped every step of booking in each one. I also went through the questions customers asked support and operations, and looked at how finance teams handled invoices at the end of each billing cycle.",
+          "Before designing anything, I put all four portals side by side and mapped every step of booking in each one. Then I used AI to go through everything else: the usage data, the questions customers asked support and operations, the interview notes, and how finance teams handled invoices at the end of each billing cycle. AI found the patterns, and I checked them with the teams on the ground.",
         ],
         insights: [
           {
             title: "Four portals, one job",
-            body: "The portals used different names, layouts and steps for the same tasks. Only a few differences really mattered: currency, VAT, office rules and opening hours.",
+            body: "AI compared usage in all four markets and found the same few tasks, in the same order, everywhere. Only a few differences really mattered: currency, VAT, office rules and opening hours.",
           },
           {
             title: "Customers typed what we already knew",
-            body: "Every booking asked for details Flovi already had, like office addresses and opening hours.",
+            body: "Analysing past bookings showed that most fields were filled in with the same details every time, like office addresses and opening hours. Flovi already had all of it.",
           },
           {
             title: "“Where is my car?”",
-            body: "A lot of calls were people asking where their transfer was. We had that information, the portal just didn’t show it.",
+            body: "When AI grouped the support questions by topic, the biggest group was people asking where their transfer was. We had that information, the portal just didn’t show it.",
           },
           {
             title: "Finance didn’t like surprises",
-            body: "Costs only became clear when the invoice arrived. Finance teams wanted to see the total grow during the cycle so they could plan for it.",
+            body: "Usage data and interviews showed that finance teams only looked at costs when the invoice arrived. They wanted to see the total grow during the cycle so they could plan for it.",
           },
         ],
       },
       {
         heading: "How I solved it",
-        body: ["I turned each finding into a design decision, starting with the foundation."],
+        body: ["I turned each finding into a design decision, and used AI to test each one before we built it."],
         decisions: [
           {
             problem: "Four versions of the portal, and every feature built four times.",
             solution: "One portal on a shared design system. Market differences live in content and settings, so we design and build things once.",
           },
           {
+            problem: "Lots of usage data, but no clear way to show customers their own usage.",
+            solution: "With AI, I explored and tested many ways of showing usage, from charts to tables to maps. The clearest one became the home page: a live map with status counts and the latest reservations.",
+          },
+          {
             problem: "Booking a transfer took too long.",
-            solution: "A form that asks one thing at a time, fills in pickup and drop-off times from office hours, and shows a live summary next to it.",
+            solution: "A form that asks one thing at a time, fills in what past bookings already tell us, like pickup and drop-off times from office hours, and shows a live summary next to it.",
           },
           {
             problem: "Customers called to ask where their car was.",
@@ -176,6 +210,14 @@ export const caseStudies: CaseStudy[] = [
             problem: "Costs were a surprise at the end of every cycle.",
             solution: "The current billing cycle, with trips so far and an estimated total, is always one click away.",
           },
+        ],
+      },
+      {
+        heading: "Finding the best way to show usage",
+        body: [
+          "With the help of AI, we found the best way to show customers how they use Flovi. Fleet managers wanted to see at a glance how many cars were moving, where they were and what it would cost, without digging through reports.",
+          "I asked AI to turn the usage patterns into different ways of showing them: charts, tables, timelines, maps and simple counts. I picked the strongest ideas, built them as working prototypes with realistic data, and tested them with customers in each market.",
+          "The simplest version worked best. A live map answers “where is my car?”, status counts show what is happening right now, and the billing cycle shows what it will cost. That became the home page and the invoices page.",
         ],
       },
       {
@@ -192,7 +234,7 @@ export const caseStudies: CaseStudy[] = [
       {
         heading: "See every car on the move",
         body: [
-          "The home page answers the question customers ask most: where is my car? A live map shows every active transfer. Filters show how many cars are requested, assigned, on the road or delivered, and each reservation shows its route, time and price in one row.",
+          "The home page answers the question customers ask most: where is my car? The usage data showed it was the first thing most customers checked when they logged in, so a live map shows every active transfer. Filters show how many cars are requested, assigned, on the road or delivered, and each reservation shows its route, time and price in one row.",
           "Click a car to see the driver, the vehicle, the route and when it will arrive. Customers can follow a transfer without calling anyone.",
         ],
         images: [
@@ -204,8 +246,8 @@ export const caseStudies: CaseStudy[] = [
       {
         heading: "Booking in about 20 seconds",
         body: [
-          "Customers book transfers all the time, so every second counts. The new form asks one thing at a time, fills in what it can by itself, like pickup and drop-off times based on office hours, and shows a live summary next to it.",
-          "The average booking time dropped by 20%, to about 20 seconds.",
+          "Customers book transfers all the time, so every second counts. AI went through past bookings and showed which details were almost always the same, so the new form fills them in by itself, like pickup and drop-off times based on office hours. It asks one thing at a time and shows a live summary next to it.",
+          "We tested the form as a coded prototype and used AI to compare how long each step took across sessions. After launch, the average booking time dropped by 20%, to about 20 seconds.",
         ],
       },
       {
@@ -219,16 +261,25 @@ export const caseStudies: CaseStudy[] = [
         ],
       },
       {
+        heading: "Testing and measuring with AI",
+        body: [
+          "Every main flow was tested as a working prototype before it was built. AI summarised each session, so after a round of tests I quickly had a clear list of what broke, in which flow and in which market.",
+          "After launch, we kept watching the same metrics: time to book, completed bookings and support questions. Every week, AI helped me read the numbers, spot where people still got stuck and decide what to fix next.",
+        ],
+      },
+      {
         heading: "Impact",
         body: [
           "For customers, the portal now works the same way in every market, and it’s faster. Booking takes about 20 seconds, and they can follow every transfer live without picking up the phone.",
           "For the business, the redesign and the move to one platform helped Flovi grow its customers by 30%. For the team, a new feature is now built once for all four markets instead of four times.",
+          "For the way we work, AI turned research and testing into a weekly habit instead of a big project. Going from a question to an answer in the data, or from an idea to a tested prototype, is now much faster than before.",
         ],
       },
       {
         heading: "What I learned",
         body: [
-          "Most of the work wasn’t the screens. It was getting four markets to agree on one way of working: the same words, the same steps, and a clear idea of which local differences really matter.",
+          "AI is great at reading a lot of data and building prototypes fast, but it doesn’t know which patterns matter. The value came from pairing it with real conversations with customers and the teams in each market, and checking every finding before we acted on it.",
+          "The rest of the work wasn’t the screens. It was getting four markets to agree on one way of working: the same words, the same steps, and a clear idea of which local differences really matter.",
         ],
       },
     ],
