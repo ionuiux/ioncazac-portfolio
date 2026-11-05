@@ -1,5 +1,6 @@
 import Image from "next/image";
 import { CaseStudyCard } from "@/components/case-study-card";
+import { Portrait } from "@/components/portrait";
 import { RevealOnScroll } from "@/components/reveal-on-scroll";
 import { SiteFooter } from "@/components/site-footer";
 import { artworks, dribbbleUrl } from "@/content/artworks";
@@ -85,14 +86,7 @@ export default function Home() {
       <section className="pt-8 pb-20 sm:pt-14 sm:pb-24">
         {/* Photo on the left, name and introduction on the right (stacked on phones). */}
         <div className="flex flex-col gap-8 md:flex-row md:items-start md:gap-12 lg:gap-16">
-          <Image
-            src="/ion.jpg"
-            alt={`Portrait of ${profile.name}`}
-            width={512}
-            height={512}
-            priority
-            className="size-28 shrink-0 rounded-full object-cover sm:size-40 lg:size-64"
-          />
+          <Portrait />
           <div className="min-w-0 md:pt-2">
             <h1 className="text-5xl font-bold tracking-[-0.035em] sm:text-7xl lg:text-8xl">
               {profile.greeting} <span aria-hidden>👋</span>

@@ -164,3 +164,40 @@ body {
     transition: none;
   }
 }
+
+/* The portrait blinks once when the mouse moves onto it: a half-closed and a
+   closed frame (public/portrait/blink-*.jpg) flick in over 170ms, like a real
+   blink. Only with a mouse (no hover on touch screens) and when motion is allowed. */
+.portrait-frame {
+  opacity: 0;
+}
+@media (hover: hover) and (prefers-reduced-motion: no-preference) {
+  .portrait:hover .portrait-half {
+    animation: blink-half 170ms steps(1, end) both;
+  }
+  .portrait:hover .portrait-closed {
+    animation: blink-closed 170ms steps(1, end) both;
+  }
+}
+@keyframes blink-half {
+  0%,
+  25%,
+  85%,
+  100% {
+    opacity: 0;
+  }
+  5%,
+  60% {
+    opacity: 1;
+  }
+}
+@keyframes blink-closed {
+  0%,
+  60%,
+  100% {
+    opacity: 0;
+  }
+  25% {
+    opacity: 1;
+  }
+}
