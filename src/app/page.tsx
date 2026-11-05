@@ -1,9 +1,10 @@
 import Image from "next/image";
+import { ArtworkGallery } from "@/components/artwork-gallery";
 import { CaseStudyCard } from "@/components/case-study-card";
 import { Portrait } from "@/components/portrait";
 import { RevealOnScroll } from "@/components/reveal-on-scroll";
 import { SiteFooter } from "@/components/site-footer";
-import { artworks, dribbbleUrl } from "@/content/artworks";
+import { dribbbleUrl } from "@/content/artworks";
 import { caseStudies } from "@/content/case-studies";
 import { cv } from "@/content/cv";
 import { awards, clients, earlierExperience, experience, profile, testimonials } from "@/content/profile";
@@ -262,26 +263,7 @@ export default function Home() {
       {/* Artworks */}
       <section id="artworks" className="border-t border-line pt-20 pb-24 sm:pt-24">
         <h2 className="sr-only">Artworks</h2>
-        <ul className="grid grid-cols-2 gap-x-4 gap-y-8 sm:gap-x-6">
-          {artworks.map((art) => (
-            <li key={art.href} data-reveal>
-              <a href={art.href} target="_blank" rel="noreferrer" className="group block">
-                <div className="relative aspect-[4/3] overflow-hidden bg-subtle">
-                  <Image
-                    src={art.src}
-                    alt={art.title}
-                    fill
-                    sizes="50vw"
-                    className="object-cover transition-transform duration-500 ease-out group-hover:scale-[1.04]"
-                  />
-                </div>
-                <p className="mt-2.5 truncate text-[13px] text-muted transition-colors group-hover:text-foreground">
-                  {art.title}
-                </p>
-              </a>
-            </li>
-          ))}
-        </ul>
+        <ArtworkGallery />
         <p className="mt-12 text-center">
           <a
             href={dribbbleUrl}
