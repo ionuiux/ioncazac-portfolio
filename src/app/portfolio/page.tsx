@@ -10,11 +10,11 @@ import { profile } from "@/content/profile";
 
 export const metadata: Metadata = {
   title: "Portfolio",
-  description: `Every case study and Dribbble shot by ${profile.name}, ${profile.title}: B2B SaaS, mobility, fintech, developer tools and mobile apps.`,
+  description: `Every case study and design shot by ${profile.name}, ${profile.title}: B2B SaaS, mobility, fintech, developer tools and mobile apps.`,
   alternates: { canonical: "/portfolio" },
 };
 
-// All the work in one place: every case study, then the Dribbble shots, which
+// All the work in one place: every case study, then the design shots, which
 // open large on this page (the same viewer as on the homepage).
 export default function PortfolioPage() {
   return (
@@ -32,7 +32,7 @@ export default function PortfolioPage() {
       <header className="mx-auto max-w-3xl pt-12 pb-16 text-center sm:pt-20 sm:pb-20">
         <h1 className="text-5xl font-medium tracking-tight sm:text-7xl">Portfolio</h1>
         <p className="mx-auto mt-6 max-w-xl text-[17px] leading-relaxed text-muted text-balance">
-          Case studies and Dribbble shots: B2B SaaS, mobility, fintech, developer tools, websites and mobile apps.
+          Case studies and design shots: B2B SaaS, mobility, fintech, developer tools, websites and mobile apps.
         </p>
       </header>
 
@@ -46,7 +46,7 @@ export default function PortfolioPage() {
       </section>
 
       <section id="shots" className="pb-24">
-        <SectionHeading title="Dribbble shots" count={artworks.length} />
+        <SectionHeading title="Design shots" count={artworks.length} />
         <div className="mt-10">
           <ArtworkGallery />
         </div>

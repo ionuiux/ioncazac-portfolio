@@ -5,7 +5,7 @@ import { useEffect, useRef, useState } from "react";
 import { useLenis } from "lenis/react";
 import { artworks } from "@/content/artworks";
 
-// The Dribbble shots grid. Clicking a shot opens it large in a viewer on this
+// The design shots grid (from Dribbble). Clicking a shot opens it large in a viewer on this
 // page instead of going to Dribbble, so visitors stay on the site. In the
 // viewer: arrows (or ← → keys, or a swipe on phones) step through the shots;
 // Esc, Close or a click outside the image closes it.
@@ -66,7 +66,7 @@ export function ArtworkGallery() {
 
       <dialog
         ref={dialog}
-        aria-label="Dribbble shots"
+        aria-label="Design shots"
         onClose={() => {
           setIndex(null);
           lenis?.start();

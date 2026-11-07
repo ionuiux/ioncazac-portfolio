@@ -16,7 +16,7 @@
 
 ## More
 
-- [Full portfolio](https://ioncazac.com/portfolio): every case study and Dribbble shot on one page
+- [Full portfolio](https://ioncazac.com/portfolio): every case study and design shot on one page
 - [CV as a web page](https://ioncazac.com/cv)
 - [CV as a PDF](https://ioncazac.com/Ion-Cazac-CV.pdf)
 - [Sitemap](https://ioncazac.com/sitemap.xml)
