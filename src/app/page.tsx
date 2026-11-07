@@ -1,4 +1,5 @@
 import Image from "next/image";
+import Link from "next/link";
 import { ArtworkGallery } from "@/components/artwork-gallery";
 import { CaseStudyCard } from "@/components/case-study-card";
 import { Portrait } from "@/components/portrait";
@@ -66,9 +67,13 @@ export default function Home() {
       />
       <RevealOnScroll />
       {/* Top bar */}
-      <header className="flex items-center justify-between gap-4 py-6 text-[14px]">
-        <p className="text-muted">{profile.tagline}</p>
+      {/* On narrow phones the links wrap onto their own row under the tagline. */}
+      <header className="flex flex-wrap items-center justify-between gap-x-4 gap-y-3 py-6 text-[14px]">
+        <p className="whitespace-nowrap text-muted">{profile.tagline}</p>
         <nav className="flex shrink-0 items-center gap-5">
+          <Link href="/portfolio" className="link-button">
+            Portfolio
+          </Link>
           <a href={profile.cv} download className="link-button">
             Download CV
           </a>

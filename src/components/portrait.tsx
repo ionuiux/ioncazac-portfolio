@@ -1,7 +1,7 @@
 "use client";
 
 import Image from "next/image";
-import { useEffect, useId, useRef } from "react";
+import { useEffect, useId, useRef, useState } from "react";
 import eyes from "@/content/portrait-eyes.json";
 import { profile } from "@/content/profile";
 
@@ -13,12 +13,20 @@ import { profile } from "@/content/profile";
 //     down, the upper lids come down with the eyes, in small steps. At rest the
 //     layers line up exactly with the photo, so nothing looks different.
 // Everything comes from scripts/portrait-frames.py; touch screens and visitors
-// who prefer less motion see the plain photo.
+// who prefer less motion see the plain photo. The eye layers stay hidden until
+// the photo itself has loaded, so they never show on an empty circle.
 export function Portrait() {
   const box = useRef<HTMLSpanElement>(null);
+  const photo = useRef<HTMLImageElement>(null);
+  const [photoReady, setPhotoReady] = useState(false);
   const irises = useRef<(SVGImageElement | null)[]>([]);
   const lids = useRef<(SVGImageElement | null)[][]>([]);
   const id = useId();
+
+  // A photo that loaded before React took over never fires onLoad, so check it once.
+  useEffect(() => {
+    if (photo.current?.complete && photo.current.naturalWidth) setPhotoReady(true);
+  }, []);
 
   useEffect(() => {
     const el = box.current;
@@ -91,12 +99,14 @@ export function Portrait() {
         width={512}
         height={512}
         priority
+        ref={photo}
+        onLoad={() => setPhotoReady(true)}
         className="size-full rounded-full object-cover"
       />
       <svg
         viewBox={`0 0 ${eyes.size} ${eyes.size}`}
         aria-hidden
-        className="pointer-events-none absolute inset-0 size-full"
+        className={`pointer-events-none absolute inset-0 size-full ${photoReady ? "" : "invisible"}`}
       >
         <defs>
           {eyes.eyes.map((eye, i) => (

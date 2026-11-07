@@ -1,3 +1,4 @@
+import Link from "next/link";
 import { profile } from "@/content/profile";
 
 // Cached at build time, so the year updates whenever the site is redeployed.
@@ -21,6 +22,11 @@ export async function SiteFooter() {
         {profile.email}
       </a>
       <ul className="mt-8 flex flex-wrap justify-center gap-x-6 gap-y-2">
+        <li>
+          <Link href="/portfolio" className="link-button">
+            Portfolio
+          </Link>
+        </li>
         <li>
           <a href={profile.cv} download className="link-button">
             Download CV ↗
