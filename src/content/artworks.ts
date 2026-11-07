@@ -1,5 +1,6 @@
 // The strongest Dribbble shots, newest first, laid out three to a row (two on
-// phones) so websites and mobile apps take turns. Clicking one opens it large
+// phones) so websites and mobile apps take turns. Keep the count a multiple
+// of 6 so the last row is full in both layouts. Clicking one opens it large
 // on this site (src/components/artwork-gallery.tsx); only "See all on Dribbble"
 // links away. Images live in /public/artworks/: `src` is the 1200×900 grid
 // crop, `full` the whole shot (up to 2000px wide) for the enlarged view.
@@ -24,4 +25,5 @@ export const artworks: Artwork[] = [
   { title: "Flovi - Live Fleet Dashboard for 4 Markets", src: "/artworks/flovi-dashboard.webp", full: { src: "/artworks/full/flovi-dashboard.webp", width: 1600, height: 1200 } },
   { title: "Omikami - Mobile App", src: "/artworks/omikami.webp", full: { src: "/artworks/full/omikami.webp", width: 2000, height: 1185 } },
   { title: "armo - Website", src: "/artworks/armo.webp", full: { src: "/artworks/full/armo.webp", width: 2000, height: 1500 } },
+  { title: "Darqube - Mobile App", src: "/artworks/darqube-mobile.webp", full: { src: "/artworks/full/darqube-mobile.webp", width: 2000, height: 1500 } },
 ];
