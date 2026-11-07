@@ -38,7 +38,8 @@ export function ArtworkGallery() {
 
   return (
     <>
-      <ul className="grid grid-cols-2 gap-x-4 gap-y-8 sm:gap-x-6">
+      {/* Three shots to a row; two on phones, where three would be too small to see. */}
+      <ul className="grid grid-cols-2 gap-x-4 gap-y-8 sm:gap-x-6 md:grid-cols-3">
         {artworks.map((art, i) => (
           <li key={art.src} data-reveal>
             <button
@@ -52,7 +53,7 @@ export function ArtworkGallery() {
                   src={art.src}
                   alt={art.title}
                   fill
-                  sizes="50vw"
+                  sizes="(min-width: 768px) 33vw, 50vw"
                   className="object-cover transition-transform duration-500 ease-out group-hover:scale-[1.04]"
                 />
               </div>
