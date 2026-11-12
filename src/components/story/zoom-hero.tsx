@@ -102,7 +102,7 @@ export function ZoomHero({ line, logo, word = "", through = 0 }: { line: string;
             ref={(node) => {
               mark.current = node;
             }}
-            className="relative mb-[6vh] w-[78vw] max-w-[1100px] sm:w-[min(62vw,calc(55svh*2.46))]"
+            className="relative mb-[6vh] w-[78vw] max-w-[1100px] sm:w-[min(62vw,calc(55svh*2.83))]"
             style={{ transformOrigin: `${percent(logo.hole[0], logo.width)} ${percent(logo.hole[1], logo.height)}` }}
           >
             {/* eslint-disable-next-line @next/next/no-img-element -- an SVG drawn as vectors, so it stays sharp at 60× */}
@@ -148,8 +148,14 @@ export function ZoomHero({ line, logo, word = "", through = 0 }: { line: string;
             <span ref={baseline} className="inline-block size-0" />
           </p>
         )}
-        <div ref={fade} className="absolute inset-x-0 bottom-20 text-center sm:bottom-24">
-          <div className={intro ? "hero-line" : undefined}>
+        {/* Above the logo animation, and only shown once the logo has drawn itself. */}
+        <div ref={fade} className="absolute inset-x-0 bottom-20 z-20 text-center sm:bottom-24">
+          <div
+            data-hero-line
+            className={`transition-[opacity,translate] duration-700 ease-out ${
+              animated && phase === "playing" ? "translate-y-2 opacity-0" : "translate-y-0 opacity-100"
+            }`}
+          >
             <p className="px-6 text-[15px] text-balance text-muted sm:text-[17px]">{line}</p>
             <p className="mt-4 text-[13px] text-muted">Scroll ↓</p>
           </div>

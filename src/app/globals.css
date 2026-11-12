@@ -257,16 +257,6 @@ body {
   transform: rotate(calc(var(--tilt, 0deg) + 8deg)) scale(1.06);
 }
 
-/* The line under the hero logo arrives once the logo has drawn itself. */
-.hero-line {
-  animation: hero-line-in 0.8s ease 2s both;
-}
-@keyframes hero-line-in {
-  from {
-    opacity: 0;
-    transform: translateY(8px);
-  }
-}
 
 @media (prefers-reduced-motion: reduce) {
   [data-reveal].pop,
@@ -274,8 +264,5 @@ body {
   [data-reveal].pop.is-in:hover {
     transform: rotate(var(--tilt, 0deg));
     transition: none;
-  }
-  .hero-line {
-    animation: none;
   }
 }

@@ -188,12 +188,16 @@ export const caseStudies: CaseStudy[] = [
         // The zoom flies through the middle of the "o" in the Flovi logo.
         logo: {
           src: "/work/flovi/logo.svg",
-          width: 419.28,
-          height: 170.16,
-          hole: [204.9, 101.25],
+          width: 443.38,
+          height: 156.66,
+          // The middle of the "o"'s hole.
+          hole: [216.02, 95.47],
           // Flovi's own logo animation, cropped from 1920×1080. Measured on its
-          // last frame: 1.988 px per logo unit across and 1.912 down.
-          intro: { src: "/work/flovi/logo-intro.gif", x: -11.42, y: -0.59, width: 438.63, height: 288.64, duration: 2280 },
+          // last frame (the logo's straight edges, to a tenth of a pixel): 1.8818 px
+          // per logo unit across and 1.8077 down, as the animation draws the logo
+          // about 4% wider. Fitted this way (then nudged a quarter pixel after
+          // comparing both in the browser), its last frame covers the logo exactly.
+          intro: { src: "/work/flovi/logo-intro.gif", x: -12.0, y: -12.34, width: 463.38, height: 305.35, duration: 2280 },
         },
         line: "One customer portal for One Flovi company",
       },
