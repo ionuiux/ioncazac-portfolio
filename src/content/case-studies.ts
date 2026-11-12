@@ -108,8 +108,15 @@ export type StoryBlock =
   | { type: "carousel"; label: string; heading: string; text: string; items: { label: string; title: string; text: string; image?: StoryImage }[] }
   // Each problem, what was done about it and a picture of the result.
   | { type: "fixes"; label: string; heading: string; items: { problem: string; solution: string; image: StoryImage }[] }
-  // Screens of the product behind tabs (in a browser window when they are `screen`s).
-  | { type: "tabs"; label: string; heading: string; items: { label: string; text: string; image: StoryImage }[] }
+  // Screens of the product behind tabs (in a browser window when they are
+  // `screen`s, or in a phone with `device: "phone"`).
+  | {
+      type: "tabs";
+      label: string;
+      heading: string;
+      items: { label: string; text: string; image: StoryImage }[];
+      device?: "browser" | "phone";
+    }
   // Big numbers that count up, on a dark panel.
   | { type: "results"; label: string; numbers: { value: string; label: string }[]; text: string; images?: StoryImage[]; sticker?: string }
   // `image` is a big photo beside the quote; `photo` a small round one by the name.
@@ -150,17 +157,6 @@ export type CaseStudy = {
   // Story layout only: a small, faint note at the very end (ownership, use).
   disclaimer?: string;
 };
-
-const profit = {
-  discover: { src: "/work/profit/discover.webp", alt: "Discover screen with global markets, comparison chart and news", width: 750, height: 1624 },
-  arena: { src: "/work/profit/arena.webp", alt: "Arena trading screen in the Cash Kings tournament", width: 750, height: 1624 },
-  watchlist: { src: "/work/profit/watchlist.webp", alt: "My Watchlist with stocks and crypto", width: 925, height: 2000 },
-  ticker: { src: "/work/profit/ticker.webp", alt: "Tesla ticker with chart and analyst recommendation", width: 921, height: 2000 },
-  economicEvent: { src: "/work/profit/economic-event.webp", alt: "Economic event with impact, forecast and actual values", width: 741, height: 2000 },
-  chatGroup: { src: "/work/profit/chat-group.webp", alt: "Group chat with live ticker cards", width: 924, height: 2000 },
-  newsFeed: { src: "/work/profit/news-feed.webp", alt: "News feed channel with bull and bear reactions", width: 924, height: 2000 },
-  inviteLink: { src: "/work/profit/invite-link.webp", alt: "Invite link for a private trading room", width: 750, height: 1624 },
-} satisfies Record<string, Screen>;
 
 export const caseStudies: CaseStudy[] = [
   {
@@ -658,183 +654,222 @@ export const caseStudies: CaseStudy[] = [
     year: "2022",
     summary:
       "Profit.com puts global markets, news, community and trading games in one app. I led the design for two years, from market research to the native iOS app, one design system for iOS and web, and Arena, a trading game with prizes of up to $30,000 a month.",
-    overview: {
-      problem:
-        "Learning to trade meant risking real money or using boring paper-trading apps. And market data, news and discussion were spread across different apps.",
-      insight:
-        "No app worked for beginners, competitive players and active traders at the same time. The gap was learning, real data, community and a reason to come back every day.",
-      impact:
-        "A native iOS app that brings markets, news, community and trading games together, built on one design system for iOS and web.",
-    },
-    results: [
-      { value: "$30k", label: "Top monthly prize in Arena, the trading game" },
-      { value: "4", label: "Markets in one app: stocks, crypto, indices and forex" },
-      { value: "2", label: "Platforms on one design system: iOS and web" },
-    ],
     role: "Senior Product Designer",
     timeline: "Mar 2022 – Feb 2024",
     team: "Product, iOS & web engineering, marketing",
     platform: "iOS (native), Web",
-    accent: ["#05211b", "#25b48e"],
+    // Profit.com's dark green and its green. The green is too light for text on
+    // white, so the accent is a deeper green of the same hue, and the brand green
+    // is kept for the big numbers on the dark panel.
+    accent: ["#05211b", "#1a8467"],
+    highlight: "#25b48e",
     cover: "/work/profit/discover-analyze-profit.webp",
-    sections: [
+    disclaimer:
+      "All numbers, screenshots and brand materials in this case study are the property of Profit.com. This case study is for demonstration only, and all trademarks used belong to Profit.com.",
+    story: [
       {
-        heading: "The problem",
-        body: [
-          "Learning to trade usually means choosing between two bad options. A real brokerage account, where every beginner mistake costs money, or a paper-trading app so boring that nobody opens it after a week. Market data, news and the discussion around them live in other apps again.",
-          "Profit.com wanted to bring it all together: real market data, news and a community of traders, plus trading games where people practise with virtual money, compete and can win real prizes. The goal was the first all-in-one trading simulation app for everyone, simple enough for a beginner and deep enough for someone who trades every day.",
-        ],
+        type: "hero",
+        // Profit.com's own logo (public/logos/profit.svg, its black recoloured to
+        // the brand's dark green). The zoom flies through the hole of the "o".
+        logo: {
+          src: "/work/profit/logo.svg",
+          width: 113,
+          height: 26,
+          // The middle of the "o" (54.61 to 68.93 across, 6.57 to 20.47 down).
+          hole: [61.77, 13.52],
+        },
+        line: "Designing the first all-in-one trading simulation app",
       },
       {
-        heading: "My role",
-        body: [
+        type: "intro",
+        role: [
           "I was the Senior Product Designer on Profit.com for two years and owned the whole experience: market research and positioning, information architecture, user flows and wireframes, UI and prototypes, usability testing, and the design system the engineers built from.",
           "I presented research and design direction to the leadership team and worked every day with product owners, iOS and web engineers, and marketing.",
         ],
       },
       {
-        heading: "Research and insights",
-        body: [
-          "It all started with market research. I looked at the products people already use to trade, follow markets and talk about investing: brokers, market data and news apps, trading communities and existing simulators. I compared what each one did well and where it let people down.",
-          "Surveys and card sorting helped me build personas and shape the navigation. There was the curious beginner who wants to learn without risking money, the competitive player who loves rankings and prizes, and the active trader who expects pro charts and fast data. No app served all three.",
-          "That gap became our market fit, and the brief for everything that followed.",
+        type: "flow",
+        label: "The main flow",
+        heading: "From the news *to the trade.*",
+        device: "phone",
+        steps: [
+          {
+            title: "Discover the markets",
+            text: "Stocks, crypto, indices and forex in one view, with popular companies, a chart comparing markets, live index cards and the latest news.",
+            image: { src: "/work/profit/discover.webp", alt: "Discover screen with global markets, a comparison chart and news", kind: "screen" },
+          },
+          {
+            title: "Follow what matters",
+            text: "The Watchlist shows every asset you follow, with the price and daily change. Swipe a ticker to share it in a chat.",
+            image: { src: "/work/profit/watchlist.webp", alt: "My Watchlist with stocks and crypto", kind: "screen" },
+          },
+          {
+            title: "Open a ticker",
+            text: "The price chart, key stats and what analysts recommend, shown as one simple gauge. Advanced charts are one tap away.",
+            image: { src: "/work/profit/ticker.webp", alt: "Tesla ticker with its chart and the analyst recommendation", kind: "screen" },
+          },
+          {
+            title: "Trade it in Arena",
+            text: "Trade shows the tournaments where you can trade the asset. Here, Cash Kings: real market prices, virtual money and real prizes.",
+            image: { src: "/work/profit/arena.webp", alt: "Arena trading screen in the Cash Kings tournament", kind: "screen" },
+          },
         ],
-        insights: [
+      },
+      {
+        type: "photos",
+        heading: "Real markets, virtual money.",
+        accent: "Real prizes.",
+        images: [
+          { src: "/work/profit/arena-phones.webp", alt: "Arena trading screen and the Watchlist on two phones", kind: "illustration" },
+        ],
+      },
+      {
+        type: "statement",
+        label: "The problem",
+        text: "Learning to trade meant *risking real money* or using *boring paper-trading apps.* And market data, news and discussion were *spread across different apps.*",
+      },
+      {
+        type: "findings",
+        label: "Research",
+        heading: "What we learned.",
+        text: "I started with market research: brokers, market data and news apps, trading communities and simulators. Surveys and card sorting gave us three personas, the curious beginner, the competitive player and the active trader. No app served all three.",
+        items: [
           {
             title: "Fear of losing money",
-            body: "Beginners wanted to learn on real markets without real risk. Virtual money took the fear away, and real prices kept it meaningful.",
+            text: "Beginners wanted to learn on real markets without real risk. Virtual money took the fear away, and real prices kept it meaningful.",
           },
           {
             title: "A reason to come back",
-            body: "Paper trading on its own got boring after a week. Rankings, prizes and short challenges gave people a reason to return every day.",
+            text: "Paper trading on its own got boring after a week. Rankings, prizes and short challenges gave people a reason to return every day.",
           },
           {
             title: "Depth when you want it",
-            body: "Active traders wanted pro charts and data that confused beginners. The same screen had to work for both.",
+            text: "Active traders wanted pro charts and data that confused beginners. The same screen had to work for both.",
           },
           {
             title: "Trading is social",
-            body: "People talked about markets in other apps and shared screenshots of tickers. The conversation belonged next to the data.",
+            text: "People talked about markets in other apps and shared screenshots of tickers. The conversation belonged next to the data.",
           },
         ],
       },
       {
-        heading: "How I solved it",
-        body: ["Each finding became a design decision, and together they shaped the product."],
-        decisions: [
+        type: "carousel",
+        label: "Process",
+        heading: "From research *to a clear direction.*",
+        text: "The gap between the three personas became our market fit, and the brief for everything that followed. Prototypes let us test it with users before development started.",
+        items: [
+          {
+            label: "Research",
+            title: "The market first",
+            text: "I compared brokers, market data and news apps, trading communities and simulators: what each one did well, and where it let people down.",
+          },
+          {
+            label: "Personas",
+            title: "Three kinds of trader",
+            text: "Surveys and card sorting shaped three personas, the curious beginner, the competitive player and the active trader, and the navigation.",
+          },
+          {
+            label: "Structure",
+            title: "Flows and wireframes",
+            text: "I turned the research into the information architecture, user flows and wireframes for every part of the app.",
+          },
+          {
+            label: "Testing",
+            title: "Prototypes, early",
+            text: "Clickable prototypes let us test the main flows with users early, before anything went into development.",
+          },
+          {
+            label: "Leadership",
+            title: "One direction",
+            text: "I presented the research and design direction to the leadership team, so everyone was aligned before development started.",
+          },
+        ],
+      },
+      {
+        type: "fixes",
+        label: "Problem solving",
+        heading: "Five problems. *Five fixes.*",
+        items: [
           {
             problem: "Data, news, community and practice lived in different apps.",
-            solution: "One app with five tabs: Discover, Watchlist, Arena, Chat and Wallet. Arena sits in the middle.",
+            solution: "One app with five tabs: Discover, Watchlist, Arena, Chat and Wallet. Arena sits in the middle, because the trading games are what make Profit.com different.",
+            image: { src: "/work/profit/discover-watchlist.webp", alt: "Discover and Watchlist screens on two phones", kind: "card" },
           },
           {
             problem: "Paper trading didn’t keep people coming back.",
-            solution: "Arena turns practice into a game, with tournaments, 1-to-1 battles, leaderboards and real prizes of up to $30,000 a month, plus daily wins.",
+            solution: "Arena turns practice into a game, free to play, with tournaments, 1-to-1 battles, leaderboards and real prizes of up to $30,000 a month, plus daily wins.",
+            image: { src: "/work/profit/discover-analyze-profit.webp", alt: "Discover, Analyze & Profit: Playtrade with monthly prizes of up to $30,000", kind: "photo" },
           },
           {
             problem: "Beginners and pros needed different levels of detail.",
-            solution: "Every ticker starts simple. Advanced charts, drawing tools and indicators are one tap away.",
+            solution: "Every ticker starts simple. Advanced charts, vertical or horizontal, with drawing tools and indicators, are one tap away.",
+            image: { src: "/work/profit/ticker-flow.webp", alt: "A ticker leading to vertical and horizontal advanced charts and the Trade sheet", kind: "card" },
           },
           {
             problem: "People missed the events that move markets.",
-            solution: "Economic releases, earnings and dividends got their own screens, with live notifications for the companies people follow.",
-          },
-          {
-            problem: "The conversation happened in other apps.",
-            solution: "Chat inside the app. Type $BTC to get a live price card, share any ticker with a swipe, and react to news with a bull or a bear.",
+            solution: "Economic releases, earnings and dividends got their own screens and charts, with live notifications for the companies people follow.",
+            image: { src: "/work/profit/event-charts.webp", alt: "Charts for economic, earnings and dividend events", kind: "card" },
           },
           {
             problem: "A product this big could look different on iOS and web.",
-            solution: "A custom design system built on native iOS components, with the same styles and patterns used on the web.",
+            solution: "A custom design system built on native iOS components, with the same styles and patterns on the web. Arena got its own components, with every state and rule documented.",
+            image: { src: "/work/profit/arena-states.webp", alt: "Every state of the 1-to-1 and tournament cards, with the rules behind them", kind: "card" },
           },
         ],
       },
       {
-        heading: "One app, five tabs",
-        body: [
-          "I turned the research into a simple structure with five tabs: Discover to follow markets, Watchlist for the assets you care about, Arena to compete, Chat to share ideas, and Wallet. Arena sits in the middle of the tab bar, because the trading games are what make Profit.com different.",
-          "Wireframes and clickable prototypes let us test the main flows with users early, and get the leadership team aligned before anything went into development.",
+        type: "tabs",
+        label: "Community",
+        heading: "The conversation, *next to the data.*",
+        device: "phone",
+        items: [
+          {
+            label: "Group chat",
+            text: "Group chats understand tickers. Type $BTC and a live price card shows up in the message.",
+            image: { src: "/work/profit/chat-group.webp", alt: "Group chat with live ticker cards", kind: "screen" },
+          },
+          {
+            label: "News",
+            text: "News channels bring in sources like BBC News and Bloomberg, and people react to each story with a bull or a bear.",
+            image: { src: "/work/profit/news-feed.webp", alt: "News feed channel with bull and bear reactions", kind: "screen" },
+          },
+          {
+            label: "Events",
+            text: "Each event shows the expected impact, the previous, forecast and actual values, and how results compared with expectations over time.",
+            image: { src: "/work/profit/economic-event.webp", alt: "Economic event with impact, forecast and actual values", kind: "screen" },
+          },
+          {
+            label: "Private rooms",
+            text: "Anyone can start a trading community and invite people to a private room with a link.",
+            image: { src: "/work/profit/invite-link.webp", alt: "Invite link for a private trading room", kind: "screen" },
+          },
         ],
+      },
+      {
+        type: "photos",
+        heading: "The Weekly Brief, one tap from Discover,",
+        accent: "with audio for on the go.",
         images: [
-          { src: "/work/profit/discover-watchlist.webp", alt: "Discover and Watchlist screens on two phones", width: 973, height: 1211, frame: "card", caption: "Discover and Watchlist." },
-          { alt: "Arena", frame: "phones", screens: [profit.arena], caption: "Arena: trading with virtual money." },
+          { src: "/work/profit/weekly-brief-flow.webp", alt: "From Discover to the subscription plans and the Weekly Brief audio player", kind: "card" },
         ],
       },
       {
-        heading: "Discover: all markets in one place",
-        body: [
-          "Discover is where people start their day. Stocks, crypto, indices and forex are in one view, with popular companies, a chart comparing how markets move, live index cards and the latest news below.",
-          "It’s also where the premium content lives. The Weekly Brief, an in-depth look at the markets, opens right from Discover. Free users see what each plan includes (Rookie, Pro and Guru). After upgrading, they go straight to the brief, which has an audio player for listening on the go.",
+        type: "results",
+        label: "Results",
+        numbers: [
+          { value: "$30k", label: "Top monthly prize in Arena, the trading game" },
+          { value: "4", label: "Markets in one app: stocks, crypto, indices and forex" },
+          { value: "2", label: "Platforms on one design system: iOS and web" },
         ],
-        images: [
-          { src: "/work/profit/weekly-brief-flow.webp", alt: "Flow from Discover to the subscription plans and the Weekly Brief player", width: 1828, height: 1070, frame: "plain", wide: true, caption: "From Discover to the Weekly Brief: the upgrade flow and the audio player." },
-        ],
+        text: "Profit.com launched as a native iOS app that brings market data, news, community and trading games together. Beginners practise on real markets without risking money, and competitive players have a reason to come back every day.",
       },
       {
-        heading: "Watchlist, tickers and advanced charts",
-        body: [
-          "The Watchlist shows every asset you follow in one list, with the price and daily change. Swipe a ticker to share it in a chat.",
-          "Each ticker opens with the price chart, company profile, key stats, earnings, dividends and what analysts recommend, shown as one simple gauge. Price alerts let you know when an asset crosses a level you set.",
-          "Experienced traders can open an advanced chart, vertical or horizontal, with candlesticks, drawing tools and indicators. From any ticker, Trade shows the tournaments where you can trade it.",
-        ],
-        images: [
-          { alt: "Watchlist and ticker", frame: "phones", screens: [profit.watchlist, profit.ticker], wide: true, caption: "Watchlist and the ticker view with the analyst recommendation." },
-          { src: "/work/profit/ticker-flow.webp", alt: "Ticker view leading to vertical and horizontal advanced charts and the Trade sheet", width: 2000, height: 910, frame: "plain", wide: true, caption: "From a ticker to advanced charts, and into a tournament with Trade." },
-        ],
-      },
-      {
-        heading: "Market events in real time",
-        body: [
-          "Markets move on events, so events got their own screens. Economic releases, earnings and dividends each show the expected impact, the previous, forecast and actual values, and a chart of how results compared with expectations over time.",
-          "Notifications tell people about the important ones as they happen: economic events, earnings, and news and tweets about the companies they follow.",
-        ],
-        images: [
-          { alt: "Economic event", frame: "phones", screens: [profit.economicEvent], caption: "An economic event: impact, forecast and actual." },
-          { src: "/work/profit/event-charts.webp", alt: "Chart components for economic, earnings and dividend events", width: 2000, height: 1325, frame: "card", caption: "Charts for economic, earnings and dividend events." },
-        ],
-      },
-      {
-        heading: "Arena: trading games for everyone",
-        body: [
-          "Arena is where Profit.com becomes a game. It’s free to play, with real prizes. Players trade real market prices with virtual money in tournaments like Day Trading, Top Stocks, Crypto Gainz and Cash Kings, or challenge another player to a timed 1-to-1 battle for experience points. Leaderboards, prize pools, lives and a toolbox keep it competitive.",
-          "Every card has a state for each moment: before a tournament opens, after you join but before your first trade (with a clear Open Trade button), during play with your live position, and in the last minute, when the timer turns red. A green dot on the Arena tab and a short highlight on the card show what changed while you were away.",
-        ],
-        images: [
-          { src: "/work/profit/arena-phones.webp", alt: "Arena trading screen and Watchlist on two phones", width: 2000, height: 1088, frame: "float", wide: true, caption: "Trading in Arena, with the Watchlist one tap away." },
-          { src: "/work/profit/arena-states.webp", alt: "All states of 1-to-1 battles and tournament cards", width: 2000, height: 1079, frame: "plain", wide: true, caption: "Every state of the 1-to-1 and tournament cards, with the rules behind them." },
-        ],
-      },
-      {
-        heading: "Communities and news",
-        body: [
-          "Trading is social, so chat is built in. Group chats understand tickers: type $BTC and a live price card shows up in the message. Anyone can start a trading community and invite people to a private room with a link.",
-          "News channels bring in sources like BBC News and Bloomberg, and people react to each story with a bull or a bear. It’s a quick way to see how the community feels.",
-        ],
-        images: [
-          { alt: "Chat", frame: "phones", screens: [profit.chatGroup, profit.newsFeed, profit.inviteLink], wide: true, caption: "Group chat with live tickers, a news channel and invite links." },
-        ],
-      },
-      {
-        heading: "A custom design system for iOS and web",
-        body: [
-          "With this much product, consistency had to be planned from day one. I built a custom design system for every platform: colours, type and spacing, components for lists, sheets, tabs and controls, and a set just for data, like charts, tooltips, price changes and market states.",
-          "The iOS app was built with native iOS components, so I based the system on the native library. Our components build on what iOS already does well, which kept the app fast and familiar. The same styles and patterns carried over to the web.",
-          "Bigger features like Arena got their own component sets, with every state and rule documented for the engineers.",
-        ],
-        images: [
-          { src: "/work/profit/tournament-system.webp", alt: "Arena component set with leaderboard, rules, timers and image states", width: 2000, height: 360, frame: "plain", wide: true, caption: "Arena components: leaderboard, rules, timers, states and artwork, documented for engineering." },
-        ],
-      },
-      {
-        heading: "Impact",
-        body: [
-          "Profit.com launched as a native iOS app that brings market data, news, community and trading games together, the all-in-one app the research pointed to. Beginners can practise on real markets without risking money, and competitive players have a reason to come back every day.",
-          "The research gave the leadership team a clear direction before development started. The design system gave product and engineering a shared language, so new features like tournaments and the Weekly Brief were built on what already existed, not from scratch.",
-        ],
-      },
-      {
-        heading: "What I learned",
+        type: "text",
+        label: "What I learned",
+        heading: "Simple first, *depth on demand.*",
         body: [
           "Designing for beginners and experienced traders at once is mostly about layers. Keep the first screen simple and friendly, and only show the depth, like advanced charts, indicators and event data, when someone asks for it.",
+          "And a design system pays off early. It gave product and engineering a shared language, so new features like tournaments and the Weekly Brief were built on what already existed, not from scratch.",
         ],
       },
     ],
@@ -847,139 +882,181 @@ export const caseStudies: CaseStudy[] = [
     year: "2024",
     summary:
       "Digma finds performance and scaling problems in code before they reach production. I built the design system used across all its IDE plugins and web app, and designed its AI agents experience. Digma was later acquired by JetBrains.",
-    overview: {
-      problem:
-        "Digma’s UI lives inside developers’ code editors, and it had been built screen by screen. The same things looked and worked differently, and every feature started almost from zero.",
-      insight:
-        "Developers trust tools that feel like part of their editor, and engineers were building most of the UI themselves. They needed a system they could use without waiting for a designer.",
-      impact:
-        "One design system and component library used by every developer, consistent UI from the first build, and a base that carried Digma into AI agents, before JetBrains acquired it.",
-    },
-    results: [
-      { value: "1", label: "Design system for all IDE plugins and the web app" },
-      { value: "5", label: "AI agents in the incident experience" },
-      { value: "JetBrains", label: "Acquired Digma" },
-    ],
     role: "Senior Product Designer",
     timeline: "Feb 2024 – Apr 2025",
     team: "Product, engineering",
     platform: "IDE plugins, Web",
     accent: ["#13132b", "#5b5ee6"],
     cover: "/work/digma/ide-plugin.webp",
-    sections: [
+    disclaimer:
+      "All numbers, screenshots and brand materials in this case study are the property of Digma. This case study is for demonstration only, and all trademarks used belong to Digma.",
+    story: [
       {
-        heading: "The product",
-        body: [
-          "Digma is a preemptive observability tool. It uses standard observability data to find performance and scaling problems in code before release, the kind tests miss, and shows them to developers where they work: in the IDE, while they code.",
-          "So the UI lives in places designers rarely work with: narrow side panels, hints inside the code, and long lists of issues, inside editors that each have their own look.",
+        type: "hero",
+        // Digma's own logo (public/logos/digma.svg, recoloured to Digma's dark
+        // navy). The zoom flies through the hole of the "D".
+        logo: {
+          src: "/work/digma/logo.svg",
+          width: 127,
+          height: 33,
+          // The middle of the "D"'s hole (4.42 to 19.84 across, 4.04 to 22.69 down).
+          hole: [12.13, 13.37],
+        },
+        line: "A design system that brought Digma into every IDE",
+      },
+      {
+        type: "intro",
+        role: [
+          "As Senior Product Designer, I owned the design system: the audit, the structure, the foundations and components, the documentation, and rolling it out to the developers.",
+          "I also designed product features on top of it, including the AI agents experience that investigates incidents.",
         ],
       },
       {
-        heading: "The problem",
-        body: [
-          "Digma grew fast, and so did its interface. Screens were built one at a time, so the same pattern looked and worked differently from place to place, and every new feature started almost from zero.",
-          "We needed one consistent system that engineers could use on their own, and that felt at home in every IDE Digma runs in.",
+        type: "photos",
+        heading: "Digma finds problems in code before release,",
+        accent: "right where developers work.",
+        images: [
+          { src: "/work/digma/ide-plugin.webp", alt: "Digma panel inside the IDE, next to the code it analyses", kind: "photo", position: "80% 50%" },
         ],
       },
       {
-        heading: "My role",
-        body: [
-          "As Senior Product Designer, I owned the design system: the audit, the structure, the foundations and components, the documentation, and rolling it out to the developers. I also designed product features on top of it, including the AI agents experience.",
-        ],
+        type: "statement",
+        label: "The problem",
+        text: "Digma’s UI lives *inside developers’ code editors.* It was built *screen by screen,* so the same things looked and worked differently, and every feature started *almost from zero.*",
       },
       {
-        heading: "Research and insights",
-        body: [
-          "I started with an audit. I put every screen from the IDE plugins and the web app side by side and grouped them by pattern. I also talked to the engineers who built the UI and looked at how developers used Digma inside their editors.",
-        ],
-        insights: [
+        type: "findings",
+        label: "Research",
+        heading: "What the audit showed.",
+        text: "I put every screen from the IDE plugins and the web app side by side and grouped them by pattern. I also talked to the engineers who built the UI, and looked at how developers used Digma inside their editors.",
+        items: [
           {
             title: "One pattern, many versions",
-            body: "The audit found the same elements, like buttons, issue cards, tooltips and empty states, built again and again, each a bit different.",
+            text: "The same elements, like buttons, issue cards, tooltips and empty states, were built again and again, each a bit different.",
           },
           {
             title: "It has to feel native",
-            body: "Developers spend all day in their editor. Anything that looked out of place next to their code felt like noise, so the UI had to match the IDE.",
+            text: "Developers spend all day in their editor. Anything that looked out of place next to their code felt like noise, so the UI had to match the IDE.",
           },
           {
             title: "Space is tight",
-            body: "Digma lives in narrow side panels and small hints. Every component had to stay readable when it’s small and full of information.",
+            text: "Digma lives in narrow side panels and small hints. Every component had to stay readable when it’s small and full of information.",
           },
           {
             title: "Engineers build most of the UI",
-            body: "Most screens were built directly by engineers. They needed clear components, with every variant and state, that they could use without a designer.",
+            text: "Most screens were built directly by engineers. They needed clear components, with every variant and state, that they could use without a designer.",
           },
         ],
       },
       {
-        heading: "How I solved it",
-        body: ["Each finding from the audit became part of the system."],
-        decisions: [
+        type: "carousel",
+        label: "Process",
+        heading: "From an audit *to a shared library.*",
+        text: "I built the system step by step, together with the engineers who would use it, in their tools and their language.",
+        items: [
+          {
+            label: "Audit",
+            title: "Every screen, side by side",
+            text: "I grouped every screen from the IDE plugins and the web app by pattern, and found the same elements built again and again.",
+          },
+          {
+            label: "Foundations",
+            title: "Icons, type and states",
+            text: "I designed the structure of the system from scratch, starting with the foundations: icons, typography and states.",
+          },
+          {
+            label: "Components",
+            title: "Every variant, documented",
+            text: "Then core components like buttons, navigation, toasts and tooltips, each documented with its variants and states.",
+          },
+          {
+            label: "Library",
+            title: "Shared parts for every IDE",
+            text: "I turned the system into a reusable component library, so developers could build full screens without waiting for a new design.",
+          },
+          {
+            label: "Rollout",
+            title: "For the whole team",
+            text: "I introduced the library to the whole development team, and fixed the biggest consistency problems across the product.",
+          },
+        ],
+      },
+      {
+        type: "fixes",
+        label: "Problem solving",
+        heading: "Three problems. *Three fixes.*",
+        items: [
           {
             problem: "Inconsistent screens, built one at a time.",
-            solution: "A design system built from the ground up. Foundations first, then core components, each documented with its variants and states.",
+            solution: "A design system built from the ground up: foundations first, then core components, each documented with its variants and states.",
+            image: { src: "/work/digma/ds-foundations.webp", alt: "Design system foundations: icons, typography, buttons, toasters, navigation and tooltips", kind: "card" },
           },
           {
             problem: "Many issue types, each with its own layout.",
             solution: "One issue card that works for N+1 queries, bottlenecks, slow queries and errors. New issue types reuse it instead of starting over.",
+            image: { src: "/work/digma/ds-insights.webp", alt: "Product components: issue cards for N+1 queries, bottlenecks, slow queries and errors", kind: "card" },
           },
           {
             problem: "The UI had to feel at home in every IDE.",
             solution: "Components that follow the look of the editor around them, so Digma feels like part of the IDE and not a web page inside it.",
+            image: { src: "/work/digma/ide-panel.webp", alt: "The Digma panel in the IDE: a code nexus point and a bottleneck", kind: "card" },
+          },
+        ],
+      },
+      {
+        type: "flow",
+        label: "AI agents",
+        heading: "From code issues *to AI agents.*",
+        steps: [
+          {
+            title: "Follow the investigation",
+            text: "A team of agents, from Watchman and Triage to Code Resolution and a Validator, works through an incident step by step. Developers follow along and chat with them.",
+            image: { src: "/work/digma/agents-screen.webp", alt: "Incident view with AI agents working through an issue", kind: "screen" },
           },
           {
-            problem: "Every new screen had to wait for design.",
-            solution: "A reusable component library for the whole development team, so developers could build full screens from shared parts.",
+            title: "Set the flow",
+            text: "Templates decide how the agents work: in which order, with which tools and with which prompts.",
+            image: { src: "/work/digma/template-screen.webp", alt: "Template for the incident agent flow", kind: "screen" },
           },
           {
-            problem: "A new kind of product: AI agents.",
-            solution: "The same system grew to cover agent timelines, chat, templates, directives and MCP connections, with no need for a new visual style.",
+            title: "Add team rules",
+            text: "Directives add the team’s own rules, like where the infrastructure files are, for the agents to follow.",
+            image: { src: "/work/digma/directives-screen.webp", alt: "Directives table with conditions and rules", kind: "screen" },
           },
         ],
       },
       {
-        heading: "A custom design system",
-        body: [
-          "I designed the structure of the system from scratch: foundations like icons, typography and states, then core components like buttons, navigation, toasts and tooltips, each documented with its variants.",
-          "With that in place, I fixed the biggest consistency problems across the product. The same thing now always looks and works the same way.",
-        ],
+        type: "photos",
+        heading: "Teams connect their own tools",
+        accent: "through MCP servers and a setup wizard.",
         images: [
-          { src: "/work/digma/ds-foundations.webp", alt: "Digma design system foundations: icons, typography, buttons, toasters, navigation and tooltips", width: 2000, height: 682, frame: "plain", wide: true, caption: "Foundations and core components, documented and versioned." },
-          { src: "/work/digma/ds-insights.webp", alt: "Digma product components for insights, issues and errors", width: 1782, height: 1136, frame: "plain", wide: true, caption: "Product components: issue cards for N+1 queries, bottlenecks, slow queries and errors." },
+          { src: "/work/digma/mcp-server.webp", alt: "Dialog for adding an MCP server and choosing its tools", kind: "card" },
+          { src: "/work/digma/wizard.webp", alt: "Setup wizard with a code snippet for an integration", kind: "card" },
         ],
       },
       {
-        heading: "One library for every IDE",
-        body: [
-          "I turned the system into a reusable component library and introduced it to the whole development team. Developers could now build complete screens from shared parts that feel native in every IDE Digma supports, without waiting for a new design each time.",
+        type: "results",
+        label: "Results",
+        numbers: [
+          { value: "1", label: "Design system for all IDE plugins and the web app" },
+          { value: "4", label: "Issue types in one shared issue card" },
+          { value: "5", label: "AI agents in the incident experience" },
         ],
-        images: [
-          { src: "/work/digma/ide-plugin.webp", alt: "Digma panel inside the IDE next to the code it analyses", width: 1920, height: 1080, frame: "plain", wide: true, caption: "Digma inside the IDE. Issues show up next to the code that causes them." },
-        ],
+        text: "Design and engineering worked from the same source. New UI was consistent from the first build, and the system carried Digma from code issues to AI agents. Digma was later acquired by JetBrains.",
       },
       {
-        heading: "From issues to AI agents",
-        body: [
-          "The same system carried Digma into its next step: AI agents that investigate incidents. A team of agents (Watchman, Triage, Infra, Code Resolution and a Validator) works through an issue step by step, and developers can follow along, chat with them and see related issues.",
-          "Teams decide how the agents work with templates, set rules with directives, and connect their own tools through MCP servers.",
-        ],
-        images: [
-          { src: "/work/digma/incident-agents.webp", alt: "Incident view with AI agents working through an issue", width: 2000, height: 1311, frame: "plain", wide: true, caption: "An incident being investigated, passed from agent to agent." },
-          { src: "/work/digma/incident-template.webp", alt: "Template for the incident agent flow", width: 2000, height: 1311, frame: "plain", caption: "Templates set the agent flow." },
-          { src: "/work/digma/directives.webp", alt: "Directives table with conditions and rules", width: 2000, height: 1311, frame: "plain", caption: "Directives add team rules." },
-          { src: "/work/digma/mcp-server.webp", alt: "Dialog for adding an MCP server and choosing its tools", width: 1270, height: 1288, frame: "card", caption: "Connecting tools through MCP servers." },
-          { src: "/work/digma/wizard.webp", alt: "Setup wizard with a code snippet", width: 1270, height: 1230, frame: "card", caption: "A setup wizard for integrations." },
-        ],
+        type: "quote",
+        quote:
+          "He’s not just a designer - you get *a strategic partner, a systems thinker,* and someone who deeply cares about delivering meaningful experiences.",
+        name: "Roni Dover",
+        role: "CTO & Co-Founder, Digma",
+        photo: "/people/roni-dover.jpg",
+        link: "https://www.linkedin.com/in/ion-cazac/details/recommendations/",
       },
       {
-        heading: "Impact",
-        body: [
-          "Design and engineering worked from the same source. New UI was consistent from the first build, and developers stopped rebuilding the same patterns. New features were put together from shared parts instead of waiting for new designs.",
-          "The system was flexible enough to take Digma from code issues to AI agents that investigate incidents. Digma was later acquired by JetBrains.",
-        ],
-      },
-      {
-        heading: "What I learned",
+        type: "text",
+        label: "What I learned",
+        heading: "Build it *with the engineers.*",
         body: [
           "A design system for developers only works if developers want to use it. Building it together with the engineers, in their tools and their language, mattered as much as the components.",
         ],

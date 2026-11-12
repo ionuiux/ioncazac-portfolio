@@ -1,6 +1,7 @@
 "use client";
 
 import { useState } from "react";
+import { PhoneShell } from "@/components/phone-frame";
 import type { StoryImage } from "@/content/case-studies";
 import { Accent, BrowserWindow, Fill } from "./story-image";
 
@@ -8,8 +9,19 @@ type Item = { label: string; text: string; image: StoryImage };
 
 // Screens of the product behind tabs. Laptops: the tabs are a list beside the
 // screen, the open one with its description. Phones: a row of tabs above it.
-// Screens sit in a browser window; finished mockups and photos fill a 5:4 box.
-export function Tabs({ label, heading, items }: { label: string; heading: string; items: Item[] }) {
+// Screens sit in a browser window (or a phone, with `device: "phone"`);
+// finished mockups and photos fill a 5:4 box.
+export function Tabs({
+  label,
+  heading,
+  items,
+  device = "browser",
+}: {
+  label: string;
+  heading: string;
+  items: Item[];
+  device?: "browser" | "phone";
+}) {
   const [active, setActive] = useState(0);
   const framed = items[0]?.image.kind === "screen";
   const layers = (sizes: string) =>
@@ -55,7 +67,13 @@ export function Tabs({ label, heading, items }: { label: string; heading: string
           ))}
         </div>
 
-        {framed ? (
+        {framed && device === "phone" ? (
+          // Taller on phones, so the phone isn't tiny; on laptops as wide as its
+          // column and most of the screen's height.
+          <div className="flex aspect-[4/5] items-center justify-center bg-[var(--tint)] sm:aspect-[5/4] lg:aspect-auto lg:h-[74svh]">
+            <PhoneShell className="h-[88%]">{layers("(min-width: 1024px) 320px, 200px")}</PhoneShell>
+          </div>
+        ) : framed ? (
           <div className="bg-[var(--tint)] px-[5%] pt-[5%]">
             <BrowserWindow className="shadow-none">{layers("(min-width: 1024px) 66vw, 100vw")}</BrowserWindow>
           </div>

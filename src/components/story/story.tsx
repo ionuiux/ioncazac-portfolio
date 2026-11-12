@@ -137,7 +137,7 @@ function Block({ block, study }: { block: StoryBlock; study: CaseStudy }) {
         </section>
       );
     case "tabs":
-      return <Tabs label={block.label} heading={block.heading} items={block.items} />;
+      return <Tabs label={block.label} heading={block.heading} items={block.items} device={block.device} />;
     case "results":
       return (
         <section className="relative my-12 bg-[var(--accent-dark)] px-6 py-20 text-white sm:my-20 sm:px-12 sm:py-28 lg:px-16">
