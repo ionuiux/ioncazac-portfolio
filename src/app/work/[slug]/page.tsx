@@ -8,6 +8,7 @@ import { Cover } from "@/components/cover";
 import { PhoneFrame } from "@/components/phone-frame";
 import { RevealOnScroll } from "@/components/reveal-on-scroll";
 import { SiteFooter } from "@/components/site-footer";
+import { Story } from "@/components/story/story";
 import { caseStudies, getCaseStudy, type CaseImage } from "@/content/case-studies";
 import { profile } from "@/content/profile";
 
@@ -154,120 +155,126 @@ export default async function CaseStudyPage({ params }: PageProps<"/work/[slug]"
         </a>
       </nav>
 
-      <header className="mx-auto max-w-3xl pt-12 text-center sm:pt-20">
-        <p className="text-[13px] text-muted">
-          <span className="font-medium text-foreground">{study.client}</span> · {study.category} · {study.year}
-        </p>
-        <h1 className="mt-5 text-4xl font-medium tracking-tight text-balance sm:text-6xl">{study.title}</h1>
-        <p className="mx-auto mt-6 max-w-xl text-[17px] leading-relaxed text-muted text-balance">{study.summary}</p>
-      </header>
+      {study.story ? (
+        <Story study={study} />
+      ) : (
+        <>
+          <header className="mx-auto max-w-3xl pt-12 text-center sm:pt-20">
+            <p className="text-[13px] text-muted">
+              <span className="font-medium text-foreground">{study.client}</span> · {study.category} · {study.year}
+            </p>
+            <h1 className="mt-5 text-4xl font-medium tracking-tight text-balance sm:text-6xl">{study.title}</h1>
+            <p className="mx-auto mt-6 max-w-xl text-[17px] leading-relaxed text-muted text-balance">{study.summary}</p>
+          </header>
 
-      <dl className="mx-auto mt-14 grid max-w-4xl grid-cols-2 gap-x-4 gap-y-6 border-y border-line px-4 py-6 sm:grid-cols-4 sm:px-6">
-        {meta.map((item) => (
-          <div key={item.label}>
-            <dt className="text-[12px] text-muted">{item.label}</dt>
-            <dd className="mt-1 text-[14px] font-medium">{item.value}</dd>
-          </div>
-        ))}
-      </dl>
-
-      {study.results && (
-        <dl className="mx-auto mt-6 grid max-w-4xl gap-4 sm:grid-cols-3">
-          {study.results.map((result) => (
-            <div key={result.label} className="flex flex-col-reverse justify-end bg-subtle p-6">
-              <dt className="mt-2 text-[13px] text-muted">{result.label}</dt>
-              <dd className="text-4xl font-medium tracking-tight">{result.value}</dd>
-            </div>
-          ))}
-        </dl>
-      )}
-
-      <div className="mt-14">
-        <div className="relative aspect-[4/3] overflow-hidden bg-subtle sm:aspect-[16/9]">
-          <Cover study={study} sizes="100vw" priority />
-        </div>
-      </div>
-
-      <article className="pt-8 pb-16">
-        {study.overview && (
-          <dl className="mx-auto mt-16 grid max-w-4xl gap-6 bg-subtle p-6 sm:mt-24 sm:grid-cols-3 sm:gap-8 sm:p-8">
-            {[
-              { label: "The problem", text: study.overview.problem },
-              { label: "Key insight", text: study.overview.insight },
-              { label: "The impact", text: study.overview.impact },
-            ].map((item) => (
+          <dl className="mx-auto mt-14 grid max-w-4xl grid-cols-2 gap-x-4 gap-y-6 border-y border-line px-4 py-6 sm:grid-cols-4 sm:px-6">
+            {meta.map((item) => (
               <div key={item.label}>
-                <dt className="text-[13px] text-muted">{item.label}</dt>
-                <dd className="mt-2 text-[16px] leading-relaxed">{item.text}</dd>
+                <dt className="text-[12px] text-muted">{item.label}</dt>
+                <dd className="mt-1 text-[14px] font-medium">{item.value}</dd>
               </div>
             ))}
           </dl>
-        )}
 
-        {study.sections.map((section) => (
-          <section key={section.heading} className="mt-16 sm:mt-24">
-            <div className="mx-auto grid max-w-4xl gap-4 md:grid-cols-[200px_1fr] md:gap-12">
-              <h2 className="text-[15px] font-medium">{section.heading}</h2>
-              <div className="space-y-4 text-[17px] leading-relaxed text-neutral-600">
-                {section.body.map((paragraph, i) => (
-                  <p key={i}>{paragraph}</p>
-                ))}
-              </div>
+          {study.results && (
+            <dl className="mx-auto mt-6 grid max-w-4xl gap-4 sm:grid-cols-3">
+              {study.results.map((result) => (
+                <div key={result.label} className="flex flex-col-reverse justify-end bg-subtle p-6">
+                  <dt className="mt-2 text-[13px] text-muted">{result.label}</dt>
+                  <dd className="text-4xl font-medium tracking-tight">{result.value}</dd>
+                </div>
+              ))}
+            </dl>
+          )}
+
+          <div className="mt-14">
+            <div className="relative aspect-[4/3] overflow-hidden bg-subtle sm:aspect-[16/9]">
+              <Cover study={study} sizes="100vw" priority />
             </div>
+          </div>
 
-            {section.metrics && (
-              <dl className="mx-auto mt-10 grid max-w-4xl gap-4 sm:grid-cols-3">
-                {section.metrics.map((metric) => (
-                  <div key={metric.label} className="flex flex-col-reverse justify-end bg-subtle p-6">
-                    <dt className="mt-2 text-[13px] text-muted">{metric.label}</dt>
-                    <dd className="text-4xl font-medium tracking-tight">{metric.value}</dd>
+          <article className="pt-8 pb-16">
+            {study.overview && (
+              <dl className="mx-auto mt-16 grid max-w-4xl gap-6 bg-subtle p-6 sm:mt-24 sm:grid-cols-3 sm:gap-8 sm:p-8">
+                {[
+                  { label: "The problem", text: study.overview.problem },
+                  { label: "Key insight", text: study.overview.insight },
+                  { label: "The impact", text: study.overview.impact },
+                ].map((item) => (
+                  <div key={item.label}>
+                    <dt className="text-[13px] text-muted">{item.label}</dt>
+                    <dd className="mt-2 text-[16px] leading-relaxed">{item.text}</dd>
                   </div>
                 ))}
               </dl>
             )}
 
-            {section.insights && (
-              <ol className="mx-auto mt-10 grid max-w-4xl gap-4 sm:grid-cols-2">
-                {section.insights.map((insight, i) => (
-                  <li key={insight.title} className="bg-subtle p-6">
-                    <p className="text-[13px] text-muted tabular-nums">
-                      {insight.label ?? `Insight ${String(i + 1).padStart(2, "0")}`}
-                    </p>
-                    <h3 className="mt-3 text-[17px] font-medium">{insight.title}</h3>
-                    <p className="mt-2 text-[15px] leading-relaxed text-neutral-600">{insight.body}</p>
-                  </li>
-                ))}
-              </ol>
-            )}
+            {study.sections?.map((section) => (
+              <section key={section.heading} className="mt-16 sm:mt-24">
+                <div className="mx-auto grid max-w-4xl gap-4 md:grid-cols-[200px_1fr] md:gap-12">
+                  <h2 className="text-[15px] font-medium">{section.heading}</h2>
+                  <div className="space-y-4 text-[17px] leading-relaxed text-neutral-600">
+                    {section.body.map((paragraph, i) => (
+                      <p key={i}>{paragraph}</p>
+                    ))}
+                  </div>
+                </div>
 
-            {section.decisions && (
-              <ol className="mx-auto mt-10 max-w-4xl divide-y divide-line border-y border-line">
-                {section.decisions.map((decision, i) => (
-                  <li key={decision.problem} className="grid gap-3 py-6 md:grid-cols-[200px_1fr_1fr] md:gap-12">
-                    <p className="text-[13px] text-muted tabular-nums">{String(i + 1).padStart(2, "0")}</p>
-                    <div>
-                      <p className="text-[13px] text-muted">Problem</p>
-                      <p className="mt-1 text-[16px] leading-relaxed">{decision.problem}</p>
-                    </div>
-                    <div>
-                      <p className="text-[13px] text-muted">What I did</p>
-                      <p className="mt-1 text-[16px] leading-relaxed text-neutral-600">{decision.solution}</p>
-                    </div>
-                  </li>
-                ))}
-              </ol>
-            )}
+                {section.metrics && (
+                  <dl className="mx-auto mt-10 grid max-w-4xl gap-4 sm:grid-cols-3">
+                    {section.metrics.map((metric) => (
+                      <div key={metric.label} className="flex flex-col-reverse justify-end bg-subtle p-6">
+                        <dt className="mt-2 text-[13px] text-muted">{metric.label}</dt>
+                        <dd className="text-4xl font-medium tracking-tight">{metric.value}</dd>
+                      </div>
+                    ))}
+                  </dl>
+                )}
 
-            {section.images && (
-              <div className={`mt-10 grid gap-x-4 gap-y-8 sm:gap-x-6 sm:gap-y-10 ${section.images.length > 1 ? "sm:grid-cols-2" : ""}`}>
-                {section.images.map((image, i) => (
-                  <CaseFigure key={i} image={image} accent={study.accent[1]} />
-                ))}
-              </div>
-            )}
-          </section>
-        ))}
-      </article>
+                {section.insights && (
+                  <ol className="mx-auto mt-10 grid max-w-4xl gap-4 sm:grid-cols-2">
+                    {section.insights.map((insight, i) => (
+                      <li key={insight.title} className="bg-subtle p-6">
+                        <p className="text-[13px] text-muted tabular-nums">
+                          {insight.label ?? `Insight ${String(i + 1).padStart(2, "0")}`}
+                        </p>
+                        <h3 className="mt-3 text-[17px] font-medium">{insight.title}</h3>
+                        <p className="mt-2 text-[15px] leading-relaxed text-neutral-600">{insight.body}</p>
+                      </li>
+                    ))}
+                  </ol>
+                )}
+
+                {section.decisions && (
+                  <ol className="mx-auto mt-10 max-w-4xl divide-y divide-line border-y border-line">
+                    {section.decisions.map((decision, i) => (
+                      <li key={decision.problem} className="grid gap-3 py-6 md:grid-cols-[200px_1fr_1fr] md:gap-12">
+                        <p className="text-[13px] text-muted tabular-nums">{String(i + 1).padStart(2, "0")}</p>
+                        <div>
+                          <p className="text-[13px] text-muted">Problem</p>
+                          <p className="mt-1 text-[16px] leading-relaxed">{decision.problem}</p>
+                        </div>
+                        <div>
+                          <p className="text-[13px] text-muted">What I did</p>
+                          <p className="mt-1 text-[16px] leading-relaxed text-neutral-600">{decision.solution}</p>
+                        </div>
+                      </li>
+                    ))}
+                  </ol>
+                )}
+
+                {section.images && (
+                  <div className={`mt-10 grid gap-x-4 gap-y-8 sm:gap-x-6 sm:gap-y-10 ${section.images.length > 1 ? "sm:grid-cols-2" : ""}`}>
+                    {section.images.map((image, i) => (
+                      <CaseFigure key={i} image={image} accent={study.accent[1]} />
+                    ))}
+                  </div>
+                )}
+              </section>
+            ))}
+          </article>
+        </>
+      )}
 
       {next.slug !== study.slug && (
         <section className="border-t border-line pt-16 pb-24">

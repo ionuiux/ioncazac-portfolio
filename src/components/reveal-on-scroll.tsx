@@ -16,24 +16,30 @@ export function RevealOnScroll() {
       tile.style.setProperty("--d", String(position % 12));
     });
 
-    const observer = new IntersectionObserver(
-      (entries) => {
-        entries.forEach(({ target, isIntersecting }) => {
-          if (!isIntersecting) return;
-          observer.unobserve(target);
-          const show = () => target.classList.add("is-in");
-          const image = target.querySelector("img");
-          if (!image || image.complete) show();
-          else {
-            image.addEventListener("load", show, { once: true });
-            image.addEventListener("error", show, { once: true });
-          }
-        });
-      },
-      { threshold: 0.2, rootMargin: "150px 0px" },
-    );
-    tiles.forEach((tile) => observer.observe(tile));
-    return () => observer.disconnect();
+    const reveal = (entries: IntersectionObserverEntry[], observer: IntersectionObserver) => {
+      entries.forEach(({ target, isIntersecting }) => {
+        if (!isIntersecting) return;
+        observer.unobserve(target);
+        const show = () => target.classList.add("is-in");
+        const image = target.querySelector("img");
+        if (!image || image.complete) show();
+        else {
+          image.addEventListener("load", show, { once: true });
+          image.addEventListener("error", show, { once: true });
+        }
+      });
+    };
+    // Tiles start fading in just before they reach the screen; blocks that
+    // slide up (`.rise`) and stickers that pop in (`.pop`) wait until they are
+    // well inside it, so the movement is seen.
+    const observer = new IntersectionObserver(reveal, { threshold: 0.2, rootMargin: "150px 0px" });
+    const riseObserver = new IntersectionObserver(reveal, { threshold: 0.15, rootMargin: "0px 0px -12% 0px" });
+    const late = (tile: HTMLElement) => tile.classList.contains("rise") || tile.classList.contains("pop");
+    tiles.forEach((tile) => (late(tile) ? riseObserver : observer).observe(tile));
+    return () => {
+      observer.disconnect();
+      riseObserver.disconnect();
+    };
   }, [pathname]);
 
   return null;

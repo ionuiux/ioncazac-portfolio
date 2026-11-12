@@ -1,7 +1,8 @@
 "use client";
 
-import { useEffect, useSyncExternalStore } from "react";
+import { useEffect } from "react";
 import { ReactLenis, useLenis } from "lenis/react";
+import { useReducedMotion } from "@/lib/motion";
 
 // Smooth scrolling set up exactly like inakisoria.com: Lenis 1.3.4 with lerp 0.1,
 // so each frame the page covers 10% of the distance left to where the wheel or
@@ -9,7 +10,7 @@ import { ReactLenis, useLenis } from "lenis/react";
 // glide the same way. Touch scrolling on phones stays native, as on that site.
 // Visitors who ask for less motion keep the browser's normal scrolling.
 export function SmoothScroll() {
-  const reducedMotion = useSyncExternalStore(subscribeToMotionSetting, prefersReducedMotion, () => true);
+  const reducedMotion = useReducedMotion(true);
   if (reducedMotion) return null;
   return (
     <ReactLenis root options={{ lerp: 0.1, anchors: true }}>
@@ -40,16 +41,4 @@ function StopGlideOnNavigation() {
     };
   }, [lenis]);
   return null;
-}
-
-const MOTION_QUERY = "(prefers-reduced-motion: reduce)";
-
-function prefersReducedMotion() {
-  return window.matchMedia(MOTION_QUERY).matches;
-}
-
-function subscribeToMotionSetting(onChange: () => void) {
-  const query = window.matchMedia(MOTION_QUERY);
-  query.addEventListener("change", onChange);
-  return () => query.removeEventListener("change", onChange);
 }

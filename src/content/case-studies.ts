@@ -42,6 +42,79 @@ export type CaseSection = {
   decisions?: { problem: string; solution: string }[];
 };
 
+// A picture in a story block. Leave `src` out and the page shows a placeholder
+// saying what should go there (`alt`) and the size it should be (`ask`).
+export type StoryImage = {
+  src?: string;
+  alt: string;
+  ask?: string;
+  // "screen": a full screen (shown in a browser window where it fits);
+  // "card": a cropped detail, shown whole on a tinted panel;
+  // "photo": a photo that fills its box edge to edge;
+  // "illustration": shown whole on the tinted panel, without a shadow.
+  kind?: "screen" | "card" | "photo" | "illustration";
+  // Photos only: which part stays visible when cropped, e.g. "52% 50%".
+  position?: string;
+};
+
+// The bold, scroll-animated case study layout (src/components/story/). A case
+// study with a `story` uses it instead of the `sections` layout. Text wrapped
+// in *stars* is shown in the accent colour.
+export type StoryBlock =
+  // A giant logo (or word) that the page zooms into, through a hole in it:
+  // `hole` is a point inside the hole, in the logo's own units (its viewBox), or
+  // for a word, `through` is the place of the letter to fly through.
+  | {
+      type: "hero";
+      line: string;
+      logo?: {
+        src: string;
+        width: number;
+        height: number;
+        hole: [number, number];
+        // An animation of the logo being drawn, played once before the zoom.
+        // Its frame's place and size are in the logo's units; its last frame
+        // must match the logo exactly, as the logo takes over when it ends.
+        intro?: { src: string; x: number; y: number; width: number; height: number; duration: number };
+      };
+      word?: string;
+      through?: number;
+    }
+  // The title, summary, role and project facts.
+  | { type: "intro"; role: string[] }
+  // A flow shown step by step in one pinned browser window, with a timer.
+  // `sticker` sits by the heading; `done` pops onto the window at the last step.
+  | {
+      type: "flow";
+      label: string;
+      heading: string;
+      seconds: number;
+      steps: { title: string; text: string; image: StoryImage }[];
+      sticker?: string;
+      done?: string;
+    }
+  // A two-line headline over two photos, or three (one big, two small).
+  | { type: "photos"; heading: string; accent: string; images: StoryImage[]; sticker?: string }
+  // A big statement that lights up word by word as it scrolls past.
+  | { type: "statement"; label: string; text: string }
+  // Three or four "before" screens that slide together into one "after" screen.
+  | { type: "merge"; label: string; heading: [string, string]; text: string; before: StoryImage[]; after: StoryImage }
+  // Numbered findings in a grid.
+  | { type: "findings"; label: string; heading: string; text: string; items: { title: string; text: string }[] }
+  // Cards in a row that scrolls sideways. Cards without an image get a
+  // brand-colour panel with their number and label instead.
+  | { type: "carousel"; label: string; heading: string; text: string; items: { label: string; title: string; text: string; image?: StoryImage }[] }
+  // Each problem, what was done about it and a picture of the result.
+  | { type: "fixes"; label: string; heading: string; items: { problem: string; solution: string; image: StoryImage }[] }
+  // Screens of the product behind tabs.
+  | { type: "tabs"; label: string; heading: string; items: { label: string; text: string; image: StoryImage }[] }
+  // Big numbers that count up, on a dark panel.
+  | { type: "results"; label: string; numbers: { value: string; label: string }[]; text: string; images?: StoryImage[]; sticker?: string }
+  // `image` is a big photo beside the quote; `photo` a small round one by the name.
+  | { type: "quote"; quote: string; name: string; role: string; photo?: string; image?: StoryImage; link?: string; placeholder?: boolean }
+  | { type: "gallery"; label: string; heading: string; images: StoryImage[]; columns?: 2 | 3 }
+  | { type: "text"; label: string; heading: string; body: string[] };
+
 export type CaseStudy = {
   slug: string;
   client: string;
@@ -59,6 +132,8 @@ export type CaseStudy = {
   platform: string;
   // Two colours for the cover background and the tinted image panels.
   accent: [string, string];
+  // Story layout only: a third brand colour for the big numbers on the dark panel.
+  highlight?: string;
   // Either a single cover image, or up to three screens arranged as a mockup.
   cover?: string;
   // Which part of the cover image stays visible when it is cropped, e.g. "65% center".
@@ -68,15 +143,9 @@ export type CaseStudy = {
   // colour) instead of cropping the sides. Needs the image's size.
   coverFullWidth?: { width: number; height: number; background: string };
   mockup?: { main: Screen; left?: Screen; right?: Screen; device?: "browser" | "phone" };
-  sections: CaseSection[];
+  sections?: CaseSection[];
+  story?: StoryBlock[];
 };
-
-const flovi = {
-  dashboard: { src: "/work/flovi/dashboard.webp", alt: "Flovi customer portal home with live map and reservations", width: 2000, height: 1858 },
-  offices: { src: "/work/flovi/offices.webp", alt: "Flovi offices page with map and office list", width: 2000, height: 1796 },
-  team: { src: "/work/flovi/team.webp", alt: "Flovi team members page with roles and status", width: 2000, height: 1230 },
-  invoices: { src: "/work/flovi/invoices.webp", alt: "Flovi invoices page with current billing cycle", width: 2000, height: 1758 },
-} satisfies Record<string, Screen>;
 
 const profit = {
   discover: { src: "/work/profit/discover.webp", alt: "Discover screen with global markets, comparison chart and news", width: 750, height: 1624 },
@@ -98,185 +167,249 @@ export const caseStudies: CaseStudy[] = [
     year: "2025",
     summary:
       "I redesigned Flovi’s customer portal and brought four markets onto one version of it. AI was part of every step: reading usage data, running interviews, building prototypes and testing them. Flovi got 30% more customers, and booking a transfer now takes about 20 seconds, 20% faster than before.",
-    overview: {
-      problem:
-        "Each of Flovi’s four markets had its own version of the portal. Booking was slow, every feature had to be built four times, and nobody had a clear picture of how customers really used it.",
-      insight:
-        "With AI, we analysed usage across all four markets and saw that customers did the same few things in the same order everywhere. The real differences, like currency, VAT and office rules, were just content.",
-      impact:
-        "30% more customers, bookings in about 20 seconds, one product instead of four, and a team that uses AI to go from data to a tested idea much faster.",
-    },
-    results: [
-      { value: "+30%", label: "More customers" },
-      { value: "~20 s", label: "To book a transfer, 20% faster" },
-      { value: "4", label: "Markets on one portal" },
-    ],
     role: "AI-Native Product Designer",
     timeline: "Apr 2025 – Oct 2026",
     team: "Product, engineering, 4 markets",
     platform: "Web app",
-    accent: ["#1b1a4b", "#5153c0"],
+    // Flovi's brand colours: Midnight, Sky and Mint (brand guidelines v1.0).
+    accent: ["#1d1a58", "#3f39b9"],
+    highlight: "#37db88",
     cover: "/work/flovi/cover.jpg",
     coverPosition: "60% 0%",
-    sections: [
+    // The bold scroll-animated layout. Every `src`-less image is a placeholder
+    // that says what should go there.
+    story: [
       {
-        heading: "The problem",
-        body: [
-          "Flovi moves cars for rental and fleet companies. A driver picks up a car in one place and delivers it to another, and customers book and track these transfers in the Flovi portal.",
-          "The portal grew one market at a time, and each market ended up with its own version. The layouts were different, the same things had different names, and some features only existed in one country. Booking a transfer, the thing customers do most, took too long. And every new feature had to be designed and built more than once.",
-          "We also had a lot of data about how customers used the portal: bookings, statuses, support questions and invoices from four markets. But it sat in different places and different languages, and nobody had time to read it all.",
-        ],
+        type: "hero",
+        // The zoom flies through the middle of the "o" in the Flovi logo.
+        logo: {
+          src: "/work/flovi/logo.svg",
+          width: 419.28,
+          height: 170.16,
+          hole: [204.9, 101.25],
+          // Flovi's own logo animation, cropped from 1920×1080. Measured on its
+          // last frame: 1.988 px per logo unit across and 1.912 down.
+          intro: { src: "/work/flovi/logo-intro.gif", x: -11.42, y: -0.59, width: 438.63, height: 288.64, duration: 2280 },
+        },
+        line: "One customer portal for four markets, designed with AI",
       },
       {
-        heading: "My role",
-        body: [
+        type: "intro",
+        role: [
           "I led the design of the customer portal and made AI part of how we worked, from research to release. I used it to analyse usage data and metrics, run and summarise customer interviews, build prototypes in code and test them.",
           "Alongside that, I audited the old portals, defined one structure for all markets, built a design system with the engineers based on shadcn, and designed the main flows.",
         ],
       },
       {
-        heading: "How AI fit into the work",
-        body: [
-          "I used AI as a research and prototyping partner at every stage. It did the heavy reading and building, so I could spend my time on the decisions. I checked everything it found against the raw data and with the people in each market before we acted on it.",
+        type: "flow",
+        label: "The outcome",
+        heading: "Book a transfer in *20 seconds.*",
+        seconds: 20,
+        sticker: "/work/flovi/signs/lets-go.svg",
+        done: "/work/flovi/signs/all-set.svg",
+        steps: [
+          {
+            title: "Pick the route",
+            text: "Choose where the car starts and where it goes. Offices, with their addresses and opening hours, are already in Flovi, so nobody types them.",
+            image: { src: "/work/flovi/office-card.webp", alt: "Office card with today’s opening hours and the office manager", kind: "card" },
+          },
+          {
+            title: "Set the time",
+            text: "Pickup and drop-off times are filled in from office hours. Change them only when you need to.",
+            image: { src: "/work/flovi/schedule.png", alt: "Schedule: delivery date and time slots, with when the car should depart", kind: "card" },
+          },
+          {
+            title: "Add the details",
+            text: "The car, the contact person and the cost center, one question at a time. Details that past bookings already tell us are filled in for you.",
+            image: { src: "/work/flovi/reservation-details.png", alt: "Reservation details: who created it, when, the type, cost center and gig ID", kind: "card" },
+          },
+          {
+            title: "Check and book",
+            text: "A live summary next to the form shows the route, time and price before you book. One click, and it’s booked.",
+            image: { src: "/work/flovi/booked.webp", alt: "Flovi illustration of a booking confirmed: “Kiitos, varaus onnistui” (Thanks, your booking is confirmed)", kind: "illustration" },
+          },
+          {
+            title: "Follow it live",
+            text: "The transfer shows up on the live map right away, with its status, route and price.",
+            image: { src: "/work/flovi/dashboard.webp", alt: "Flovi home with the live map, status filters and latest reservations", kind: "screen" },
+          },
         ],
-        insights: [
+      },
+      {
+        type: "photos",
+        heading: "Flovi moves cars for rental and fleet companies.",
+        accent: "Customers book every move in one portal.",
+        sticker: "/work/flovi/signs/ride-along.svg",
+        images: [
+          { src: "/work/flovi/driver.jpg", alt: "A Flovi driver in a Flovi jacket and hat at the open door of a car", kind: "photo" },
+          { src: "/work/flovi/cover.jpg", alt: "A Flovi driver showing the app on his phone", kind: "photo" },
+          { src: "/work/flovi/handover.jpg", alt: "A Flovi driver opening the door of a car at the airport", kind: "photo", position: "30% 50%" },
+        ],
+      },
+      {
+        type: "statement",
+        label: "The problem",
+        text: "Each of Flovi’s four markets had *its own portal.* Booking was *slow,* every feature was *built four times,* and nobody had a clear picture of how customers really used it.",
+      },
+      {
+        type: "merge",
+        label: "The fix",
+        heading: ["Four portals.", "One product."],
+        text: "Instead of fixing each market separately, we rebuilt the portal on one base. Every market uses the same components and patterns, and local details like currency, VAT and office rules come from the content, not from custom screens.",
+        before: [
+          { src: "/work/flovi/old-reservations.webp", alt: "Old portal: the reservations list, with status tabs and a paged table", kind: "screen" },
+          { src: "/work/flovi/old-new-reservation.webp", alt: "Old portal: the New Reservation form, with location, schedule, contact and cost estimate", kind: "screen" },
+          { src: "/work/flovi/old-pipeline.webp", alt: "Old portal: a reservation’s pipeline in a side panel", kind: "screen" },
+        ],
+        after: { src: "/work/flovi/dashboard.webp", alt: "The new Flovi portal home, the same in every market", kind: "screen" },
+      },
+      {
+        type: "findings",
+        label: "Research",
+        heading: "What the data showed.",
+        text: "Before designing anything, I put all four portals side by side and mapped every step of booking in each one. Then I used AI to go through everything else: the usage data, the questions customers asked support and operations, the interview notes, and how finance teams handled invoices at the end of each billing cycle. AI found the patterns, and I checked them with the teams on the ground.",
+        items: [
+          {
+            title: "Four portals, one job",
+            text: "AI compared usage in all four markets and found the same few tasks, in the same order, everywhere. Only a few differences really mattered: currency, VAT, office rules and opening hours.",
+          },
+          {
+            title: "Customers typed what we already knew",
+            text: "Analysing past bookings showed that most fields were filled in with the same details every time, like office addresses and opening hours. Flovi already had all of it.",
+          },
+          {
+            title: "“Where is my car?”",
+            text: "When AI grouped the support questions by topic, the biggest group was people asking where their transfer was. We had that information, the portal just didn’t show it.",
+          },
+          {
+            title: "Finance didn’t like surprises",
+            text: "Usage data and interviews showed that finance teams only looked at costs when the invoice arrived. They wanted to see the total grow during the cycle so they could plan for it.",
+          },
+        ],
+      },
+      {
+        type: "carousel",
+        label: "Process",
+        heading: "AI at *every step.*",
+        text: "I used AI as a research and prototyping partner at every stage. It did the heavy reading and building, so I could spend my time on the decisions. I checked everything it found against the raw data and with the people in each market before we acted on it.",
+        items: [
           {
             label: "Analytics",
             title: "Finding usage patterns",
-            body: "I gave Claude anonymised booking and usage data from all four markets and asked it to find patterns: when customers book, which routes repeat, which pages they open first and what they check before calling support.",
+            text: "I gave Claude anonymised booking and usage data from all four markets and asked it to find patterns: when customers book, which routes repeat, which pages they open first and what they check before calling support.",
           },
           {
             label: "Metrics",
             title: "One set of numbers for every market",
-            body: "AI helped me define and track the metrics that mattered: time to book, completed bookings, “where is my car?” questions and how often finance teams checked costs. All four markets were measured the same way.",
+            text: "AI helped me define and track the metrics that mattered: time to book, completed bookings, “where is my car?” questions and how often finance teams checked costs. All four markets were measured the same way.",
           },
           {
             label: "Interviews",
             title: "Interviews in every market",
-            body: "I interviewed customers and operations teams in each market. AI transcribed the calls, translated the ones in local languages and pulled out the themes that came up across all of them.",
+            text: "I interviewed customers and operations teams in each market. AI transcribed the calls, translated the ones in local languages and pulled out the themes that came up across all of them.",
           },
           {
             label: "Testing",
             title: "Real prototypes, tested fast",
-            body: "I built working prototypes in code with Cursor, Claude and our shadcn components, so customers tested something that felt real. AI summarised every session and tagged each problem by flow and market.",
+            text: "I built working prototypes in code with Cursor, Claude and our shadcn components, so customers tested something that felt real. AI summarised every session and tagged each problem by flow and market.",
           },
         ],
       },
       {
-        heading: "Research and insights",
-        body: [
-          "Before designing anything, I put all four portals side by side and mapped every step of booking in each one. Then I used AI to go through everything else: the usage data, the questions customers asked support and operations, the interview notes, and how finance teams handled invoices at the end of each billing cycle. AI found the patterns, and I checked them with the teams on the ground.",
-        ],
-        insights: [
-          {
-            title: "Four portals, one job",
-            body: "AI compared usage in all four markets and found the same few tasks, in the same order, everywhere. Only a few differences really mattered: currency, VAT, office rules and opening hours.",
-          },
-          {
-            title: "Customers typed what we already knew",
-            body: "Analysing past bookings showed that most fields were filled in with the same details every time, like office addresses and opening hours. Flovi already had all of it.",
-          },
-          {
-            title: "“Where is my car?”",
-            body: "When AI grouped the support questions by topic, the biggest group was people asking where their transfer was. We had that information, the portal just didn’t show it.",
-          },
-          {
-            title: "Finance didn’t like surprises",
-            body: "Usage data and interviews showed that finance teams only looked at costs when the invoice arrived. They wanted to see the total grow during the cycle so they could plan for it.",
-          },
-        ],
-      },
-      {
-        heading: "How I solved it",
-        body: ["I turned each finding into a design decision, and used AI to test each one before we built it."],
-        decisions: [
+        type: "fixes",
+        label: "Problem solving",
+        heading: "Five problems. *Five fixes.*",
+        items: [
           {
             problem: "Four versions of the portal, and every feature built four times.",
             solution: "One portal on a shared design system. Market differences live in content and settings, so we design and build things once.",
+            image: { src: "/work/flovi/offices.webp", alt: "Offices: every location on one map, with its own opening hours, manager and status", kind: "screen" },
           },
           {
             problem: "Lots of usage data, but no clear way to show customers their own usage.",
             solution: "With AI, I explored and tested many ways of showing usage, from charts to tables to maps. The clearest one became the home page: a live map with status counts and the latest reservations.",
+            image: { src: "/work/flovi/reservations.png", alt: "Reservations with status counts: waiting for departure, on the move, completed", kind: "card" },
           },
           {
             problem: "Booking a transfer took too long.",
             solution: "A form that asks one thing at a time, fills in what past bookings already tell us, like pickup and drop-off times from office hours, and shows a live summary next to it.",
+            image: { src: "/work/flovi/schedule.png", alt: "Pickup and delivery times filled in, with a summary of when the car departs and arrives", kind: "card" },
           },
           {
             problem: "Customers called to ask where their car was.",
             solution: "A live map on the home page with status filters, and a driver card that shows the route and when the car will arrive.",
+            image: { src: "/work/flovi/tracking.webp", alt: "Live driver card with route progress and arrival time", kind: "card" },
           },
           {
             problem: "Costs were a surprise at the end of every cycle.",
             solution: "The current billing cycle, with trips so far and an estimated total, is always one click away.",
+            image: { src: "/work/flovi/billing-cycle.webp", alt: "Current billing cycle summary with trips and estimated total", kind: "card" },
           },
         ],
       },
       {
-        heading: "Finding the best way to show usage",
-        body: [
-          "With the help of AI, we found the best way to show customers how they use Flovi. Fleet managers wanted to see at a glance how many cars were moving, where they were and what it would cost, without digging through reports.",
-          "I asked AI to turn the usage patterns into different ways of showing them: charts, tables, timelines, maps and simple counts. I picked the strongest ideas, built them as working prototypes with realistic data, and tested them with customers in each market.",
-          "The simplest version worked best. A live map answers “where is my car?”, status counts show what is happening right now, and the billing cycle shows what it will cost. That became the home page and the invoices page.",
+        type: "tabs",
+        label: "The product",
+        heading: "Inside the portal.",
+        items: [
+          {
+            label: "Home",
+            text: "A live map shows every active transfer. Filters show how many cars are requested, assigned, on the road or delivered, and each reservation shows its route, time and price in one row.",
+            image: { src: "/work/flovi/dashboard.webp", alt: "Home: live map, status filters and the latest reservations", kind: "screen" },
+          },
+          {
+            label: "Team members",
+            text: "Roles and office access for everyone on the customer’s team, in one place.",
+            image: { src: "/work/flovi/team.webp", alt: "Team members page with roles and status", kind: "screen" },
+          },
+          {
+            label: "Invoices",
+            text: "Trips so far, the amount so far and an estimated total for the current cycle. Older invoices are one click away.",
+            image: { src: "/work/flovi/invoices.webp", alt: "Invoices page with the current billing cycle", kind: "screen" },
+          },
         ],
       },
       {
-        heading: "One portal for every market",
-        body: [
-          "Instead of fixing each market separately, we rebuilt the portal on one base. Every market uses the same components and patterns, and local details like currency, VAT and office rules come from the content, not from custom screens.",
-          "The navigation has five sections: Home, Offices, Team members, Invoices and Settings. “New reservation” is always one click away.",
+        type: "results",
+        label: "Results",
+        numbers: [
+          { value: "+30%", label: "More customers" },
+          { value: "~20 s", label: "To book a transfer" },
+          { value: "20%", label: "Faster booking than before" },
+          { value: "4 → 1", label: "Four markets, one portal" },
         ],
+        text: "The portal works the same way in every market, and it’s faster. Customers follow every transfer live without picking up the phone, and a new feature is built once instead of four times.",
+        sticker: "/work/flovi/signs/lets-roll.svg",
         images: [
-          { ...flovi.offices, frame: "browser", caption: "Offices: all locations on one map, with opening hours, managers and status." },
-          { ...flovi.team, frame: "browser", caption: "Team members: roles and office access in one place." },
+          { src: "/artworks/full/flovi-dashboard.webp", alt: "The Flovi live fleet dashboard for four markets", kind: "photo" },
+          { src: "/work/flovi/navigation.jpg", alt: "A Flovi driver following the route on his phone", kind: "photo" },
         ],
       },
       {
-        heading: "See every car on the move",
-        body: [
-          "The home page answers the question customers ask most: where is my car? The usage data showed it was the first thing most customers checked when they logged in, so a live map shows every active transfer. Filters show how many cars are requested, assigned, on the road or delivered, and each reservation shows its route, time and price in one row.",
-          "Click a car to see the driver, the vehicle, the route and when it will arrive. Customers can follow a transfer without calling anyone.",
-        ],
+        // From Laura's LinkedIn recommendation (6 Nov 2026), word for word.
+        type: "quote",
+        quote:
+          "The thing I enjoyed most was our sparring. We spent time figuring out what would actually work best in each situation, technically, design-wise and for the user, and Ion was always great to think things through with. … I’d happily recommend Ion to any team looking for a product designer who *thinks beyond the screen.*",
+        name: "Laura Ruokolainen",
+        role: "Key Account Manager, then Product Owner at Flovi",
+        photo: "/people/laura-ruokolainen.jpg",
+        image: { src: "/work/flovi/laura.jpg", alt: "Laura Ruokolainen in a Flovi coat and hat, by a car at Helsinki Airport", kind: "photo", position: "53% 50%" },
+        link: "https://www.linkedin.com/in/ion-cazac/details/recommendations/",
+      },
+      {
+        type: "gallery",
+        label: "Details",
+        heading: "Small things that save a call.",
+        columns: 2,
         images: [
-          { ...flovi.dashboard, frame: "browser", wide: true, caption: "Home: live map, status filters and the latest reservations." },
-          { src: "/work/flovi/tracking.webp", alt: "Live driver card with route progress and arrival time", width: 468, height: 476, frame: "card", caption: "Driver card with route progress and arrival time." },
-          { src: "/work/flovi/office-card.webp", alt: "Office card on the map with today’s hours and manager", width: 540, height: 350, frame: "card", caption: "Office cards show today’s hours and who’s in charge." },
+          { src: "/work/flovi/contact.png", alt: "Reservation contact: the pickup office’s contact person and phone number", kind: "card" },
+          { src: "/work/flovi/delivery-estimate.png", alt: "Delivery times by office, with a button to make a delivery time estimate", kind: "card" },
         ],
       },
       {
-        heading: "Booking in about 20 seconds",
-        body: [
-          "Customers book transfers all the time, so every second counts. AI went through past bookings and showed which details were almost always the same, so the new form fills them in by itself, like pickup and drop-off times based on office hours. It asks one thing at a time and shows a live summary next to it.",
-          "We tested the form as a coded prototype and used AI to compare how long each step took across sessions. After launch, the average booking time dropped by 20%, to about 20 seconds.",
-        ],
-      },
-      {
-        heading: "Billing without surprises",
-        body: [
-          "Finance teams can check the current billing cycle at any time: trips so far, the amount so far and an estimated total. Every trip is listed, and older invoices are one click away.",
-        ],
-        images: [
-          { src: "/work/flovi/billing-cycle.webp", alt: "Current billing cycle summary", width: 1585, height: 284, frame: "card", wide: true, caption: "The current cycle, always visible." },
-          { ...flovi.invoices, frame: "browser", wide: true, caption: "Invoices: trips in this cycle and previous invoices." },
-        ],
-      },
-      {
-        heading: "Testing and measuring with AI",
-        body: [
-          "Every main flow was tested as a working prototype before it was built. AI summarised each session, so after a round of tests I quickly had a clear list of what broke, in which flow and in which market.",
-          "After launch, we kept watching the same metrics: time to book, completed bookings and support questions. Every week, AI helped me read the numbers, spot where people still got stuck and decide what to fix next.",
-        ],
-      },
-      {
-        heading: "Impact",
-        body: [
-          "For customers, the portal now works the same way in every market, and it’s faster. Booking takes about 20 seconds, and they can follow every transfer live without picking up the phone.",
-          "For the business, the redesign and the move to one platform helped Flovi grow its customers by 30%. For the team, a new feature is now built once for all four markets instead of four times.",
-          "For the way we work, AI turned research and testing into a weekly habit instead of a big project. Going from a question to an answer in the data, or from an idea to a tested prototype, is now much faster than before.",
-        ],
-      },
-      {
-        heading: "What I learned",
+        type: "text",
+        label: "What I learned",
+        heading: "AI reads the data. *People decide what matters.*",
         body: [
           "AI is great at reading a lot of data and building prototypes fast, but it doesn’t know which patterns matter. The value came from pairing it with real conversations with customers and the teams in each market, and checking every finding before we acted on it.",
           "The rest of the work wasn’t the screens. It was getting four markets to agree on one way of working: the same words, the same steps, and a clear idea of which local differences really matter.",

@@ -42,7 +42,7 @@ export default function RootLayout({ children }: LayoutProps<"/">) {
       <body>
         {/* Without JavaScript, show the tiles that would otherwise fade in on scroll. */}
         <noscript>
-          <style>{"[data-reveal] { opacity: 1 !important; }"}</style>
+          <style>{"[data-reveal] { opacity: 1 !important; transform: none !important; }"}</style>
         </noscript>
         <SmoothScroll />
         {children}
