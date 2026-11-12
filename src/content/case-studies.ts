@@ -145,6 +145,8 @@ export type CaseStudy = {
   mockup?: { main: Screen; left?: Screen; right?: Screen; device?: "browser" | "phone" };
   sections?: CaseSection[];
   story?: StoryBlock[];
+  // Story layout only: a small, faint note at the very end (ownership, use).
+  disclaimer?: string;
 };
 
 const profit = {
@@ -162,7 +164,7 @@ export const caseStudies: CaseStudy[] = [
   {
     slug: "flovi",
     client: "Flovi",
-    title: "One customer portal for four markets, designed with AI",
+    title: "One customer portal for One Flovi company",
     category: "Mobility · B2B SaaS · AI-assisted design",
     year: "2025",
     summary:
@@ -176,6 +178,8 @@ export const caseStudies: CaseStudy[] = [
     highlight: "#37db88",
     cover: "/work/flovi/cover.jpg",
     coverPosition: "60% 0%",
+    disclaimer:
+      "All numbers, screenshots and brand materials in this case study are the property of Flovi (flovi.io). This case study is for demonstration only, and all trademarks used belong to Flovi.",
     // The bold scroll-animated layout. Every `src`-less image is a placeholder
     // that says what should go there.
     story: [
@@ -191,13 +195,14 @@ export const caseStudies: CaseStudy[] = [
           // last frame: 1.988 px per logo unit across and 1.912 down.
           intro: { src: "/work/flovi/logo-intro.gif", x: -11.42, y: -0.59, width: 438.63, height: 288.64, duration: 2280 },
         },
-        line: "One customer portal for four markets, designed with AI",
+        line: "One customer portal for One Flovi company",
       },
       {
         type: "intro",
         role: [
           "I led the design of the customer portal and made AI part of how we worked, from research to release. I used it to analyse usage data and metrics, run and summarise customer interviews, build prototypes in code and test them.",
-          "Alongside that, I audited the old portals, defined one structure for all markets, built a design system with the engineers based on shadcn, and designed the main flows.",
+          "Besides designing the process itself, with user research, interviews, testing and design reviews, I audited the old portals, defined one structure for all markets and designed the main flows.",
+          "I also delivered the design system as a code repository, built on shadcn, that the engineers build from, and merged design decisions into production myself.",
         ],
       },
       {
@@ -237,7 +242,7 @@ export const caseStudies: CaseStudy[] = [
       },
       {
         type: "photos",
-        heading: "Flovi moves cars for rental and fleet companies.",
+        heading: "Flovi moves cars.",
         accent: "Customers book every move in one portal.",
         sticker: "/work/flovi/signs/ride-along.svg",
         images: [
@@ -311,7 +316,12 @@ export const caseStudies: CaseStudy[] = [
           {
             label: "Testing",
             title: "Real prototypes, tested fast",
-            text: "I built working prototypes in code with Cursor, Claude and our shadcn components, so customers tested something that felt real. AI summarised every session and tagged each problem by flow and market.",
+            text: "I built working prototypes in code with Codex, Claude Code and our shadcn components, so customers tested something that felt real. AI summarised every session and tagged each problem by flow and market.",
+          },
+          {
+            label: "Delivery",
+            title: "From design to production",
+            text: "I delivered the design system as a code repository and merged design decisions into production myself, with the help of Codex and Claude Code. What customers tested is what they got.",
           },
         ],
       },
@@ -322,12 +332,12 @@ export const caseStudies: CaseStudy[] = [
         items: [
           {
             problem: "Four versions of the portal, and every feature built four times.",
-            solution: "One portal on a shared design system. Market differences live in content and settings, so we design and build things once.",
+            solution: "One portal on a shared design system, which I delivered as a code repository the engineers build from. Market differences live in content and settings, so we design and build things once.",
             image: { src: "/work/flovi/offices.webp", alt: "Offices: every location on one map, with its own opening hours, manager and status", kind: "screen" },
           },
           {
             problem: "Lots of usage data, but no clear way to show customers their own usage.",
-            solution: "With AI, I explored and tested many ways of showing usage, from charts to tables to maps. The clearest one became the home page: a live map with status counts and the latest reservations.",
+            solution: "With the help of AI, I explored and tested many ways of showing usage, from charts to tables to maps. The clearest one became the home page: a live map with status counts and the latest reservations.",
             image: { src: "/work/flovi/reservations.png", alt: "Reservations with status counts: waiting for departure, on the move, completed", kind: "card" },
           },
           {
@@ -395,16 +405,6 @@ export const caseStudies: CaseStudy[] = [
         photo: "/people/laura-ruokolainen.jpg",
         image: { src: "/work/flovi/laura.jpg", alt: "Laura Ruokolainen in a Flovi coat and hat, by a car at Helsinki Airport", kind: "photo", position: "53% 50%" },
         link: "https://www.linkedin.com/in/ion-cazac/details/recommendations/",
-      },
-      {
-        type: "gallery",
-        label: "Details",
-        heading: "Small things that save a call.",
-        columns: 2,
-        images: [
-          { src: "/work/flovi/contact.png", alt: "Reservation contact: the pickup office’s contact person and phone number", kind: "card" },
-          { src: "/work/flovi/delivery-estimate.png", alt: "Delivery times by office, with a button to make a delivery time estimate", kind: "card" },
-        ],
       },
       {
         type: "text",

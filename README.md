@@ -1,6 +1,6 @@
 # ioncazac.com
 
-The source of [ioncazac.com](https://ioncazac.com), the portfolio of Ion Cazac, Senior Product Designer · AI-Native Product Builder. I designed it and built it in code with AI (Claude Code).
+The source of [ioncazac.com](https://ioncazac.com), the portfolio of Ion Cazac, Senior Product Designer · AI-Native Product Builder. I designed it and built it in code with the help of AI (Claude Code).
 
 - **Stack:** Next.js 16 (App Router), Tailwind CSS 4, TypeScript, hosted on Vercel.
 - **Content as data:** every case study, role and recommendation lives in `src/content/`, and the pages are built from it.

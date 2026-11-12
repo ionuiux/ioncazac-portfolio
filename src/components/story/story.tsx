@@ -28,6 +28,9 @@ export function Story({ study }: { study: CaseStudy }) {
       {study.story?.map((block, i) => (
         <Block key={i} block={block} study={study} />
       ))}
+      {study.disclaimer && (
+        <p className="mx-auto max-w-2xl pb-12 text-center text-[10px] leading-relaxed text-black/30">{study.disclaimer}</p>
+      )}
     </div>
   );
 }
