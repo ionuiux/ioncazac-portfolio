@@ -8,8 +8,20 @@ type Item = { label: string; text: string; image: StoryImage };
 
 // Screens of the product behind tabs. Laptops: the tabs are a list beside the
 // screen, the open one with its description. Phones: a row of tabs above it.
+// Screens sit in a browser window; finished mockups and photos fill a 5:4 box.
 export function Tabs({ label, heading, items }: { label: string; heading: string; items: Item[] }) {
   const [active, setActive] = useState(0);
+  const framed = items[0]?.image.kind === "screen";
+  const layers = (sizes: string) =>
+    items.map((item, i) => (
+      <div
+        key={item.label}
+        aria-hidden={i !== active}
+        className={`absolute inset-0 transition-opacity duration-500 ${i === active ? "opacity-100" : "opacity-0"}`}
+      >
+        <Fill image={item.image} sizes={sizes} />
+      </div>
+    ));
 
   return (
     <section className="py-24 sm:py-32">
@@ -43,19 +55,16 @@ export function Tabs({ label, heading, items }: { label: string; heading: string
           ))}
         </div>
 
-        <div className="bg-[var(--tint)] px-[5%] pt-[5%]">
-          <BrowserWindow className="shadow-none">
-            {items.map((item, i) => (
-              <div
-                key={item.label}
-                aria-hidden={i !== active}
-                className={`absolute inset-0 transition-opacity duration-500 ${i === active ? "opacity-100" : "opacity-0"}`}
-              >
-                <Fill image={item.image} sizes="(min-width: 1024px) 66vw, 100vw" />
-              </div>
-            ))}
-          </BrowserWindow>
-        </div>
+        {framed ? (
+          <div className="bg-[var(--tint)] px-[5%] pt-[5%]">
+            <BrowserWindow className="shadow-none">{layers("(min-width: 1024px) 66vw, 100vw")}</BrowserWindow>
+          </div>
+        ) : (
+          // On laptops no taller than most of the screen, so it's seen whole.
+          <div className="relative aspect-[5/4] overflow-hidden bg-[var(--tint)] lg:max-h-[74svh]">
+            {layers("(min-width: 1024px) 66vw, 100vw")}
+          </div>
+        )}
       </div>
       <p role="tabpanel" className="mt-6 max-w-2xl text-[16px] leading-relaxed text-neutral-600 lg:hidden">
         {items[active].text}

@@ -50,27 +50,33 @@ function Block({ block, study }: { block: StoryBlock; study: CaseStudy }) {
           steps={block.steps}
           sticker={block.sticker}
           done={block.done}
+          device={block.device}
         />
       );
     case "photos": {
-      // Three photos: one big on the left, two stacked on the right. The 9:4
-      // grid keeps every one of them close to 3:2.
-      const three = block.images.length === 3;
+      // One photo: full width, 2:1 (4:3 on phones, unless it's a picture shown
+      // whole). Two: side by side. Three: one big on the left, two stacked on
+      // the right; the 9:4 grid keeps each close to 3:2.
+      const count = block.images.length;
+      const three = count === 3;
       return (
         <section className="py-24 sm:py-32">
           <h2 className="mx-auto max-w-5xl text-center text-4xl leading-[1.02] font-bold tracking-[-0.045em] text-balance sm:text-6xl">
             {block.heading} <span className="text-[var(--accent)]">{block.accent}</span>
           </h2>
           <div
-            className={`relative mt-14 grid gap-3 sm:mt-20 sm:gap-4 ${three ? "sm:aspect-[9/4] sm:grid-cols-3 sm:grid-rows-2" : "sm:grid-cols-2"}`}
+            className={`relative mt-14 grid gap-3 sm:mt-20 sm:gap-4 ${three ? "sm:aspect-[9/4] sm:grid-cols-3 sm:grid-rows-2" : count === 2 ? "sm:grid-cols-2" : ""}`}
           >
             {block.sticker && <Sticker src={block.sticker} tilt={-12} className="-top-9 left-4 w-20 sm:-top-14 sm:left-8 sm:w-28" />}
             {block.images.map((image, i) => (
               <Parallax
                 key={image.alt}
-                className={`relative aspect-[3/2] overflow-hidden ${three ? `sm:aspect-auto ${i === 0 ? "sm:col-span-2 sm:row-span-2" : ""}` : ""}`}
+                className={`relative overflow-hidden ${count === 1 ? (image.kind === "photo" ? "aspect-[4/3] sm:aspect-[2/1]" : "aspect-[2/1]") : "aspect-[3/2]"} ${three ? `sm:aspect-auto ${i === 0 ? "sm:col-span-2 sm:row-span-2" : ""}` : ""}`}
               >
-                <Fill image={image} sizes={three && i > 0 ? "(min-width: 640px) 33vw, 100vw" : "(min-width: 640px) 66vw, 100vw"} />
+                <Fill
+                  image={image}
+                  sizes={count === 1 ? "100vw" : three && i > 0 ? "(min-width: 640px) 33vw, 100vw" : "(min-width: 640px) 66vw, 100vw"}
+                />
               </Parallax>
             ))}
           </div>
@@ -137,7 +143,7 @@ function Block({ block, study }: { block: StoryBlock; study: CaseStudy }) {
         <section className="relative my-12 bg-[var(--accent-dark)] px-6 py-20 text-white sm:my-20 sm:px-12 sm:py-28 lg:px-16">
           {block.sticker && <Sticker src={block.sticker} tilt={12} className="top-8 right-6 w-20 sm:top-12 sm:right-12 sm:w-32" />}
           <p className="text-[13px] font-medium text-white/60">{block.label}</p>
-          <div className="mt-10 grid gap-x-10 gap-y-12 sm:grid-cols-2">
+          <div className={`mt-10 grid gap-x-10 gap-y-12 ${block.numbers.length === 3 ? "sm:grid-cols-3" : "sm:grid-cols-2"}`}>
             {block.numbers.map((number) => (
               <div key={number.label} className="flex flex-col-reverse justify-end border-t border-white/15 pt-6">
                 <p className="mt-3 text-[15px] text-white/70">{number.label}</p>

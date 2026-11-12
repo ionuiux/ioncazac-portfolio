@@ -82,18 +82,20 @@ export type StoryBlock =
     }
   // The title, summary, role and project facts.
   | { type: "intro"; role: string[] }
-  // A flow shown step by step in one pinned browser window, with a timer.
+  // A flow shown step by step in one pinned browser window (or phone), with a
+  // timer counting to `seconds`; without it, a step count ("02 / 03").
   // `sticker` sits by the heading; `done` pops onto the window at the last step.
   | {
       type: "flow";
       label: string;
       heading: string;
-      seconds: number;
+      seconds?: number;
       steps: { title: string; text: string; image: StoryImage }[];
       sticker?: string;
       done?: string;
+      device?: "browser" | "phone";
     }
-  // A two-line headline over two photos, or three (one big, two small).
+  // A two-line headline over one wide photo, two photos, or three (one big, two small).
   | { type: "photos"; heading: string; accent: string; images: StoryImage[]; sticker?: string }
   // A big statement that lights up word by word as it scrolls past.
   | { type: "statement"; label: string; text: string }
@@ -106,7 +108,7 @@ export type StoryBlock =
   | { type: "carousel"; label: string; heading: string; text: string; items: { label: string; title: string; text: string; image?: StoryImage }[] }
   // Each problem, what was done about it and a picture of the result.
   | { type: "fixes"; label: string; heading: string; items: { problem: string; solution: string; image: StoryImage }[] }
-  // Screens of the product behind tabs.
+  // Screens of the product behind tabs (in a browser window when they are `screen`s).
   | { type: "tabs"; label: string; heading: string; items: { label: string; text: string; image: StoryImage }[] }
   // Big numbers that count up, on a dark panel.
   | { type: "results"; label: string; numbers: { value: string; label: string }[]; text: string; images?: StoryImage[]; sticker?: string }
@@ -429,164 +431,215 @@ export const caseStudies: CaseStudy[] = [
     year: "2023",
     summary:
       "ORB’s smart mouthguard records 20+ performance and wellness metrics in every session. As ORB’s first UX designer, I designed the app that turns them into three clear views, from pairing the mouthguard to live sessions, reports and history.",
-    overview: {
-      problem:
-        "The mouthguard records 20+ metrics every session, but athletes and coaches wanted simple answers. And the hardware was still being built.",
-      insight:
-        "A number only makes sense with context: the sport, the type of session, how hard it felt and the athlete’s history.",
-      impact:
-        "An app that turns every session into three clear views, built on a design system that gave ORB “a great start and a strong direction”, as its CTO put it.",
-    },
-    results: [
-      { value: "20+", label: "Metrics recorded in every session" },
-      { value: "3", label: "Clear views per session: heart rate, movement, impacts" },
-      { value: "1st", label: "UX designer at ORB" },
-    ],
     role: "Senior Product Designer",
     timeline: "Jun – Dec 2023",
     team: "Founders, engineering, data science",
     platform: "Mobile app",
-    accent: ["#06161d", "#14b8c4"],
+    // ORB's app colours: its dark background and its aqua (too light for text on
+    // white, so the accent is a deeper teal of the same hue, and the aqua is kept
+    // for the big numbers on the dark panel).
+    accent: ["#02202e", "#00818a"],
+    highlight: "#00fcfb",
     cover: "/work/orb/hero.webp",
     coverPosition: "62% center",
-    sections: [
+    disclaimer:
+      "All numbers, screenshots and brand materials in this case study are the property of ORB Innovations. This case study is for demonstration only, and all trademarks used belong to ORB Innovations.",
+    story: [
       {
-        heading: "The product",
-        body: [
-          "ORB Sport is a custom-fit smart mouthguard for athletes in contact sports. Besides protecting the teeth, it records heart rate, movement and impacts, more than 20 metrics in every session.",
-          "The app brings all of this into one place. You start with your latest session, dig into each metric, and look back over time to see how your effort, movement and impacts change.",
-        ],
+        type: "hero",
+        // The zoom flies through the hole of the "O".
+        word: "ORB",
+        through: 0,
+        line: "Making smart mouthguard data useful for athletes",
       },
       {
-        heading: "The problem",
-        body: [
-          "There was nothing quite like it to learn from. The hardware was still in development, the data came from a device inside an athlete’s mouth, and the people using it wanted answers, not raw sensor data.",
-          "The app had to make a technical product feel simple. It had to get a custom mouthguard to the athlete, pair it reliably, record a session even with a weak signal or low battery, and turn thousands of data points into a few numbers that mean something.",
-        ],
-      },
-      {
-        heading: "My role",
-        body: [
+        type: "intro",
+        role: [
           "I joined ORB as its first UX designer and designed the whole app: research and testing with athletes, flows and wireframes, prototypes, the visual design and the design system.",
           "I worked closely with the founders, developers and data scientists, so every screen matched what the hardware and algorithms could actually do. When they changed, I could adjust quickly.",
         ],
       },
       {
-        heading: "Research and insights",
-        body: [
-          "With no similar product to compare against, I learned from people and from the device. I interviewed and tested with athletes, talked to coaches about how they review a session, and went through real session data and the device’s limits with the engineers and data scientists.",
-        ],
-        insights: [
+        type: "flow",
+        label: "Getting started",
+        heading: "From the box to *the first reading.*",
+        device: "phone",
+        steps: [
           {
-            title: "Answers, not data",
-            body: "Athletes didn’t want to read sensor charts. They wanted to know how hard they worked, how they moved and whether they took a hit.",
+            title: "Know what’s next",
+            text: "Every mouthguard is made from an impression of the athlete’s teeth, so the app starts before it exists. Four cards explain what happens, from sending the impression to the first session.",
+            image: { src: "/work/orb/next-steps-screen.webp", alt: "Next Steps: what happens after you send your impression, in four cards", kind: "screen" },
           },
           {
-            title: "Context changes everything",
-            body: "The same heart rate means something different in training, in a match, or with an injury that hasn’t healed. Numbers needed the story of the session around them.",
+            title: "Pair the mouthguard",
+            text: "When the mouthguard arrives, pairing happens on one simple screen that shows the progress.",
+            image: { src: "/work/orb/connecting.webp", alt: "Connecting to the ORB mouthguard", kind: "screen" },
           },
           {
-            title: "The connection will drop",
-            body: "A mouthguard in a moving athlete’s mouth loses signal and battery. The app had to expect this, not treat it as an error.",
-          },
-          {
-            title: "It starts before the first session",
-            body: "Every mouthguard is made from an impression, so the first experience is waiting for it to arrive. People wanted to know what happens next.",
+            title: "Take a reading",
+            text: "Measurements come with short tips. For the best heart-rate reading, don’t talk, swallow or move your tongue.",
+            image: { src: "/work/orb/measuring.webp", alt: "Measuring heart rate in beats per minute, with a tip for the best reading", kind: "screen" },
           },
         ],
       },
       {
-        heading: "How I solved it",
-        body: ["Each finding led to a design decision, from how the data is organised to what happens when the hardware fails."],
-        decisions: [
+        type: "photos",
+        heading: "ORB makes a smart mouthguard.",
+        accent: "The app turns what it records into answers.",
+        images: [
+          { src: "/work/orb/hero.webp", alt: "A boxer checks the ORB app, with the ORB mouthguard in the other hand", kind: "photo", position: "62% 50%" },
+        ],
+      },
+      {
+        type: "statement",
+        label: "The problem",
+        text: "The mouthguard records *20+ metrics* in every session. Athletes and coaches wanted *simple answers,* and the hardware was *still being built.*",
+      },
+      {
+        type: "findings",
+        label: "Research",
+        heading: "What we learned.",
+        text: "There was nothing quite like it to learn from, so I learned from people and from the device. I interviewed and tested with athletes, talked to coaches about how they review a session, and went through real session data and the device’s limits with the engineers and data scientists.",
+        items: [
+          {
+            title: "Answers, not data",
+            text: "Athletes didn’t want to read sensor charts. They wanted to know how hard they worked, how they moved and whether they took a hit.",
+          },
+          {
+            title: "Context changes everything",
+            text: "The same heart rate means something different in training, in a match, or with an injury that hasn’t healed. Numbers needed the story of the session around them.",
+          },
+          {
+            title: "The connection will drop",
+            text: "A mouthguard in a moving athlete’s mouth loses signal and battery. The app had to expect this, not treat it as an error.",
+          },
+          {
+            title: "It starts before the first session",
+            text: "Every mouthguard is made from an impression, so the first experience is waiting for it to arrive. People wanted to know what happens next.",
+          },
+        ],
+      },
+      {
+        type: "carousel",
+        label: "Process",
+        heading: "Designing for hardware *still in the making.*",
+        text: "The hardware and algorithms kept changing, so I worked closely with the founders, engineers and data scientists at every step, and tested the app with athletes along the way.",
+        items: [
+          {
+            label: "Interviews",
+            title: "Athletes and coaches",
+            text: "I interviewed athletes and talked to coaches about how they review a session, to learn which answers they wanted from the data.",
+          },
+          {
+            label: "Data",
+            title: "Real sessions, real limits",
+            text: "With the engineers and data scientists, I went through real session data and the device’s limits, so every screen matched what the mouthguard could really measure.",
+          },
+          {
+            label: "Flows",
+            title: "Failure first",
+            text: "I mapped every flow, from impression kit to session report, and planned the reconnecting, low battery and no signal states early.",
+          },
+          {
+            label: "Testing",
+            title: "Prototypes with athletes",
+            text: "I built prototypes of the main flows and tested them with athletes, then adjusted the screens whenever the hardware or algorithms changed.",
+          },
+          {
+            label: "System",
+            title: "A design system, early on",
+            text: "Every component and state was documented, so the engineers could build quickly and the app stayed consistent while the product took shape.",
+          },
+        ],
+      },
+      {
+        type: "fixes",
+        label: "Problem solving",
+        heading: "Five problems. *Five fixes.*",
+        items: [
           {
             problem: "Thousands of data points in every session.",
             solution: "Three areas: heart rate, movement and impacts. Each one answers one question, and more detail is one tap away.",
+            image: { src: "/work/orb/metrics-overview.webp", alt: "Heart rate, movement and impact screens on three phones", kind: "illustration" },
           },
           {
             problem: "Numbers without context meant nothing.",
             solution: "A short report after each session adds the sport, the session type, how hard it felt and notes. Every metric is shown next to the athlete’s history.",
+            image: { src: "/work/orb/session-report.webp", alt: "Session report: name, time, sport, session type, how hard it felt and notes", kind: "card" },
           },
           {
             problem: "Signal and battery could drop mid-game.",
             solution: "Signal and battery are always on screen, and the app shows when it’s reconnecting instead of failing.",
+            image: { src: "/work/orb/live-session.webp", alt: "A live session with signal and battery, and the same screen while it reconnects", kind: "card" },
           },
           {
             problem: "A session could be stopped by accident.",
             solution: "To end a session you press and hold, so one tap can’t stop it.",
+            image: { src: "/work/orb/live-and-report.webp", alt: "A live session with the Hold to end session button, next to its session report", kind: "photo" },
           },
           {
             problem: "The hardware and algorithms kept changing.",
-            solution: "A design system with every component and state documented, so screens could change fast and still stay consistent.",
+            solution: "A design system with every component and state documented, so screens could change fast and still stay consistent. Even toasts have their types, placement and motion specified.",
+            image: { src: "/work/orb/toasts.webp", alt: "Toast specification: three types, placement and motion", kind: "card" },
           },
         ],
       },
       {
-        heading: "From impression kit to first session",
-        body: [
-          "Each mouthguard is made for one athlete, so the experience starts long before the first session. The app explains it in four steps: send your impression, we 3D scan it for a perfect fit, we make it and ship it, and you start tracking.",
-          "When the mouthguard arrives, pairing happens on one simple screen that shows the progress. Measurements come with short tips. For the best heart-rate reading, don’t talk, swallow or move your tongue.",
-        ],
-        images: [
-          { src: "/work/orb/next-steps.webp", alt: "Next Steps screen and its four-step slider", width: 1898, height: 1045, frame: "plain", wide: true, caption: "Next Steps: from impression kit to tracking, in four cards." },
+        type: "tabs",
+        label: "The product",
+        heading: "Three views of *every session.*",
+        items: [
           {
-            alt: "Connecting and measuring",
-            frame: "phones",
-            wide: true,
-            screens: [
-              { src: "/work/orb/connecting.webp", alt: "Connecting to the ORB mouthguard", width: 786, height: 1704 },
-              { src: "/work/orb/measuring.webp", alt: "Measuring heart rate in beats per minute", width: 786, height: 1704 },
-            ],
-            caption: "Pairing the mouthguard and taking a heart-rate reading.",
+            label: "Heart rate",
+            text: "Your effort across the session, and how long you spent in each intensity zone. Each metric is shown with the session details and your history, never as a number on its own.",
+            image: { src: "/work/orb/heart-rate.webp", alt: "Heart-rate overview with the session trace and time in each intensity zone", kind: "photo", position: "50% 30%" },
+          },
+          {
+            label: "Movement",
+            text: "Pace, motion, steps and distance, with a short explanation of what movement intensity means.",
+            image: { src: "/work/orb/movement.webp", alt: "Movement overview with intensity and distance", kind: "photo", position: "50% 30%" },
+          },
+          {
+            label: "Impacts",
+            text: "Each hit, its g-force on each side and where it landed.",
+            image: { src: "/work/orb/impacts.webp", alt: "Impacts with the average g-force per side and the impact region", kind: "photo", position: "50% 40%" },
           },
         ],
       },
       {
-        heading: "Live sessions and session reports",
-        body: [
-          "During a session, the screen shows only what you need: heart rate on a live gauge, calories, time, and the mouthguard’s signal and battery. If the connection drops, the app says so and keeps trying to reconnect. You end a session by pressing and holding, so it never stops by accident.",
-          "After the session, a short report adds what the sensors can’t know: a name, the start and end time, the sport, training or competition, how hard it felt, and notes like an injury that hasn’t fully healed.",
-        ],
+        type: "photos",
+        heading: "Specified for every iPhone,",
+        accent: "from SE to 15 Pro Max.",
         images: [
-          { src: "/work/orb/session-flow.webp", alt: "Ongoing activity screens and the session report flow", width: 1950, height: 660, frame: "plain", wide: true, caption: "The live session, including the reconnecting state, and the session report." },
-          { src: "/work/orb/live-and-report.webp", alt: "Live session and session report on two phones", width: 1800, height: 1800, frame: "plain", caption: "A live session and its report." },
-          { src: "/work/orb/heart-rate.webp", alt: "Heart-rate overview with session trace and intensity zones", width: 1254, height: 1254, frame: "plain", caption: "Heart rate across the session, by intensity zone." },
+          { src: "/work/orb/responsive.webp", alt: "The Home screen laid out on iPhone SE, 8 Plus, X and 15 Pro Max, with margins from 12pt to 20pt", kind: "card" },
         ],
       },
       {
-        heading: "Three views of every session",
-        body: [
-          "Every session opens into three areas. Heart rate shows your effort and how long you spent in each intensity zone. Movement shows pace, motion, steps and distance. Impacts show each hit, its g-force on each side and where it landed.",
-          "Each metric is shown together with the session details and the athlete’s history, never as a number on its own.",
+        type: "results",
+        label: "Results",
+        numbers: [
+          { value: "20+", label: "Metrics recorded in every session" },
+          { value: "3", label: "Clear views per session" },
+          { value: "1st", label: "UX designer at ORB" },
         ],
-        images: [
-          { src: "/work/orb/metrics-overview.webp", alt: "Heart rate, movement and impact screens on three phones", width: 1800, height: 900, frame: "float", wide: true, caption: "Heart rate, movement and impacts." },
-          { src: "/work/orb/movement.webp", alt: "Movement overview with intensity and distance", width: 1254, height: 1254, frame: "plain", caption: "Movement: intensity, steps and distance." },
-          { src: "/work/orb/impacts.webp", alt: "Impact view with average impact per side and impact region", width: 1254, height: 1254, frame: "plain", caption: "Impacts: g-force per side and where they landed." },
-        ],
+        text: "Athletes go from impression kit to their first session, record reliably even in tough conditions, and review more than 20 metrics in three clear views. The app gave ORB a solid, consistent base to build on while the hardware was still changing.",
       },
       {
-        heading: "A system built to scale",
-        body: [
-          "The product was still taking shape, so I set up a design system early, with all the components, states and rules the engineers needed. Even small things were defined. Toasts, for example, come in three types (error, warning and info), sit 20pt above the main button, slide in from the right and out to the left in 300ms, and disappear after three seconds.",
-          "Every layout was specified for all screen sizes, from iPhone SE to iPhone 15 Pro Max, with margins growing from 12pt to 20pt on bigger screens.",
-        ],
-        images: [
-          { src: "/work/orb/toasts.webp", alt: "Toast specification with types, placement and animation", width: 1643, height: 1205, frame: "plain", wide: true, caption: "Toasts: types, placement and motion." },
-          { src: "/work/orb/responsive.webp", alt: "Home screen layout across four iPhone sizes", width: 2000, height: 913, frame: "plain", wide: true, caption: "The Home screen from iPhone SE to iPhone 15 Pro Max." },
-        ],
+        type: "quote",
+        quote:
+          "Ion joined ORB as our first UX Designer and he knocked our design needs out of the park, even with the challenges of working with development IoT hardware. His work gave ORB *a great start and a strong direction.*",
+        name: "Thomas Quinn",
+        role: "CTO & Co-Founder, ORB Innovations",
+        photo: "/people/thomas-quinn.jpg",
+        link: "https://www.linkedin.com/in/ion-cazac/details/recommendations/",
       },
       {
-        heading: "Impact",
-        body: [
-          "Athletes can go from impression kit to their first session, record reliably even in tough conditions, and review more than 20 metrics in three clear views, with the context that makes them useful.",
-          "The app gave ORB a solid, consistent base to build on while the hardware was still changing. Thomas Quinn, ORB’s CTO and co-founder, put it this way: “Ion joined ORB as our first UX Designer and he knocked our design needs out of the park, even with the challenges of working with development IoT hardware. His work gave ORB a great start and a strong direction.”",
-        ],
-      },
-      {
-        heading: "What I learned",
+        type: "text",
+        label: "What I learned",
+        heading: "Design for *failure first.*",
         body: [
           "When the hardware is still in development, design for failure first. Planning the reconnecting, low battery and no signal states early made the main flow simpler, and kept the app honest about what the device could really measure.",
+          "And a number is only an answer with its context. The sport, the type of session, how hard it felt and the athlete’s history turned sensor data into something an athlete could act on.",
         ],
       },
     ],

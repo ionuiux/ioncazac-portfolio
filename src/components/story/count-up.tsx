@@ -4,14 +4,15 @@ import { useEffect, useRef } from "react";
 import { prefersReducedMotion } from "@/lib/motion";
 
 // A number like "+30%" or "~20 s" that counts up from 0 when it scrolls into
-// view. Values with no single number in them (like "4 → 1") are shown as they are.
+// view. Values with no single number in them (like "4 → 1") and ones that would
+// count only to 1 (like "1st") are shown as they are.
 export function CountUp({ value }: { value: string }) {
   const ref = useRef<HTMLSpanElement>(null);
 
   useEffect(() => {
     const element = ref.current;
     const match = /^(\D*)(\d+)(\D*)$/.exec(value);
-    if (!element || !match || prefersReducedMotion()) return;
+    if (!element || !match || Number(match[2]) < 2 || prefersReducedMotion()) return;
     const [, before, number, after] = match;
     const target = Number(number);
     let frame = 0;

@@ -2,14 +2,16 @@
 
 import { useRef, useState } from "react";
 import type { StoryImage } from "@/content/case-studies";
+import { PhoneShell } from "@/components/phone-frame";
 import { Accent, BrowserWindow, Fill } from "./story-image";
 import { useScrollProgress } from "./use-scroll-progress";
 
 type Step = { title: string; text: string; image: StoryImage };
 
-// A flow played out in one browser window that stays pinned while the page
-// scrolls: each stretch of scrolling shows the next step, and a timer counts up
-// to the time the whole flow takes.
+// A flow played out in one browser window (or phone) that stays pinned while
+// the page scrolls: each stretch of scrolling shows the next step, and a timer
+// counts up to the time the whole flow takes. Without `seconds`, a step count
+// ("02 / 03") takes the timer's place.
 // `sticker` sits on the window's corner until the last step, when `done` pops in
 // its place (Flovi: "Let's go", then "All set").
 export function Flow({
@@ -19,13 +21,15 @@ export function Flow({
   steps,
   sticker,
   done,
+  device = "browser",
 }: {
   label: string;
   heading: string;
-  seconds: number;
+  seconds?: number;
   steps: Step[];
   sticker?: string;
   done?: string;
+  device?: "browser" | "phone";
 }) {
   const [active, setActive] = useState(0);
   const timer = useRef<HTMLSpanElement>(null);
@@ -33,16 +37,29 @@ export function Flow({
 
   const section = useScrollProgress<HTMLElement>((progress) => {
     setActive(Math.min(steps.length - 1, Math.floor(progress * steps.length)));
-    if (timer.current) timer.current.textContent = `00:${String(Math.round(progress * seconds)).padStart(2, "0")}`;
+    if (timer.current && seconds) timer.current.textContent = `00:${String(Math.round(progress * seconds)).padStart(2, "0")}`;
     if (bar.current) bar.current.style.transform = `scaleX(${progress})`;
   });
 
   const step = steps[active];
   const finished = active === steps.length - 1;
+  const count = (n: number) => String(n).padStart(2, "0");
   const signs = [
     { src: sticker, shown: !finished || !done, tilt: 10 },
     { src: done, shown: finished, tilt: -8 },
   ];
+
+  // Every step's picture, stacked; only the current one is shown.
+  const screens = (sizes: string) =>
+    steps.map((item, i) => (
+      <div
+        key={item.title}
+        aria-hidden={i !== active}
+        className={`absolute inset-0 transition-opacity duration-500 ${i === active ? "opacity-100" : "opacity-0"}`}
+      >
+        <Fill image={item.image} sizes={sizes} />
+      </div>
+    ));
 
   return (
     <section ref={section} style={{ height: `${steps.length * 60 + 100}svh` }}>
@@ -54,7 +71,7 @@ export function Flow({
           </h2>
           <div className="mt-5 flex items-center gap-4 lg:mt-10">
             <span ref={timer} className="text-3xl font-semibold tracking-tight tabular-nums sm:text-5xl">
-              00:00
+              {seconds ? "00:00" : `${count(active + 1)} / ${count(steps.length)}`}
             </span>
             <span className="relative h-0.5 flex-1 bg-line">
               <span ref={bar} className="absolute inset-0 origin-left scale-x-0 bg-[var(--accent)]" />
@@ -95,23 +112,23 @@ export function Flow({
                 />
               ),
           )}
-          <BrowserWindow>
-            {steps.map((item, i) => (
-              <div
-                key={item.title}
-                aria-hidden={i !== active}
-                className={`absolute inset-0 transition-opacity duration-500 ${i === active ? "opacity-100" : "opacity-0"}`}
-              >
-                <Fill image={item.image} sizes="(min-width: 1024px) 58vw, 100vw" />
-              </div>
-            ))}
-          </BrowserWindow>
+          {device === "phone" ? (
+            // A phone on a tinted panel, sized by the screen's height.
+            <div className="flex h-[44svh] items-center justify-center bg-[var(--tint)] lg:h-[80svh]">
+              <PhoneShell className="h-[90%] lg:h-[86%]">{screens("(min-width: 1024px) 340px, 200px")}</PhoneShell>
+            </div>
+          ) : (
+            <BrowserWindow>{screens("(min-width: 1024px) 58vw, 100vw")}</BrowserWindow>
+          )}
           {/* Phones and tablets: just the current step under the window. */}
           <div className="mt-4 min-h-[5.5rem] lg:hidden">
             <p className="text-[16px] font-semibold">
-              <span className="mr-2 text-muted tabular-nums">
-                {active + 1}/{steps.length}
-              </span>
+              {/* The step count, unless it's already shown in the timer's place. */}
+              {seconds && (
+                <span className="mr-2 text-muted tabular-nums">
+                  {active + 1}/{steps.length}
+                </span>
+              )}
               {step.title}
             </p>
             <p className="mt-1 text-[15px] leading-relaxed text-neutral-600">{step.text}</p>
