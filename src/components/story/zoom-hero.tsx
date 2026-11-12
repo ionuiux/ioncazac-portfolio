@@ -4,6 +4,9 @@ import { useEffect, useRef, useState } from "react";
 import { useReducedMotion } from "@/lib/motion";
 import { clamp01, useScrollProgress } from "./use-scroll-progress";
 
+// How long the logo takes to fade in over the end of its animation.
+const SETTLE_MS = 900;
+
 type Logo = {
   src: string;
   width: number;
@@ -24,18 +27,21 @@ export function ZoomHero({ line, logo, word = "", through = 0 }: { line: string;
   const baseline = useRef<HTMLSpanElement>(null);
   const fade = useRef<HTMLDivElement>(null);
   const animation = useRef<HTMLImageElement>(null);
-  const [introDone, setIntroDone] = useState(false);
+  // "playing": the logo animation runs, the logo itself is hidden. "settling":
+  // the logo fades in on top of the animation's last frame (the same picture,
+  // drawn sharper), so the handover can't be seen. "done": the animation is gone.
+  const [phase, setPhase] = useState<"playing" | "settling" | "done">("playing");
   const intro = logo?.intro;
-  const playing = Boolean(intro) && !reduced && !introDone;
+  const animated = Boolean(intro) && !reduced;
+  const settle = () => setPhase((current) => (current === "playing" ? "settling" : current));
 
-  // When the logo animation has played (timed from when it loaded), the logo
-  // itself takes over: the animation's last frame is the same picture.
+  // The handover starts once the animation has played (timed from when it loaded).
   useEffect(() => {
     const image = animation.current;
     if (!intro || !image) return;
     let timer = 0;
     const start = () => {
-      timer = window.setTimeout(() => setIntroDone(true), intro.duration + 150);
+      timer = window.setTimeout(settle, intro.duration + 100);
     };
     if (image.complete) start();
     else image.addEventListener("load", start, { once: true });
@@ -44,6 +50,13 @@ export function ZoomHero({ line, logo, word = "", through = 0 }: { line: string;
       image.removeEventListener("load", start);
     };
   }, [intro]);
+
+  // Once the logo has faded in, the animation underneath can go.
+  useEffect(() => {
+    if (phase !== "settling") return;
+    const timer = window.setTimeout(() => setPhase("done"), SETTLE_MS + 100);
+    return () => window.clearTimeout(timer);
+  }, [phase]);
 
   // A word zooms from the middle of the letter's hole: its centre across, and
   // halfway up Inter's x-height (0.546 of the font size) above the baseline.
@@ -70,8 +83,8 @@ export function ZoomHero({ line, logo, word = "", through = 0 }: { line: string;
       fade.current.style.opacity = "";
       return;
     }
-    // Scrolling during the logo animation skips to the finished logo.
-    if (progress > 0.005) setIntroDone(true);
+    // Scrolling during the logo animation starts the handover to the logo.
+    if (progress > 0.005) settle();
     // A steady-feeling zoom: the scale grows exponentially, up to 60×. The hole
     // covers the screen at about 20×, just before the next block arrives.
     const t = clamp01((progress - 0.04) / 0.56);
@@ -99,9 +112,12 @@ export function ZoomHero({ line, logo, word = "", through = 0 }: { line: string;
               width={logo.width}
               height={logo.height}
               fetchPriority="high"
-              className={`block h-auto w-full ${playing ? "opacity-0" : ""}`}
+              className={`relative z-10 block h-auto w-full transition-opacity ease-in-out ${
+                animated && phase === "playing" ? "opacity-0" : "opacity-100"
+              }`}
+              style={{ transitionDuration: `${SETTLE_MS}ms` }}
             />
-            {intro && playing && (
+            {intro && animated && phase !== "done" && (
               // eslint-disable-next-line @next/next/no-img-element -- an animated GIF, played once as it is
               <img
                 ref={animation}
