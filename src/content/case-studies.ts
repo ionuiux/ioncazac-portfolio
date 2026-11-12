@@ -447,9 +447,15 @@ export const caseStudies: CaseStudy[] = [
     story: [
       {
         type: "hero",
+        // ORB's own logo (public/logos/orb.svg, recoloured to ORB's dark navy).
         // The zoom flies through the hole of the "O".
-        word: "ORB",
-        through: 0,
+        logo: {
+          src: "/work/orb/logo.svg",
+          width: 304.442,
+          height: 101,
+          // The middle of the "O"'s hole (8.24 to 79.3 across, 8.39 to 52.55 down).
+          hole: [43.77, 30.47],
+        },
         line: "Making smart mouthguard data useful for athletes",
       },
       {

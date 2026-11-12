@@ -1,6 +1,6 @@
 "use client";
 
-import { useEffect, useRef, useState } from "react";
+import { useEffect, useRef, useState, type CSSProperties } from "react";
 import { useReducedMotion } from "@/lib/motion";
 import { clamp01, useScrollProgress } from "./use-scroll-progress";
 
@@ -102,8 +102,14 @@ export function ZoomHero({ line, logo, word = "", through = 0 }: { line: string;
             ref={(node) => {
               mark.current = node;
             }}
-            className="relative mb-[6vh] w-[78vw] max-w-[1100px] sm:w-[min(62vw,calc(55svh*2.83))]"
-            style={{ transformOrigin: `${percent(logo.hole[0], logo.width)} ${percent(logo.hole[1], logo.height)}` }}
+            // On laptops as wide as fits, but no taller than 55% of the screen.
+            className="relative mb-[6vh] w-[78vw] max-w-[1100px] sm:w-[min(62vw,calc(55svh*var(--ratio)))]"
+            style={
+              {
+                "--ratio": logo.width / logo.height,
+                transformOrigin: `${percent(logo.hole[0], logo.width)} ${percent(logo.hole[1], logo.height)}`,
+              } as CSSProperties
+            }
           >
             {/* eslint-disable-next-line @next/next/no-img-element -- an SVG drawn as vectors, so it stays sharp at 60× */}
             <img
