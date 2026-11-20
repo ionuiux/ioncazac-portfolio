@@ -2,7 +2,7 @@
 
 import { useEffect, useRef, useState } from "react";
 import type { StoryImage } from "@/content/case-studies";
-import { Accent, Fill } from "./story-image";
+import { Accent, Fill, Label } from "./story-image";
 
 type Item = { label: string; title: string; text: string; image?: StoryImage };
 
@@ -39,8 +39,8 @@ export function Carousel({ label, heading, text, items }: { label: string; headi
     <section className="py-24 sm:py-32">
       <div className="grid gap-6 lg:grid-cols-[minmax(0,3fr)_minmax(0,2fr)] lg:items-end lg:gap-16">
         <div>
-          <p className="text-[13px] font-medium text-[var(--accent)]">{label}</p>
-          <h2 className="mt-3 text-5xl leading-[0.98] font-bold tracking-[-0.045em] text-balance sm:text-7xl">
+          <Label>{label}</Label>
+          <h2 className="mt-5 text-5xl leading-[0.98] font-bold tracking-[-0.045em] text-balance sm:text-7xl">
             <Accent text={heading} />
           </h2>
         </div>

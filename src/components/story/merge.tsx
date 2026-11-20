@@ -3,7 +3,7 @@
 import { useRef } from "react";
 import type { StoryImage } from "@/content/case-studies";
 import { useReducedMotion } from "@/lib/motion";
-import { BrowserWindow, Fill } from "./story-image";
+import { BrowserWindow, Fill, Label } from "./story-image";
 import { clamp01, easeInOut, useScrollProgress } from "./use-scroll-progress";
 
 // Three or four "before" screens, spread over the stage (four: one in each
@@ -67,8 +67,8 @@ export function Merge({
       <div className={`flex flex-col justify-center ${reduced ? "" : "sticky top-0 h-svh overflow-hidden py-6"}`}>
         <div className="grid gap-4 lg:grid-cols-[minmax(0,3fr)_minmax(0,2fr)] lg:items-end lg:gap-16">
           <div>
-            <p className="text-[13px] font-medium text-[var(--accent)]">{label}</p>
-            <h2 className="mt-3 text-5xl leading-[0.95] font-bold tracking-[-0.045em] sm:text-7xl xl:text-8xl">
+            <Label>{label}</Label>
+            <h2 className="mt-5 text-5xl leading-[0.95] font-bold tracking-[-0.045em] sm:text-7xl xl:text-8xl">
               {heading[0]}
               <br />
               <span ref={second} className="text-[var(--accent)]">

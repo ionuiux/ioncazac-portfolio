@@ -80,6 +80,26 @@ export function BrowserWindow({ children, className = "" }: { children: ReactNod
   );
 }
 
+// A section's name, set bold on a pill in the accent colour so each part of
+// the story (the problem, my role, key decisions…) is easy to find and point at.
+// On the dark results panel it uses the highlight colour instead.
+export function Label({ children, dark = false }: { children: ReactNode; dark?: boolean }) {
+  return (
+    <p
+      className={`inline-flex items-center rounded-full px-4 py-2 text-[15px] leading-none font-bold tracking-[-0.01em] sm:text-[16px] ${
+        dark ? "bg-[var(--highlight)] text-[var(--accent-dark)]" : "bg-[var(--accent)] text-white"
+      }`}
+    >
+      {children}
+    </p>
+  );
+}
+
+// A small bold heading inside a section ("Why", "What it changed"…).
+export function SubLabel({ children, muted = false, className = "" }: { children: ReactNode; muted?: boolean; className?: string }) {
+  return <p className={`text-[13px] font-bold ${muted ? "text-muted" : "text-[var(--accent)]"} ${className}`}>{children}</p>;
+}
+
 // Text with parts wrapped in *stars* shown in the accent colour.
 export function Accent({ text }: { text: string }) {
   return text.split(/\*([^*]+)\*/).map((part, i) =>

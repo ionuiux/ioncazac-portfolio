@@ -1,12 +1,12 @@
 import Image from "next/image";
-import type { CSSProperties } from "react";
+import { Fragment, type CSSProperties, type ReactNode } from "react";
 import type { CaseStudy, StoryBlock, StoryImage } from "@/content/case-studies";
 import { Carousel } from "./carousel";
 import { CountUp } from "./count-up";
 import { Flow } from "./flow";
 import { Merge } from "./merge";
 import { Parallax } from "./parallax";
-import { Accent, BrowserWindow, Fill } from "./story-image";
+import { Accent, BrowserWindow, Fill, Label, SubLabel } from "./story-image";
 import { Tabs } from "./tabs";
 import { WordReveal } from "./word-reveal";
 import { ZoomHero } from "./zoom-hero";
@@ -23,10 +23,17 @@ export function Story({ study }: { study: CaseStudy }) {
     "--highlight": study.highlight ?? `color-mix(in srgb, ${accent} 40%, white)`,
   } as CSSProperties;
 
+  // A line above every named section, so each part is clearly its own (the
+  // dark results panel is set apart already).
+  const divided = (block: StoryBlock) => "label" in block && block.type !== "results";
+
   return (
     <div style={colours}>
       {study.story?.map((block, i) => (
-        <Block key={i} block={block} study={study} />
+        <Fragment key={i}>
+          {i > 0 && divided(block) && <hr className="border-line" />}
+          <Block block={block} study={study} />
+        </Fragment>
       ))}
       {study.disclaimer && (
         <p className="mx-auto max-w-2xl pb-12 text-center text-[10px] leading-relaxed text-black/30">{study.disclaimer}</p>
@@ -40,7 +47,7 @@ function Block({ block, study }: { block: StoryBlock; study: CaseStudy }) {
     case "hero":
       return <ZoomHero line={block.line} logo={block.logo} word={block.word} through={block.through} />;
     case "intro":
-      return <Intro study={study} role={block.role} />;
+      return <Intro study={study} role={block.role} team={block.team} />;
     case "flow":
       return (
         <Flow
@@ -85,12 +92,31 @@ function Block({ block, study }: { block: StoryBlock; study: CaseStudy }) {
     }
     case "statement":
       return (
-        <section className="grid gap-6 py-24 sm:py-40 md:grid-cols-[minmax(0,1fr)_minmax(0,5fr)]">
-          <p className="text-[13px] font-medium text-[var(--accent)] md:pt-4">{block.label}</p>
+        <section className="grid gap-6 py-24 sm:py-32 md:grid-cols-[minmax(0,1fr)_minmax(0,5fr)]">
+          <div className="md:pt-4">
+            <Label>{block.label}</Label>
+          </div>
           <WordReveal
             text={block.text}
             className="text-4xl leading-[1.04] font-bold tracking-[-0.045em] sm:text-6xl xl:text-[5.5rem]"
           />
+          {/* How the problem was found, and why it mattered to the people using the product. */}
+          {(block.found || block.mattered) && (
+            <div data-reveal className="rise mt-8 grid gap-8 border-t border-line pt-8 sm:grid-cols-2 sm:gap-12 md:col-start-2">
+              {block.found && (
+                <div>
+                  <SubLabel>How I found it</SubLabel>
+                  <p className="mt-2 text-[17px] leading-relaxed text-neutral-600">{block.found}</p>
+                </div>
+              )}
+              {block.mattered && (
+                <div>
+                  <SubLabel>Why it mattered</SubLabel>
+                  <p className="mt-2 text-[17px] leading-relaxed text-neutral-600">{block.mattered}</p>
+                </div>
+              )}
+            </div>
+          )}
         </section>
       );
     case "merge":
@@ -107,6 +133,12 @@ function Block({ block, study }: { block: StoryBlock; study: CaseStudy }) {
                 </p>
                 <h3 className="mt-8 text-2xl font-bold tracking-[-0.02em] sm:text-3xl">{item.title}</h3>
                 <p className="mt-3 text-[16px] leading-relaxed text-neutral-600">{item.text}</p>
+                {item.change && (
+                  <div className="mt-6 border-t border-line pt-5">
+                    <SubLabel>What it changed</SubLabel>
+                    <p className="mt-1.5 text-[16px] leading-relaxed font-bold">{item.change}</p>
+                  </div>
+                )}
               </li>
             ))}
           </ol>
@@ -117,7 +149,19 @@ function Block({ block, study }: { block: StoryBlock; study: CaseStudy }) {
     case "fixes":
       return (
         <section className="py-24 sm:py-32">
-          <Heading label={block.label} heading={block.heading} />
+          <Heading
+            label={block.label}
+            heading={block.heading}
+            aside={
+              // What was explored before deciding, for the whole project.
+              block.explored && (
+                <div>
+                  <SubLabel muted>What I explored</SubLabel>
+                  <p className="mt-2 text-[17px] leading-relaxed font-semibold text-foreground">{block.explored}</p>
+                </div>
+              )
+            }
+          />
           <ol className="mt-14 border-b border-line">
             {block.items.map((item, i) => (
               <li key={item.problem} className="grid gap-8 border-t border-line py-12 sm:py-16 lg:grid-cols-2 lg:items-center lg:gap-16">
@@ -125,15 +169,62 @@ function Block({ block, study }: { block: StoryBlock; study: CaseStudy }) {
                   <p className="text-6xl font-bold tracking-[-0.05em] text-[var(--accent)] tabular-nums sm:text-7xl">
                     {String(i + 1).padStart(2, "0")}
                   </p>
-                  <p className="mt-8 text-[13px] font-medium text-muted">Problem</p>
+                  <SubLabel muted className="mt-8">
+                    Problem
+                  </SubLabel>
                   <p className="mt-2 text-2xl leading-tight font-bold tracking-[-0.025em] text-balance sm:text-4xl">{item.problem}</p>
-                  <p className="mt-8 text-[13px] font-medium text-[var(--accent)]">What I did</p>
+                  {item.explored && (
+                    <>
+                      <SubLabel muted className="mt-8">
+                        What I explored
+                      </SubLabel>
+                      <p className="mt-2 text-[17px] leading-relaxed text-neutral-600">{item.explored}</p>
+                    </>
+                  )}
+                  <SubLabel className="mt-8">{item.why ? "What I chose" : "What I did"}</SubLabel>
                   <p className="mt-2 text-[17px] leading-relaxed text-neutral-600">{item.solution}</p>
+                  {item.why && (
+                    <>
+                      <SubLabel className="mt-6">Why</SubLabel>
+                      <p className="mt-2 text-[17px] leading-relaxed font-semibold text-foreground">{item.why}</p>
+                    </>
+                  )}
                 </div>
                 <Panel image={item.image} className={i % 2 ? "lg:order-first" : ""} />
               </li>
             ))}
           </ol>
+        </section>
+      );
+    case "specs":
+      // A spec sheet: each state or edge case and what happens in it.
+      return (
+        <section className="py-24 sm:py-32">
+          <Heading label={block.label} heading={block.heading} text={block.text} />
+          <dl className="mt-14 border-t border-line">
+            {block.items.map((item) => (
+              <div
+                key={item.title}
+                data-reveal
+                className="rise grid gap-2 border-b border-line py-6 sm:grid-cols-[minmax(0,2fr)_minmax(0,3fr)] sm:gap-10 sm:py-7"
+              >
+                <dt className="text-xl font-bold tracking-[-0.02em] sm:text-2xl">{item.title}</dt>
+                <dd className="text-[17px] leading-relaxed text-neutral-600 sm:pt-0.5">{item.text}</dd>
+              </div>
+            ))}
+          </dl>
+          {block.image && (
+            <div data-reveal className="rise mt-10 bg-[var(--tint)] p-[3%]">
+              <Image
+                src={block.image.src}
+                alt={block.image.alt}
+                width={block.image.width}
+                height={block.image.height}
+                sizes="100vw"
+                className="h-auto w-full"
+              />
+            </div>
+          )}
         </section>
       );
     case "tabs":
@@ -142,7 +233,7 @@ function Block({ block, study }: { block: StoryBlock; study: CaseStudy }) {
       return (
         <section className="relative my-12 bg-[var(--accent-dark)] px-6 py-20 text-white sm:my-20 sm:px-12 sm:py-28 lg:px-16">
           {block.sticker && <Sticker src={block.sticker} tilt={12} className="top-8 right-6 w-20 sm:top-12 sm:right-12 sm:w-32" />}
-          <p className="text-[13px] font-medium text-white/60">{block.label}</p>
+          <Label dark>{block.label}</Label>
           <div className={`mt-10 grid gap-x-10 gap-y-12 ${block.numbers.length === 3 ? "sm:grid-cols-3" : "sm:grid-cols-2"}`}>
             {block.numbers.map((number) => (
               <div key={number.label} className="flex flex-col-reverse justify-end border-t border-white/15 pt-6">
@@ -228,7 +319,7 @@ function Block({ block, study }: { block: StoryBlock; study: CaseStudy }) {
     }
     case "text":
       return (
-        <section className="grid gap-10 border-t border-line py-24 sm:py-32 lg:grid-cols-2 lg:gap-16">
+        <section className="grid gap-10 py-24 sm:py-32 lg:grid-cols-2 lg:gap-16">
           <Heading label={block.label} heading={block.heading} />
           <div className="space-y-5 text-[18px] leading-relaxed text-neutral-600 lg:pt-10">
             {block.body.map((paragraph, i) => (
@@ -255,7 +346,7 @@ function Sticker({ src, tilt, className }: { src: string; tilt: number; classNam
   );
 }
 
-function Intro({ study, role }: { study: CaseStudy; role: string[] }) {
+function Intro({ study, role, team }: { study: CaseStudy; role: string[]; team?: string[] }) {
   const facts = [
     { label: "Role", value: study.role },
     { label: "Timeline", value: study.timeline },
@@ -273,12 +364,24 @@ function Intro({ study, role }: { study: CaseStudy; role: string[] }) {
       <div className="mt-12 grid gap-10 lg:mt-16 lg:grid-cols-2 lg:gap-16">
         <p className="text-xl leading-relaxed sm:text-2xl sm:leading-relaxed">{study.summary}</p>
         <div>
-          <p className="text-[13px] font-medium text-[var(--accent)]">My role</p>
-          <div className="mt-3 space-y-4 text-[16px] leading-relaxed text-neutral-600">
+          <Label>My role</Label>
+          {/* With `team`, what I owned and what the wider team did are set apart. */}
+          {team && <SubLabel className="mt-6">What I owned</SubLabel>}
+          <div className={`space-y-4 text-[16px] leading-relaxed text-neutral-600 ${team ? "mt-2" : "mt-5"}`}>
             {role.map((paragraph, i) => (
               <p key={i}>{paragraph}</p>
             ))}
           </div>
+          {team && (
+            <>
+              <SubLabel className="mt-6 border-t border-line pt-6">With the wider team</SubLabel>
+              <div className="mt-2 space-y-4 text-[16px] leading-relaxed text-neutral-600">
+                {team.map((paragraph, i) => (
+                  <p key={i}>{paragraph}</p>
+                ))}
+              </div>
+            </>
+          )}
         </div>
       </div>
       <dl className="mt-14 grid grid-cols-2 gap-x-4 gap-y-6 border-t border-line pt-6 sm:grid-cols-4">
@@ -293,16 +396,19 @@ function Intro({ study, role }: { study: CaseStudy; role: string[] }) {
   );
 }
 
-function Heading({ label, heading, text }: { label: string; heading: string; text?: string }) {
+// A section's label and big heading, with its intro text (or anything else,
+// as `aside`) beside it on laptops.
+function Heading({ label, heading, text, aside }: { label: string; heading: string; text?: string; aside?: ReactNode }) {
+  const side = aside ?? (text && <p className="text-[17px] leading-relaxed text-neutral-600">{text}</p>);
   return (
-    <div className={text ? "grid gap-6 lg:grid-cols-[minmax(0,3fr)_minmax(0,2fr)] lg:items-end lg:gap-16" : ""}>
+    <div className={side ? "grid gap-6 lg:grid-cols-[minmax(0,3fr)_minmax(0,2fr)] lg:items-end lg:gap-16" : ""}>
       <div>
-        <p className="text-[13px] font-medium text-[var(--accent)]">{label}</p>
-        <h2 className="mt-3 text-5xl leading-[0.98] font-bold tracking-[-0.045em] text-balance sm:text-7xl">
+        <Label>{label}</Label>
+        <h2 className="mt-5 text-5xl leading-[0.98] font-bold tracking-[-0.045em] text-balance sm:text-7xl">
           <Accent text={heading} />
         </h2>
       </div>
-      {text && <p className="text-[17px] leading-relaxed text-neutral-600">{text}</p>}
+      {side}
     </div>
   );
 }

@@ -3,7 +3,7 @@
 import { useRef, useState } from "react";
 import type { StoryImage } from "@/content/case-studies";
 import { PhoneShell } from "@/components/phone-frame";
-import { Accent, BrowserWindow, Fill } from "./story-image";
+import { Accent, BrowserWindow, Fill, Label } from "./story-image";
 import { useScrollProgress } from "./use-scroll-progress";
 
 type Step = { title: string; text: string; image: StoryImage };
@@ -65,8 +65,8 @@ export function Flow({
     <section ref={section} style={{ height: `${steps.length * 60 + 100}svh` }}>
       <div className="sticky top-0 flex h-svh flex-col justify-center gap-5 py-6 lg:grid lg:grid-cols-[minmax(0,5fr)_minmax(0,7fr)] lg:items-center lg:gap-16">
         <div>
-          <p className="text-[13px] font-medium text-[var(--accent)]">{label}</p>
-          <h2 className="mt-3 text-4xl leading-[1.02] font-bold tracking-[-0.045em] text-balance sm:text-6xl xl:text-7xl">
+          <Label>{label}</Label>
+          <h2 className="mt-4 text-4xl leading-[1.02] font-bold tracking-[-0.045em] text-balance sm:text-6xl xl:text-7xl">
             <Accent text={heading} />
           </h2>
           <div className="mt-5 flex items-center gap-4 lg:mt-10">

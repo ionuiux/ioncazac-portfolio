@@ -80,8 +80,9 @@ export type StoryBlock =
       word?: string;
       through?: number;
     }
-  // The title, summary, role and project facts.
-  | { type: "intro"; role: string[] }
+  // The title, summary, role and project facts. `role` is what I owned;
+  // `team`, if given, what the wider team did, shown apart from it.
+  | { type: "intro"; role: string[]; team?: string[] }
   // A flow shown step by step in one pinned browser window (or phone), with a
   // timer counting to `seconds`; without it, a step count ("02 / 03").
   // `sticker` sits by the heading; `done` pops onto the window at the last step.
@@ -97,17 +98,36 @@ export type StoryBlock =
     }
   // A two-line headline over one wide photo, two photos, or three (one big, two small).
   | { type: "photos"; heading: string; accent: string; images: StoryImage[]; sticker?: string }
-  // A big statement that lights up word by word as it scrolls past.
-  | { type: "statement"; label: string; text: string }
+  // A big statement that lights up word by word as it scrolls past, with how
+  // the problem was found and why it mattered to users underneath.
+  | { type: "statement"; label: string; text: string; found?: string; mattered?: string }
   // Three or four "before" screens that slide together into one "after" screen.
   | { type: "merge"; label: string; heading: [string, string]; text: string; before: StoryImage[]; after: StoryImage }
-  // Numbered findings in a grid.
-  | { type: "findings"; label: string; heading: string; text: string; items: { title: string; text: string }[] }
+  // Numbered findings in a grid; `change` is what each one changed in the design.
+  | { type: "findings"; label: string; heading: string; text: string; items: { title: string; text: string; change?: string }[] }
   // Cards in a row that scrolls sideways. Cards without an image get a
   // brand-colour panel with their number and label instead.
   | { type: "carousel"; label: string; heading: string; text: string; items: { label: string; title: string; text: string; image?: StoryImage }[] }
-  // Each problem, what was done about it and a picture of the result.
-  | { type: "fixes"; label: string; heading: string; items: { problem: string; solution: string; image: StoryImage }[] }
+  // Each problem, what was explored (if known), what was chosen and why, and a
+  // picture of the result. The block's own `explored` is what was explored for
+  // the whole project, shown beside the heading.
+  | {
+      type: "fixes";
+      label: string;
+      heading: string;
+      explored?: string;
+      items: { problem: string; explored?: string; solution: string; why?: string; image: StoryImage }[];
+    }
+  // Handoff: each state or edge case and what happens in it, as a spec sheet,
+  // with an optional wide picture of the documentation under it.
+  | {
+      type: "specs";
+      label: string;
+      heading: string;
+      text: string;
+      items: { title: string; text: string }[];
+      image?: { src: string; alt: string; width: number; height: number };
+    }
   // Screens of the product behind tabs (in a browser window when they are
   // `screen`s, or in a phone with `device: "phone"`).
   | {
@@ -206,10 +226,13 @@ export const caseStudies: CaseStudy[] = [
           "Besides designing the process itself, with user research, interviews, testing and design reviews, I audited the old portals, defined one structure for all markets and designed the main flows.",
           "I also delivered the design system as a code repository, built on shadcn, that the engineers build from, and merged design decisions into production myself.",
         ],
+        team: [
+          "I set the priorities together with the product owner. Engineering built the portal from the design system, and the teams in all four markets brought their customers, local rules and feedback into every round.",
+        ],
       },
       {
         type: "flow",
-        label: "The outcome",
+        label: "What shipped",
         heading: "Book a transfer in *20 seconds.*",
         seconds: 20,
         sticker: "/work/flovi/signs/lets-go.svg",
@@ -257,10 +280,14 @@ export const caseStudies: CaseStudy[] = [
         type: "statement",
         label: "The problem",
         text: "Each of Flovi’s four markets had *its own portal.* Booking was *slow,* every feature was *built four times,* and nobody had a clear picture of how customers really used it.",
+        found:
+          "I put all four portals side by side and mapped every step of booking. Then I used AI to read the usage data, support questions and interview notes from every market.",
+        mattered:
+          "Booking a transfer, the thing customers do most, took too long. Customers called to ask where their car was, and finance teams only saw their costs when the invoice arrived.",
       },
       {
         type: "merge",
-        label: "The fix",
+        label: "The biggest decision",
         heading: ["Four portals.", "One product."],
         text: "Instead of fixing each market separately, we rebuilt the portal on one base. Every market uses the same components and patterns, and local details like currency, VAT and office rules come from the content, not from custom screens.",
         before: [
@@ -272,31 +299,35 @@ export const caseStudies: CaseStudy[] = [
       },
       {
         type: "findings",
-        label: "Research",
-        heading: "What the data showed.",
+        label: "Research and testing",
+        heading: "What the data showed, *and what it changed.*",
         text: "Before designing anything, I put all four portals side by side and mapped every step of booking in each one. Then I used AI to go through everything else: the usage data, the questions customers asked support and operations, the interview notes, and how finance teams handled invoices at the end of each billing cycle. AI found the patterns, and I checked them with the teams on the ground.",
         items: [
           {
             title: "Four portals, one job",
             text: "AI compared usage in all four markets and found the same few tasks, in the same order, everywhere. Only a few differences really mattered: currency, VAT, office rules and opening hours.",
+            change: "One portal and one set of components for every market. The differences became content and settings.",
           },
           {
             title: "Customers typed what we already knew",
             text: "Analysing past bookings showed that most fields were filled in with the same details every time, like office addresses and opening hours. Flovi already had all of it.",
+            change: "The booking form fills in addresses and times from what Flovi already knows.",
           },
           {
             title: "“Where is my car?”",
             text: "When AI grouped the support questions by topic, the biggest group was people asking where their transfer was. We had that information, the portal just didn’t show it.",
+            change: "A live map on the home page, and a driver card with the route and arrival time.",
           },
           {
             title: "Finance didn’t like surprises",
             text: "Usage data and interviews showed that finance teams only looked at costs when the invoice arrived. They wanted to see the total grow during the cycle so they could plan for it.",
+            change: "The current billing cycle, with an estimated total, is always one click away.",
           },
         ],
       },
       {
         type: "carousel",
-        label: "Process",
+        label: "AI in my process",
         heading: "AI at *every step.*",
         text: "I used AI as a research and prototyping partner at every stage. It did the heavy reading and building, so I could spend my time on the decisions. I checked everything it found against the raw data and with the people in each market before we acted on it.",
         items: [
@@ -329,34 +360,54 @@ export const caseStudies: CaseStudy[] = [
       },
       {
         type: "fixes",
-        label: "Problem solving",
-        heading: "Five problems. *Five fixes.*",
+        label: "Key decisions",
+        heading: "Five problems. *Five decisions.*",
         items: [
           {
             problem: "Four versions of the portal, and every feature built four times.",
+            explored: "Fixing each market’s portal on its own.",
             solution: "One portal on a shared design system, which I delivered as a code repository the engineers build from. Market differences live in content and settings, so we design and build things once.",
+            why: "Research showed customers did the same few tasks, in the same order, in every market. Only currency, VAT, office rules and opening hours really differed.",
             image: { src: "/work/flovi/offices.webp", alt: "Offices: every location on one map, with its own opening hours, manager and status", kind: "screen" },
           },
           {
             problem: "Lots of usage data, but no clear way to show customers their own usage.",
-            solution: "With the help of AI, I explored and tested many ways of showing usage, from charts to tables to maps. The clearest one became the home page: a live map with status counts and the latest reservations.",
+            explored: "With the help of AI, I turned the usage patterns into charts, tables, timelines, maps and simple counts, and built the strongest ideas as working prototypes with realistic data.",
+            solution: "The simplest one, as the home page: a live map with status counts and the latest reservations.",
+            why: "In tests with customers in each market, the simplest version worked best. The map answers “where is my car?”, and the counts show what’s happening right now.",
             image: { src: "/work/flovi/reservations.png", alt: "Reservations with status counts: waiting for departure, on the move, completed", kind: "card" },
           },
           {
             problem: "Booking a transfer took too long.",
             solution: "A form that asks one thing at a time, fills in what past bookings already tell us, like pickup and drop-off times from office hours, and shows a live summary next to it.",
+            why: "Past bookings showed most fields had the same details every time. We tested the form as a coded prototype, compared how long each step took, and after launch booking was 20% faster.",
             image: { src: "/work/flovi/schedule.png", alt: "Pickup and delivery times filled in, with a summary of when the car departs and arrives", kind: "card" },
           },
           {
             problem: "Customers called to ask where their car was.",
             solution: "A live map on the home page with status filters, and a driver card that shows the route and when the car will arrive.",
+            why: "It was the biggest group of support questions, and the first thing most customers checked when they logged in.",
             image: { src: "/work/flovi/tracking.webp", alt: "Live driver card with route progress and arrival time", kind: "card" },
           },
           {
             problem: "Costs were a surprise at the end of every cycle.",
             solution: "The current billing cycle, with trips so far and an estimated total, is always one click away.",
+            why: "Finance teams only looked at costs when the invoice arrived. They wanted to see the total grow during the cycle, so they could plan for it.",
             image: { src: "/work/flovi/billing-cycle.webp", alt: "Current billing cycle summary with trips and estimated total", kind: "card" },
           },
+        ],
+      },
+      {
+        type: "specs",
+        label: "Handoff and craft",
+        heading: "Handed off as code, *not as static mockups.*",
+        text: "I delivered the design system as a code repository built on shadcn, with the components and states the engineers build from. What customers tested in prototypes is what got built, and I merged design fixes into production myself.",
+        items: [
+          { title: "Reservation statuses", text: "Requested, assigned, on the road and delivered, each with its own count and filter on the home page." },
+          { title: "Four markets", text: "Currency, VAT, office rules and opening hours come from content and settings, so one screen works in every market." },
+          { title: "Filled-in fields", text: "Pickup and drop-off times come from office hours, and customers can still change them when they need to." },
+          { title: "Live tracking", text: "Every transfer has a driver card with the route and the arrival time." },
+          { title: "Billing cycle", text: "While a cycle is open: trips so far, the amount so far and an estimated total. Older invoices are one click away." },
         ],
       },
       {
@@ -383,7 +434,7 @@ export const caseStudies: CaseStudy[] = [
       },
       {
         type: "results",
-        label: "Results",
+        label: "Outcomes",
         numbers: [
           { value: "+30%", label: "More customers" },
           { value: "~20 s", label: "To book a transfer" },
@@ -460,6 +511,9 @@ export const caseStudies: CaseStudy[] = [
           "I joined ORB as its first UX designer and designed the whole app: research and testing with athletes, flows and wireframes, prototypes, the visual design and the design system.",
           "I worked closely with the founders, developers and data scientists, so every screen matched what the hardware and algorithms could actually do. When they changed, I could adjust quickly.",
         ],
+        team: [
+          "The founders set the product direction, engineering built the device and the app, and the data scientists built the algorithms behind the metrics. My job was to make every screen match what they could deliver.",
+        ],
       },
       {
         type: "flow",
@@ -496,28 +550,36 @@ export const caseStudies: CaseStudy[] = [
         type: "statement",
         label: "The problem",
         text: "The mouthguard records *20+ metrics* in every session. Athletes and coaches wanted *simple answers,* and the hardware was *still being built.*",
+        found:
+          "There was nothing quite like it to learn from, so I learned from people and the device: interviews and tests with athletes, talks with coaches, and real session data with the engineers and data scientists.",
+        mattered:
+          "Athletes wanted to know how hard they worked, how they moved and whether they took a hit, not read sensor charts. And the app had to keep working when the signal or battery dropped mid-game.",
       },
       {
         type: "findings",
-        label: "Research",
-        heading: "What we learned.",
+        label: "Research and testing",
+        heading: "What we learned, *and what it changed.*",
         text: "There was nothing quite like it to learn from, so I learned from people and from the device. I interviewed and tested with athletes, talked to coaches about how they review a session, and went through real session data and the device’s limits with the engineers and data scientists.",
         items: [
           {
             title: "Answers, not data",
             text: "Athletes didn’t want to read sensor charts. They wanted to know how hard they worked, how they moved and whether they took a hit.",
+            change: "Every session splits into three views, heart rate, movement and impacts, each answering one question.",
           },
           {
             title: "Context changes everything",
             text: "The same heart rate means something different in training, in a match, or with an injury that hasn’t healed. Numbers needed the story of the session around them.",
+            change: "A short report after each session adds the sport, the session type, how hard it felt and notes.",
           },
           {
             title: "The connection will drop",
             text: "A mouthguard in a moving athlete’s mouth loses signal and battery. The app had to expect this, not treat it as an error.",
+            change: "Signal and battery are always on screen, with a reconnecting state instead of an error.",
           },
           {
             title: "It starts before the first session",
             text: "Every mouthguard is made from an impression, so the first experience is waiting for it to arrive. People wanted to know what happens next.",
+            change: "Four Next Steps cards explain what happens, from sending the impression to the first session.",
           },
         ],
       },
@@ -555,33 +617,48 @@ export const caseStudies: CaseStudy[] = [
         ],
       },
       {
+        type: "text",
+        label: "AI in my process",
+        heading: "AI-assisted, *from research to testing.*",
+        body: [
+          "I used AI for research, for defining the target users and for conducting the interviews with athletes and coaches.",
+          "It also helped with usability and accessibility testing, alongside the tests with athletes.",
+        ],
+      },
+      {
         type: "fixes",
-        label: "Problem solving",
-        heading: "Five problems. *Five fixes.*",
+        label: "Key decisions",
+        heading: "Five problems. *Five decisions.*",
+        explored: "Market trends, how athletes behave, user patterns, and how gadgets like the mouthguard are distributed.",
         items: [
           {
             problem: "Thousands of data points in every session.",
             solution: "Three areas: heart rate, movement and impacts. Each one answers one question, and more detail is one tap away.",
+            why: "Athletes wanted answers, not sensor charts. One question per view kept it simple, with the detail still there for those who wanted it.",
             image: { src: "/work/orb/metrics-overview.webp", alt: "Heart rate, movement and impact screens on three phones", kind: "illustration" },
           },
           {
             problem: "Numbers without context meant nothing.",
             solution: "A short report after each session adds the sport, the session type, how hard it felt and notes. Every metric is shown next to the athlete’s history.",
+            why: "The same heart rate means something different in training, in a match, or with an injury that hasn’t healed.",
             image: { src: "/work/orb/session-report.webp", alt: "Session report: name, time, sport, session type, how hard it felt and notes", kind: "card" },
           },
           {
             problem: "Signal and battery could drop mid-game.",
             solution: "Signal and battery are always on screen, and the app shows when it’s reconnecting instead of failing.",
+            why: "A mouthguard in a moving athlete’s mouth loses signal and battery. The app had to expect it, not treat it as an error.",
             image: { src: "/work/orb/live-session.webp", alt: "A live session with signal and battery, and the same screen while it reconnects", kind: "card" },
           },
           {
             problem: "A session could be stopped by accident.",
             solution: "To end a session you press and hold, so one tap can’t stop it.",
+            why: "Sessions are recorded mid-play, when an accidental tap is easy.",
             image: { src: "/work/orb/live-and-report.webp", alt: "A live session with the Hold to end session button, next to its session report", kind: "photo" },
           },
           {
             problem: "The hardware and algorithms kept changing.",
             solution: "A design system with every component and state documented, so screens could change fast and still stay consistent. Even toasts have their types, placement and motion specified.",
+            why: "The device’s limits and the algorithms changed often. Documented components let the screens change fast without drifting apart.",
             image: { src: "/work/orb/toasts.webp", alt: "Toast specification: three types, placement and motion", kind: "card" },
           },
         ],
@@ -609,6 +686,20 @@ export const caseStudies: CaseStudy[] = [
         ],
       },
       {
+        type: "specs",
+        label: "Handoff and craft",
+        heading: "Every state, *specified.*",
+        text: "The hardware was still changing, so I documented every component, state and rule for the engineers, down to motion and timing.",
+        items: [
+          { title: "Reconnecting", text: "When the signal drops, the screen says it’s reconnecting instead of showing an error." },
+          { title: "Signal and battery", text: "Always on screen during a live session." },
+          { title: "Ending a session", text: "Press and hold, so one tap can’t stop it." },
+          { title: "Readings", text: "Each measurement comes with a short tip. For heart rate: don’t talk, swallow or move your tongue." },
+          { title: "Toasts", text: "Three types (error, warning and info), 20pt above the main button, in from the right and out to the left in 300ms, gone after three seconds." },
+          { title: "Screen sizes", text: "Every layout specified from iPhone SE to iPhone 15 Pro Max, with margins growing from 12pt to 20pt." },
+        ],
+      },
+      {
         type: "photos",
         heading: "Specified for every iPhone,",
         accent: "from SE to 15 Pro Max.",
@@ -618,7 +709,7 @@ export const caseStudies: CaseStudy[] = [
       },
       {
         type: "results",
-        label: "Results",
+        label: "Outcomes",
         numbers: [
           { value: "20+", label: "Metrics recorded in every session" },
           { value: "3", label: "Clear views per session" },
@@ -684,7 +775,9 @@ export const caseStudies: CaseStudy[] = [
         type: "intro",
         role: [
           "I was the Senior Product Designer on Profit.com for two years and owned the whole experience: market research and positioning, information architecture, user flows and wireframes, UI and prototypes, usability testing, and the design system the engineers built from.",
-          "I presented research and design direction to the leadership team and worked every day with product owners, iOS and web engineers, and marketing.",
+        ],
+        team: [
+          "I presented the research and design direction to the leadership team, and worked every day with product owners, iOS and web engineers, and marketing. The engineers built the app from the design system I owned.",
         ],
       },
       {
@@ -727,28 +820,36 @@ export const caseStudies: CaseStudy[] = [
         type: "statement",
         label: "The problem",
         text: "Learning to trade meant *risking real money* or using *boring paper-trading apps.* And market data, news and discussion were *spread across different apps.*",
+        found:
+          "Market research across brokers, market data and news apps, trading communities and simulators, then surveys and card sorting to build personas and shape the navigation.",
+        mattered:
+          "Beginners were afraid of losing real money, paper trading got boring after a week, and people jumped between apps to follow markets, news and the talk around them.",
       },
       {
         type: "findings",
-        label: "Research",
-        heading: "What we learned.",
+        label: "Research and testing",
+        heading: "What we learned, *and what it changed.*",
         text: "I started with market research: brokers, market data and news apps, trading communities and simulators. Surveys and card sorting gave us three personas, the curious beginner, the competitive player and the active trader. No app served all three.",
         items: [
           {
             title: "Fear of losing money",
             text: "Beginners wanted to learn on real markets without real risk. Virtual money took the fear away, and real prices kept it meaningful.",
+            change: "Arena: real market prices, virtual money.",
           },
           {
             title: "A reason to come back",
             text: "Paper trading on its own got boring after a week. Rankings, prizes and short challenges gave people a reason to return every day.",
+            change: "Tournaments, 1-to-1 battles, leaderboards and daily wins.",
           },
           {
             title: "Depth when you want it",
             text: "Active traders wanted pro charts and data that confused beginners. The same screen had to work for both.",
+            change: "Every ticker starts simple. Advanced charts are one tap away.",
           },
           {
             title: "Trading is social",
             text: "People talked about markets in other apps and shared screenshots of tickers. The conversation belonged next to the data.",
+            change: "Chat inside the app, with live ticker cards and bull or bear reactions to the news.",
           },
         ],
       },
@@ -786,36 +887,65 @@ export const caseStudies: CaseStudy[] = [
         ],
       },
       {
+        type: "text",
+        label: "AI in my process",
+        heading: "AI for data, research *and fast prototypes.*",
+        body: [
+          "We used AI for market data analytics, for research and for quick prototyping.",
+        ],
+      },
+      {
         type: "fixes",
-        label: "Problem solving",
-        heading: "Five problems. *Five fixes.*",
+        label: "Key decisions",
+        heading: "Five problems. *Five decisions.*",
+        explored: "Our target users and how they behave, market allocation, and retention and conversion rates.",
         items: [
           {
             problem: "Data, news, community and practice lived in different apps.",
             solution: "One app with five tabs: Discover, Watchlist, Arena, Chat and Wallet. Arena sits in the middle, because the trading games are what make Profit.com different.",
+            why: "No app served the beginner, the competitive player and the active trader at once. That gap was the brief.",
             image: { src: "/work/profit/discover-watchlist.webp", alt: "Discover and Watchlist screens on two phones", kind: "card" },
           },
           {
             problem: "Paper trading didn’t keep people coming back.",
             solution: "Arena turns practice into a game, free to play, with tournaments, 1-to-1 battles, leaderboards and real prizes of up to $30,000 a month, plus daily wins.",
+            why: "Rankings, prizes and short challenges gave people a reason to come back every day.",
             image: { src: "/work/profit/discover-analyze-profit.webp", alt: "Discover, Analyze & Profit: Playtrade with monthly prizes of up to $30,000", kind: "photo" },
           },
           {
             problem: "Beginners and pros needed different levels of detail.",
             solution: "Every ticker starts simple. Advanced charts, vertical or horizontal, with drawing tools and indicators, are one tap away.",
+            why: "Active traders wanted pro charts, and the same charts confused beginners.",
             image: { src: "/work/profit/ticker-flow.webp", alt: "A ticker leading to vertical and horizontal advanced charts and the Trade sheet", kind: "card" },
           },
           {
             problem: "People missed the events that move markets.",
             solution: "Economic releases, earnings and dividends got their own screens and charts, with live notifications for the companies people follow.",
+            why: "Markets move on events, and people missed the ones that mattered to them.",
             image: { src: "/work/profit/event-charts.webp", alt: "Charts for economic, earnings and dividend events", kind: "card" },
           },
           {
             problem: "A product this big could look different on iOS and web.",
             solution: "A custom design system built on native iOS components, with the same styles and patterns on the web. Arena got its own components, with every state and rule documented.",
+            why: "Building on what iOS already does well kept the app fast and familiar, and one system kept iOS and web the same.",
             image: { src: "/work/profit/arena-states.webp", alt: "Every state of the 1-to-1 and tournament cards, with the rules behind them", kind: "card" },
           },
         ],
+      },
+      {
+        type: "specs",
+        label: "Handoff and craft",
+        heading: "Every state of every card, *documented.*",
+        text: "Arena got its own component set. Every card had a state for each moment of a game, with the rules behind it written down for the engineers.",
+        items: [
+          { title: "Joined, not open yet", text: "The card counts down to the start." },
+          { title: "Open, no trade yet", text: "A clear Open Trade button." },
+          { title: "During play", text: "Your live position, right on the card." },
+          { title: "The last minute", text: "The timer turns red." },
+          { title: "While you were away", text: "A green dot on the Arena tab and a short highlight on the card show what changed." },
+          { title: "iOS and web", text: "Built on native iOS components, with the same styles and patterns carried over to the web." },
+        ],
+        image: { src: "/work/profit/tournament-system.webp", alt: "Arena components: leaderboard, rules, timers, card states and artwork, documented for engineering", width: 2000, height: 360 },
       },
       {
         type: "tabs",
@@ -855,7 +985,7 @@ export const caseStudies: CaseStudy[] = [
       },
       {
         type: "results",
-        label: "Results",
+        label: "Outcomes",
         numbers: [
           { value: "$30k", label: "Top monthly prize in Arena, the trading game" },
           { value: "4", label: "Markets in one app: stocks, crypto, indices and forex" },
@@ -910,6 +1040,9 @@ export const caseStudies: CaseStudy[] = [
           "As Senior Product Designer, I owned the design system: the audit, the structure, the foundations and components, the documentation, and rolling it out to the developers.",
           "I also designed product features on top of it, including the AI agents experience that investigates incidents.",
         ],
+        team: [
+          "Product set the priorities, and engineers built most of the UI themselves, from the component library I made for them.",
+        ],
       },
       {
         type: "photos",
@@ -923,28 +1056,36 @@ export const caseStudies: CaseStudy[] = [
         type: "statement",
         label: "The problem",
         text: "Digma’s UI lives *inside developers’ code editors.* It was built *screen by screen,* so the same things looked and worked differently, and every feature started *almost from zero.*",
+        found:
+          "An audit of every screen in the IDE plugins and the web app, talks with the engineers who built the UI, and a close look at how developers used Digma inside their editors.",
+        mattered:
+          "Developers saw the same things look and work differently from one panel to the next, right next to their code. And every new feature started almost from zero.",
       },
       {
         type: "findings",
         label: "Research",
-        heading: "What the audit showed.",
+        heading: "What the audit showed, *and what it changed.*",
         text: "I put every screen from the IDE plugins and the web app side by side and grouped them by pattern. I also talked to the engineers who built the UI, and looked at how developers used Digma inside their editors.",
         items: [
           {
             title: "One pattern, many versions",
             text: "The same elements, like buttons, issue cards, tooltips and empty states, were built again and again, each a bit different.",
+            change: "One design system, with one documented version of each element.",
           },
           {
             title: "It has to feel native",
             text: "Developers spend all day in their editor. Anything that looked out of place next to their code felt like noise, so the UI had to match the IDE.",
+            change: "Components that follow the look of the editor around them.",
           },
           {
             title: "Space is tight",
             text: "Digma lives in narrow side panels and small hints. Every component had to stay readable when it’s small and full of information.",
+            change: "Compact components that stay readable in a narrow side panel, like the shared issue card.",
           },
           {
             title: "Engineers build most of the UI",
             text: "Most screens were built directly by engineers. They needed clear components, with every variant and state, that they could use without a designer.",
+            change: "A component library with every variant and state, so engineers could build screens on their own.",
           },
         ],
       },
@@ -982,25 +1123,51 @@ export const caseStudies: CaseStudy[] = [
         ],
       },
       {
+        type: "text",
+        label: "AI in my process",
+        heading: "AI for analysis *and quick prototypes.*",
+        body: [
+          "We used AI for analysis, analytics and quick prototyping.",
+          "I also used it to explore user heat maps, simulate data and look at how developers used Digma.",
+        ],
+      },
+      {
         type: "fixes",
-        label: "Problem solving",
-        heading: "Three problems. *Three fixes.*",
+        label: "Key decisions",
+        heading: "Three problems. *Three decisions.*",
+        explored: "With the help of AI: user heat maps, data simulations, and how developers used Digma.",
         items: [
           {
             problem: "Inconsistent screens, built one at a time.",
             solution: "A design system built from the ground up: foundations first, then core components, each documented with its variants and states.",
+            why: "The audit found the same elements built again and again, each a bit different.",
             image: { src: "/work/digma/ds-foundations.webp", alt: "Design system foundations: icons, typography, buttons, toasters, navigation and tooltips", kind: "card" },
           },
           {
             problem: "Many issue types, each with its own layout.",
             solution: "One issue card that works for N+1 queries, bottlenecks, slow queries and errors. New issue types reuse it instead of starting over.",
+            why: "New issue types kept coming. With one flexible card, each one reuses what exists instead of starting over.",
             image: { src: "/work/digma/ds-insights.webp", alt: "Product components: issue cards for N+1 queries, bottlenecks, slow queries and errors", kind: "card" },
           },
           {
             problem: "The UI had to feel at home in every IDE.",
             solution: "Components that follow the look of the editor around them, so Digma feels like part of the IDE and not a web page inside it.",
+            why: "Developers spend all day in their editor. Anything that looked out of place next to their code felt like noise.",
             image: { src: "/work/digma/ide-panel.webp", alt: "The Digma panel in the IDE: a code nexus point and a bottleneck", kind: "card" },
           },
+        ],
+      },
+      {
+        type: "specs",
+        label: "Handoff and craft",
+        heading: "Built for engineers *to build from.*",
+        text: "Most screens were built by engineers, so every component came with its variants and states, documented and versioned.",
+        items: [
+          { title: "Foundations", text: "Icons, typography, buttons, toasters, navigation and tooltips, each with its variants." },
+          { title: "Issue states", text: "New and active issues, with actions like dismiss, recheck and trace." },
+          { title: "Errors", text: "Where and when each error started, and a warning when it could affect production." },
+          { title: "Versions", text: "Every component page shows its version and when it was last updated." },
+          { title: "Every IDE", text: "Components follow the editor’s look, so the same parts feel native in each IDE." },
         ],
       },
       {
@@ -1036,7 +1203,7 @@ export const caseStudies: CaseStudy[] = [
       },
       {
         type: "results",
-        label: "Results",
+        label: "Outcomes",
         numbers: [
           { value: "1", label: "Design system for all IDE plugins and the web app" },
           { value: "4", label: "Issue types in one shared issue card" },
